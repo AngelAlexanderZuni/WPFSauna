@@ -385,7 +385,7 @@
                         <Border Style="{StaticResource InputWrap}" Margin="0,0,0,6">
                             <TextBox x:Name="txtObservaciones" Background="Transparent" BorderThickness="0" Foreground="{StaticResource PrimaryText}" FontSize="11.5" AcceptsReturn="True" Height="38" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
                         </Border>
-                        <Button x:Name="btnRegistrarMovimiento" Content="✓ REGISTRAR MOVIMIENTO" Style="{StaticResource Btn}" Background="{StaticResource Green}" Click="btnRegistrarMovimiento_Click" Margin="0" Height="36" FontWeight="Bold"/>
+                        <Button Content="✓ REGISTRAR MOVIMIENTO" Style="{StaticResource Btn}" Background="{StaticResource Green}" Click="btnRegistrarMovimiento_Click" Margin="0" Height="36" FontWeight="Bold"/>
                     </StackPanel>
                 </Grid>
             </Border>
@@ -440,7 +440,7 @@
                         </StackPanel>
                     </Grid>
 
-                    <DataGrid Grid.Row="1" x:Name="dataGridMovimientos" AutoGenerateColumns="False" IsReadOnly="True" Style="{StaticResource GridBase}" ColumnHeaderStyle="{StaticResource HeaderCell}" SelectionChanged="dataGridMovimientos_SelectionChanged">
+                    <DataGrid Grid.Row="1" x:Name="dataGridMovimientos" AutoGenerateColumns="False" IsReadOnly="True" Style="{StaticResource GridBase}" ColumnHeaderStyle="{StaticResource HeaderCell}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="FECHA" Binding="{Binding fecha, StringFormat=dd/MM/yy}" Width="0.75*"/>
                             <DataGridTextColumn Header="TIPO" Binding="{Binding idTipoMovimientoNavigation.descripcion}" Width="1.2*"/>

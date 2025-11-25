@@ -5,22 +5,15 @@ using System.Windows.Media;
 
 namespace ProyectoSauna.Converters
 {
-    /// <summary>
-    /// Convierte bool a SolidColorBrush (Verde si true, Rojo si false)
-    /// Uso: Foreground="{Binding activo, Converter={StaticResource BoolToColorConverter}}"
-    /// </summary>
     public class BoolToColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is bool isActive)
             {
-                // ✅ Devuelve SolidColorBrush, NO Colors
-                return isActive
-                    ? new SolidColorBrush(Colors.Green)
-                    : new SolidColorBrush(Colors.Red);
+                return isActive ? Colors.Green : Colors.Red;
             }
-            return new SolidColorBrush(Colors.Gray);
+            return Colors.Gray;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -35,10 +28,9 @@ namespace ProyectoSauna.Converters
         {
             if (value is bool isActive)
             {
-                // ✅ Devuelve texto legible con símbolos
-                return isActive ? "✓ Activo" : "✗ Inactivo";
+                return isActive ? "?" : "?";
             }
-            return "? Desconocido";
+            return "?";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

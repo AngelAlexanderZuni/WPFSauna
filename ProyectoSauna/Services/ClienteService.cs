@@ -1,5 +1,4 @@
-// Services/ClienteService.cs - COMPLETAMENTE CORREGIDO
-using ProyectoSauna.Models.DTOs;
+﻿using ProyectoSauna.Models.DTOs;
 using ProyectoSauna.Models.Entities;
 using ProyectoSauna.Repositories.Interfaces;
 using ProyectoSauna.Services.Interfaces;
@@ -21,6 +20,7 @@ namespace ProyectoSauna.Services
         public ClienteService(IClienteRepository clienteRepository)
         {
             _clienteRepository = clienteRepository;
+            // Obtener el contexto desde el repositorio para transacciones
             _context = ((dynamic)_clienteRepository).GetContext();
         }
 
@@ -59,8 +59,10 @@ namespace ProyectoSauna.Services
             IDbContextTransaction? transaction = null;
             try
             {
+                // Iniciar transacci├│n
                 transaction = await _context.Database.BeginTransactionAsync();
 
+                // Validaciones
                 var validacion = ValidarCliente(clienteDto);
                 if (!validacion.valido)
                 {
@@ -68,12 +70,14 @@ namespace ProyectoSauna.Services
                     return (false, validacion.mensaje, null);
                 }
 
+                // Verificar DNI ├║nico
                 if (await _clienteRepository.ExisteDNIAsync(clienteDto.numero_documento))
                 {
                     await transaction.RollbackAsync();
-                    return (false, "Ya existe un cliente con ese número de documento.", null);
+                    return (false, "Ya existe un cliente con ese n├║mero de documento.", null);
                 }
 
+                // Crear entidad
                 var cliente = new Cliente
                 {
                     nombre = clienteDto.nombre.Trim(),
@@ -85,10 +89,13 @@ namespace ProyectoSauna.Services
                     fechaNacimiento = clienteDto.fechaNacimiento,
                     fechaRegistro = DateTime.Now,
                     visitasTotales = 0,
-                    activo = true
+                    activo = true,
+                    idPrograma = 1 // Todos los clientes nuevos se inscriben autom├íticamente al programa de fidelizaci├│n
                 };
 
                 await _clienteRepository.AddAsync(cliente);
+                
+                // Confirmar transacci├│n
                 await transaction.CommitAsync();
 
                 return (true, "Cliente registrado exitosamente.", MapToDTO(cliente));
@@ -97,14 +104,16 @@ namespace ProyectoSauna.Services
             {
                 if (transaction != null)
                     await transaction.RollbackAsync();
-
+                
+                // Error espec├¡fico de base de datos
                 return (false, $"Error al guardar en la base de datos: {dbEx.InnerException?.Message ?? dbEx.Message}", null);
             }
             catch (Exception ex)
             {
                 if (transaction != null)
                     await transaction.RollbackAsync();
-
+                
+                // Error general
                 return (false, $"Error inesperado: {ex.Message}", null);
             }
             finally
@@ -118,8 +127,10 @@ namespace ProyectoSauna.Services
             IDbContextTransaction? transaction = null;
             try
             {
+                // Iniciar transacci├│n
                 transaction = await _context.Database.BeginTransactionAsync();
 
+                // Validaciones
                 var validacion = ValidarCliente(clienteDto);
                 if (!validacion.valido)
                 {
@@ -127,6 +138,7 @@ namespace ProyectoSauna.Services
                     return (false, validacion.mensaje);
                 }
 
+                // Verificar que el cliente existe
                 var clienteExistente = await _clienteRepository.GetByIdAsync(clienteDto.idCliente);
                 if (clienteExistente == null)
                 {
@@ -134,12 +146,14 @@ namespace ProyectoSauna.Services
                     return (false, "Cliente no encontrado.");
                 }
 
+                // Verificar DNI ├║nico (excluyendo el cliente actual)
                 if (await _clienteRepository.ExisteDNIAsync(clienteDto.numero_documento, clienteDto.idCliente))
                 {
                     await transaction.RollbackAsync();
-                    return (false, "Ya existe otro cliente con ese número de documento.");
+                    return (false, "Ya existe otro cliente con ese n├║mero de documento.");
                 }
 
+                // Actualizar datos
                 clienteExistente.nombre = clienteDto.nombre.Trim();
                 clienteExistente.apellidos = clienteDto.apellidos.Trim();
                 clienteExistente.numero_documento = clienteDto.numero_documento.Trim();
@@ -149,6 +163,8 @@ namespace ProyectoSauna.Services
                 clienteExistente.fechaNacimiento = clienteDto.fechaNacimiento;
 
                 await _clienteRepository.UpdateAsync(clienteExistente);
+                
+                // Confirmar transacci├│n
                 await transaction.CommitAsync();
 
                 return (true, "Cliente actualizado exitosamente.");
@@ -157,21 +173,21 @@ namespace ProyectoSauna.Services
             {
                 if (transaction != null)
                     await transaction.RollbackAsync();
-
+                
                 return (false, "El cliente fue modificado por otro usuario. Por favor, recargue los datos.");
             }
             catch (DbUpdateException dbEx)
             {
                 if (transaction != null)
                     await transaction.RollbackAsync();
-
+                
                 return (false, $"Error al actualizar en la base de datos: {dbEx.InnerException?.Message ?? dbEx.Message}");
             }
             catch (Exception ex)
             {
                 if (transaction != null)
                     await transaction.RollbackAsync();
-
+                
                 return (false, $"Error inesperado: {ex.Message}");
             }
             finally
@@ -199,8 +215,10 @@ namespace ProyectoSauna.Services
             return !await _clienteRepository.ExisteDNIAsync(dni, idClienteExcluir);
         }
 
+        // M├®todos privados de validaci├│n
         private (bool valido, string mensaje) ValidarCliente(ClienteDTO cliente)
         {
+            // Validar campos obligatorios
             if (string.IsNullOrWhiteSpace(cliente.nombre))
                 return (false, "El nombre es obligatorio.");
 
@@ -208,27 +226,31 @@ namespace ProyectoSauna.Services
                 return (false, "Los apellidos son obligatorios.");
 
             if (string.IsNullOrWhiteSpace(cliente.numero_documento))
-                return (false, "El número de documento es obligatorio.");
+                return (false, "El n├║mero de documento es obligatorio.");
 
+            // Validar DNI (8 d├¡gitos)
             if (!Regex.IsMatch(cliente.numero_documento, @"^\d{8}$"))
-                return (false, "El DNI debe tener exactamente 8 dígitos.");
+                return (false, "El DNI debe tener exactamente 8 d├¡gitos.");
 
+            // Validar tel├®fono (9 d├¡gitos si se proporciona)
             if (!string.IsNullOrWhiteSpace(cliente.telefono))
             {
                 if (!Regex.IsMatch(cliente.telefono, @"^\d{9}$"))
-                    return (false, "El teléfono debe tener 9 dígitos.");
+                    return (false, "El tel├®fono debe tener 9 d├¡gitos.");
             }
 
+            // Validar correo electr├│nico
             if (!string.IsNullOrWhiteSpace(cliente.correo))
             {
                 var emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
                 if (!Regex.IsMatch(cliente.correo, emailPattern))
-                    return (false, "El correo electrónico no es válido.");
+                    return (false, "El correo electr├│nico no es v├ílido.");
             }
 
+            // Validar fecha de nacimiento (debe ser menor a hoy, mayor de 10 a├▒os)
             if (cliente.fechaNacimiento.HasValue)
             {
-                var hoy = DateTime.Today;
+                var hoy = DateOnly.FromDateTime(DateTime.Today);
                 if (cliente.fechaNacimiento.Value >= hoy)
                     return (false, "La fecha de nacimiento debe ser anterior a hoy.");
 
@@ -236,7 +258,7 @@ namespace ProyectoSauna.Services
                 if (cliente.fechaNacimiento.Value > hoy.AddYears(-edad)) edad--;
 
                 if (edad < 10)
-                    return (false, "El cliente debe tener al menos 10 años.");
+                    return (false, "El cliente debe tener al menos 10 a├▒os.");
             }
 
             return (true, string.Empty);
@@ -256,7 +278,11 @@ namespace ProyectoSauna.Services
                 fechaNacimiento = cliente.fechaNacimiento,
                 fechaRegistro = cliente.fechaRegistro,
                 visitasTotales = cliente.visitasTotales,
-                activo = cliente.activo
+                activo = cliente.activo,
+                idPrograma = cliente.idPrograma,
+                ProgramaFidelizacion = cliente.idPrograma.HasValue && cliente.idProgramaNavigation != null
+                    ? $"Inscrito - {cliente.idProgramaNavigation.porcentajeDescuento}% descuento en {cliente.idProgramaNavigation.visitasParaDescuento} visitas" 
+                    : "Sin programa"
             };
         }
     }
