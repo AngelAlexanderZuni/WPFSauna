@@ -1,0 +1,90 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PROYECTO SAUNA WPF\\ProyectoSauna\\ProyectoSauna\\ProyectoSauna.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PROYECTO SAUNA WPF\\ProyectoSauna\\ProyectoSauna\\ProyectoSauna.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PROYECTO SAUNA WPF\\ProyectoSauna\\ProyectoSauna\\ProyectoSauna.csproj",
+        "projectName": "ProyectoSauna",
+        "projectPath": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PROYECTO SAUNA WPF\\ProyectoSauna\\ProyectoSauna\\ProyectoSauna.csproj",
+        "packagesPath": "C:\\Users\\Angel\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PROYECTO SAUNA WPF\\ProyectoSauna\\ProyectoSauna\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Angel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0-windows"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0-windows7.0": {
+            "targetAlias": "net8.0-windows",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0-windows7.0": {
+          "targetAlias": "net8.0-windows",
+          "dependencies": {
+            "LiveCharts.Wpf": {
+              "target": "Package",
+              "version": "[0.9.7, )"
+            },
+            "MaterialDesignColors": {
+              "target": "Package",
+              "version": "[5.3.0, )"
+            },
+            "MaterialDesignThemes": {
+              "target": "Package",
+              "version": "[5.3.0, )"
+            },
+            "MaterialDesignThemes.MahApps": {
+              "target": "Package",
+              "version": "[5.3.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

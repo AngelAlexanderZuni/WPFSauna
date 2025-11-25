@@ -1,0 +1,68 @@
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna.csproj.AssemblyReference.cache
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna_Content.g.cs
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna_MarkupCompile.cache
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\MainWindow.baml
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\MainWindow.g.cs
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\ProyectoSauna.exe
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\ProyectoSauna.deps.json
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\ProyectoSauna.runtimeconfig.json
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\ProyectoSauna.dll
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\ProyectoSauna.pdb
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\ControlzEx.dll
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\LiveCharts.dll
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\LiveCharts.Wpf.dll
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\MahApps.Metro.dll
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\MaterialDesignColors.dll
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\MaterialDesignThemes.Wpf.dll
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\MaterialDesignThemes.MahApps.dll
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\Microsoft.Xaml.Behaviors.dll
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\de\MahApps.Metro.resources.dll
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna.g.resources
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna.AssemblyInfoInputs.cache
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna.AssemblyInfo.cs
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna.csproj.CoreCompileInputs.cache
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\Proyecto.75859967.Up2Date
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna.dll
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\refint\ProyectoSauna.dll
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna.pdb
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna.genruntimeconfig.cache
+C:\Users\Angel\OneDrive\Documentos\PROYECTO SAUNA\PROYECTO SAUNA WPF\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ref\ProyectoSauna.dll
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\ProyectoSauna.exe
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\ProyectoSauna.deps.json
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\ProyectoSauna.runtimeconfig.json
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\ProyectoSauna.dll
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\ProyectoSauna.pdb
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\ControlzEx.dll
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\LiveCharts.dll
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\LiveCharts.Wpf.dll
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\MahApps.Metro.dll
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\MaterialDesignColors.dll
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\MaterialDesignThemes.Wpf.dll
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\MaterialDesignThemes.MahApps.dll
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\Microsoft.Xaml.Behaviors.dll
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\bin\Debug\net8.0-windows\de\MahApps.Metro.resources.dll
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna.csproj.AssemblyReference.cache
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\MainWindow.baml
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\MainWindow.g.cs
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\App.g.cs
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna_Content.g.cs
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna_MarkupCompile.cache
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna.g.resources
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna.GeneratedMSBuildEditorConfig.editorconfig
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna.AssemblyInfoInputs.cache
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna.AssemblyInfo.cs
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna.csproj.CoreCompileInputs.cache
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\Proyecto.75859967.Up2Date
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna.dll
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\refint\ProyectoSauna.dll
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna.pdb
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna.genruntimeconfig.cache
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ref\ProyectoSauna.dll
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\Styles\Animations.baml
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\Styles\ButtonStyles.baml
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\Styles\Colors.baml
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\Styles\TextStyles.baml
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\ProyectoSauna_MarkupCompile.lref
+C:\C#\Orientada_Objetos\ProyectoSauna\ProyectoSauna\obj\Debug\net8.0-windows\App.baml

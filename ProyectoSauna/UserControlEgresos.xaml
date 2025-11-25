@@ -1,0 +1,398 @@
+﻿<UserControl x:Class="ProyectoSauna.UserControlEgresos"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Background="#14161C">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Encabezado Principal -->
+        <Grid Grid.Row="0" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="CashMinus" Width="36" Height="36" 
+                                        Foreground="#4CC9F0" VerticalAlignment="Center"/>
+                <TextBlock Text="Gestión de Egresos" FontSize="24" FontWeight="SemiBold" 
+                          Foreground="White" Margin="15,0,0,0" VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button x:Name="btnNuevoMovimiento" 
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Background="#4CC9F0" BorderBrush="#4CC9F0"
+                        Height="40" Padding="20,0" Margin="0,0,10,0">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Plus" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="Nuevo Movimiento" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+
+                <Button x:Name="btnListaMovimientos" 
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                        BorderBrush="#4CC9F0" Foreground="#4CC9F0"
+                        Height="40" Padding="20,0">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="FormatListBulleted" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="Ver Todos" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <!-- Sección Cabecera del Egreso -->
+        <materialDesign:Card Grid.Row="1" Background="#1E2128" Padding="20" Margin="0,0,0,15">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,15">
+                    <materialDesign:PackIcon Kind="FileDocumentOutline" Width="24" Height="24" 
+                                            Foreground="#4CC9F0" VerticalAlignment="Center"/>
+                    <TextBlock Text="Cabecera del Movimiento" FontSize="18" FontWeight="SemiBold" 
+                              Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="txtEstadoCabecera" Text="[Nuevo]" 
+                              Foreground="#10B981" FontSize="12" FontWeight="Bold"
+                              Margin="15,0,0,0" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Fecha -->
+                    <StackPanel Grid.Column="0" Margin="0,0,15,0">
+                        <TextBlock Text="Fecha" Foreground="#9CA3AF" FontSize="12" Margin="0,0,0,5"/>
+                        <DatePicker x:Name="dpFechaCabecera" 
+                                   Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                                   materialDesign:HintAssist.Hint="Fecha del movimiento"
+                                   Foreground="White"/>
+                    </StackPanel>
+
+                    <!-- ID Cabecera (Solo lectura) -->
+                    <StackPanel Grid.Column="1" Margin="0,0,15,0">
+                        <TextBlock Text="Nro. Documento" Foreground="#9CA3AF" FontSize="12" Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtIdCabecera" 
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                materialDesign:HintAssist.Hint="Generado automáticamente"
+                                Foreground="#9CA3AF" IsReadOnly="True"/>
+                    </StackPanel>
+
+                    <!-- Monto Total (Solo lectura - calculado) -->
+                    <StackPanel Grid.Column="2" Margin="0,0,15,0">
+                        <TextBlock Text="Monto Total" Foreground="#9CA3AF" FontSize="12" Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtMontoTotal" 
+                                Text="S/. 0.00"
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                Foreground="#F87171" FontWeight="Bold" FontSize="16"
+                                IsReadOnly="True" TextAlignment="Right"/>
+                    </StackPanel>
+
+                    <!-- Botones de Cabecera -->
+                    <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Bottom">
+                        <Button x:Name="btnGuardarCabecera" 
+                               Style="{StaticResource MaterialDesignRaisedButton}"
+                               Background="#10B981" 
+                               Height="40" Padding="15,0" Margin="0,0,5,0"
+                               ToolTip="Guardar movimiento completo">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="ContentSave" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                <TextBlock Text="Guardar" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="btnCancelarCabecera" 
+                               Style="{StaticResource MaterialDesignOutlinedButton}"
+                               BorderBrush="#F87171" Foreground="#F87171"
+                               Height="40" Padding="15,0"
+                               ToolTip="Cancelar y limpiar todo">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Close" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                <TextBlock Text="Cancelar" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </materialDesign:Card>
+
+        <!-- Sección Detalle de Egresos -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Panel Izquierdo - Formulario Detalle -->
+            <materialDesign:Card Grid.Column="0" Margin="0,0,10,0" 
+                                Background="#1E2128" Padding="20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+                        <materialDesign:PackIcon Kind="PlaylistPlus" Width="24" Height="24" 
+                                                Foreground="#4CC9F0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Agregar Detalle de Egreso" FontSize="16" FontWeight="SemiBold" 
+                                  Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <!-- Tipo de Egreso -->
+                            <TextBlock Text="Tipo de Egreso *" Foreground="#9CA3AF" 
+                                      FontSize="12" Margin="0,0,0,5"/>
+                            <ComboBox x:Name="cboTipoEgreso" 
+                                     Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                                     materialDesign:HintAssist.Hint="Seleccionar tipo"
+                                     DisplayMemberPath="nombre"
+                                     SelectedValuePath="idTipoEgreso"
+                                     Foreground="White" Margin="0,0,0,15"/>
+
+                            <!-- Concepto -->
+                            <TextBlock Text="Concepto *" Foreground="#9CA3AF" 
+                                      FontSize="12" Margin="0,0,0,5"/>
+                            <TextBox x:Name="txtConcepto" 
+                                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                    materialDesign:HintAssist.Hint="Descripción del gasto"
+                                    Foreground="White" Margin="0,0,0,15"
+                                    MaxLength="200"/>
+
+                            <!-- Monto -->
+                            <TextBlock Text="Monto *" Foreground="#9CA3AF" 
+                                      FontSize="12" Margin="0,0,0,5"/>
+                            <TextBox x:Name="txtMonto" 
+                                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                    materialDesign:HintAssist.Hint="0.00"
+                                    Foreground="White" Margin="0,0,0,15">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Key="Return" Command="{Binding AgregarDetalleCommand}"/>
+                                </TextBox.InputBindings>
+                            </TextBox>
+
+                            <!-- Comprobante/Ruta -->
+                            <TextBlock Text="Comprobante/Ruta" Foreground="#9CA3AF" 
+                                      FontSize="12" Margin="0,0,0,5"/>
+                            <Grid Margin="0,0,0,15">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="txtComprobanteRuta" 
+                                        Grid.Column="0"
+                                        Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                        materialDesign:HintAssist.Hint="Ruta del archivo"
+                                        Foreground="White" IsReadOnly="True"
+                                        MaxLength="80"/>
+                                <Button x:Name="btnBuscarArchivo" 
+                                       Grid.Column="1"
+                                       Style="{StaticResource MaterialDesignIconButton}"
+                                       Margin="5,0,0,0" ToolTip="Buscar archivo">
+                                    <materialDesign:PackIcon Kind="FolderOpen" Foreground="#4CC9F0"/>
+                                </Button>
+                            </Grid>
+
+                            <!-- Recurrente -->
+                            <CheckBox x:Name="chkRecurrente" 
+                                     Content="Egreso Recurrente" 
+                                     Foreground="White"
+                                     Style="{StaticResource MaterialDesignCheckBox}"
+                                     Margin="0,0,0,20"/>
+
+                            <Border Background="#252830" Padding="10" CornerRadius="5" Margin="0,0,0,15">
+                                <TextBlock TextWrapping="Wrap" Foreground="#9CA3AF" FontSize="11">
+                                    <Run Text="ℹ️ Nota:" FontWeight="Bold"/>
+                                    <Run Text="Debes crear primero la cabecera antes de agregar detalles. Los campos marcados con * son obligatorios."/>
+                                </TextBlock>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <!-- Botones de Detalle -->
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button x:Name="btnAgregarDetalle" 
+                               Grid.Column="0"
+                               Content="Agregar" 
+                               Style="{StaticResource MaterialDesignRaisedButton}"
+                               Background="#4CC9F0" 
+                               Margin="0,0,5,0"
+                               ToolTip="Agregar línea de detalle"/>
+
+                        <Button x:Name="btnLimpiarDetalle" 
+                               Grid.Column="1"
+                               Content="Limpiar" 
+                               Style="{StaticResource MaterialDesignOutlinedButton}"
+                               BorderBrush="#9CA3AF" 
+                               Foreground="#9CA3AF"
+                               Margin="5,0,0,0"
+                               ToolTip="Limpiar formulario de detalle"/>
+                    </Grid>
+                </Grid>
+            </materialDesign:Card>
+
+            <!-- Panel Derecho - Lista de Detalles -->
+            <materialDesign:Card Grid.Column="1" Margin="10,0,0,0" 
+                                Background="#1E2128" Padding="20">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Título -->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,15">
+                        <materialDesign:PackIcon Kind="FormatListBulleted" Width="24" Height="24" 
+                                                Foreground="#4CC9F0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Detalles del Movimiento" FontSize="16" FontWeight="SemiBold" 
+                                  Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="txtCantidadDetalles" Text="(0 líneas)" 
+                                  Foreground="#9CA3AF" FontSize="12"
+                                  Margin="10,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- DataGrid de Detalles -->
+                    <DataGrid x:Name="dgDetalleEgresos" 
+                             Grid.Row="1"
+                             AutoGenerateColumns="False" 
+                             CanUserAddRows="False"
+                             IsReadOnly="True"
+                             SelectionMode="Single"
+                             HeadersVisibility="Column"
+                             Background="#1E2128"
+                             Foreground="White"
+                             RowBackground="#252830"
+                             AlternatingRowBackground="#2A2D37"
+                             GridLinesVisibility="None"
+                             BorderThickness="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="#" Binding="{Binding NumeroLinea}" 
+                                               Width="40" FontSize="12">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="Foreground" Value="#9CA3AF"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Tipo" Binding="{Binding TipoEgreso.nombre}" 
+                                               Width="140" FontSize="12"/>
+
+                            <DataGridTextColumn Header="Concepto" Binding="{Binding concepto}" 
+                                               Width="*" FontSize="12"/>
+
+                            <DataGridTextColumn Header="Monto" Binding="{Binding monto, StringFormat=S/. {0:N2}}" 
+                                               Width="110" FontSize="12">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                                        <Setter Property="Foreground" Value="#F87171"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+
+                            <DataGridTemplateColumn Header="Rec." Width="50">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <materialDesign:PackIcon Width="16" Height="16"
+                                                                HorizontalAlignment="Center">
+                                            <materialDesign:PackIcon.Style>
+                                                <Style TargetType="materialDesign:PackIcon">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding recurrente}" Value="True">
+                                                            <Setter Property="Kind" Value="CheckCircle"/>
+                                                            <Setter Property="Foreground" Value="#10B981"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding recurrente}" Value="False">
+                                                            <Setter Property="Kind" Value="CloseCircle"/>
+                                                            <Setter Property="Foreground" Value="#6B7280"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </materialDesign:PackIcon.Style>
+                                        </materialDesign:PackIcon>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Acciones" Width="100">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <Button x:Name="btnEditarDetalle" 
+                                                   Style="{StaticResource MaterialDesignIconButton}"
+                                                   ToolTip="Editar línea"
+                                                   Width="30" Height="30">
+                                                <materialDesign:PackIcon Kind="Pencil" Width="16" Height="16" Foreground="#4CC9F0"/>
+                                            </Button>
+                                            <Button x:Name="btnEliminarDetalle" 
+                                                   Style="{StaticResource MaterialDesignIconButton}"
+                                                   ToolTip="Eliminar línea"
+                                                   Width="30" Height="30">
+                                                <materialDesign:PackIcon Kind="Delete" Width="16" Height="16" Foreground="#F87171"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Resumen -->
+                    <Grid Grid.Row="2" Margin="0,15,0,0">
+                        <Border Background="#252830" Padding="15" CornerRadius="5">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                    <TextBlock Text="Resumen del Movimiento" 
+                                              Foreground="#9CA3AF" FontSize="12" Margin="0,0,0,5"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Total de líneas: " Foreground="White" FontSize="13"/>
+                                        <TextBlock x:Name="txtTotalLineas" Text="0" 
+                                                  Foreground="#4CC9F0" FontSize="13" FontWeight="Bold" Margin="5,0"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                                    <TextBlock Text="Total General" 
+                                              Foreground="#9CA3AF" FontSize="12" 
+                                              TextAlignment="Right" Margin="0,0,0,5"/>
+                                    <TextBlock x:Name="txtTotalGeneral" Text="S/. 0.00" 
+                                              Foreground="#F87171" FontSize="20" FontWeight="Bold" 
+                                              TextAlignment="Right"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </materialDesign:Card>
+        </Grid>
+    </Grid>
+</UserControl>

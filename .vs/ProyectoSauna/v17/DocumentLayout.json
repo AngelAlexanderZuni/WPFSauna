@@ -1,0 +1,561 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\usercontrolpromociones.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolpromociones.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\usercontrolpromociones.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolpromociones.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\repositories\\cuentarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\cuentarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\viewmodels\\clientesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\viewmodels\\clientesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\services\\clienteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\services\\clienteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\models\\dtos\\clientedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\dtos\\clientedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\repositories\\clienterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\clienterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\repositories\\interfaces\\iclienterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\interfaces\\iclienterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\models\\saunadbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\saunadbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\models\\entities\\cliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\entities\\cliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\app.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\app.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\services\\descuentoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\services\\descuentoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\models\\extensions\\clienteextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\extensions\\clienteextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\usercontrolservicios.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolservicios.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\repositories\\promocionesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\promocionesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\repositories\\tipodescuentorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\tipodescuentorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\repositories\\interfaces\\ipromocionesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\interfaces\\ipromocionesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\repositories\\interfaces\\itipodescuentorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\interfaces\\itipodescuentorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\models\\entities\\promociones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\entities\\promociones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\models\\entities\\tipodescuento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\entities\\tipodescuento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\usercontrolcuentas.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolcuentas.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\usercontrolcuentas.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolcuentas.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\viewmodels\\cuentasviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\viewmodels\\cuentasviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\repositories\\tipomovimientorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\tipomovimientorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\usercontrolinventario.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolinventario.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\usercontrolinventario.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolinventario.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\repositories\\movimientoinventariorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\movimientoinventariorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\repositories\\interfaces\\imovimientoinventariorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\interfaces\\imovimientoinventariorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\repositories\\interfaces\\itipomovimientorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\interfaces\\itipomovimientorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\services\\helpers\\inventoryeventservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\services\\helpers\\inventoryeventservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\models\\consumoitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\consumoitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\converters\\nulltovisibilityconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\converters\\nulltovisibilityconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\repositories\\usuariorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\usuariorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\angel\\onedrive\\documentos\\proyecto sauna\\preyecto_sauna_wpf\\preyecto_sauna_wpf\\proyectosauna\\proyectosauna\\repositories\\base\\productorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\base\\productorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ClienteDTO.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Models\\DTOs\\ClienteDTO.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Models\\DTOs\\ClienteDTO.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Models\\DTOs\\ClienteDTO.cs",
+              "RelativeToolTip": "ProyectoSauna\\Models\\DTOs\\ClienteDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T20:29:06.112Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ClienteRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\ClienteRepository.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\ClienteRepository.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\ClienteRepository.cs",
+              "RelativeToolTip": "ProyectoSauna\\Repositories\\ClienteRepository.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAAcwEwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T20:19:58.488Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "IClienteRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\Interfaces\\IClienteRepository.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\Interfaces\\IClienteRepository.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\Interfaces\\IClienteRepository.cs",
+              "RelativeToolTip": "ProyectoSauna\\Repositories\\Interfaces\\IClienteRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T20:19:36.033Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "SaunaDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Models\\SaunaDbContext.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Models\\SaunaDbContext.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Models\\SaunaDbContext.cs",
+              "RelativeToolTip": "ProyectoSauna\\Models\\SaunaDbContext.cs",
+              "ViewState": "AgIAABwBAAAAAAAAAAAUwD8BAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T20:13:51.552Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UserControlPromociones.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\UserControlPromociones.xaml.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\UserControlPromociones.xaml.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\UserControlPromociones.xaml.cs",
+              "RelativeToolTip": "ProyectoSauna\\UserControlPromociones.xaml.cs",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAAwGQBAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T19:57:01.601Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ClientesViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\ViewModels\\ClientesViewModel.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\ViewModels\\ClientesViewModel.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\ViewModels\\ClientesViewModel.cs",
+              "RelativeToolTip": "ProyectoSauna\\ViewModels\\ClientesViewModel.cs",
+              "ViewState": "AgIAAG8BAAAAAAAAAAAcwJMBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T20:41:17.501Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserControlPromociones.xaml",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\UserControlPromociones.xaml",
+              "RelativeDocumentMoniker": "ProyectoSauna\\UserControlPromociones.xaml",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\UserControlPromociones.xaml",
+              "RelativeToolTip": "ProyectoSauna\\UserControlPromociones.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-24T15:00:38.731Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Cliente.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Models\\Entities\\Cliente.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Models\\Entities\\Cliente.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Models\\Entities\\Cliente.cs",
+              "RelativeToolTip": "ProyectoSauna\\Models\\Entities\\Cliente.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T20:28:12.023Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ClienteService.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Services\\ClienteService.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Services\\ClienteService.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Services\\ClienteService.cs",
+              "RelativeToolTip": "ProyectoSauna\\Services\\ClienteService.cs",
+              "ViewState": "AgIAAOIAAAAAAAAAAAAcwAYBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T20:36:18.575Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CuentaRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\CuentaRepository.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\CuentaRepository.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\CuentaRepository.cs",
+              "RelativeToolTip": "ProyectoSauna\\Repositories\\CuentaRepository.cs",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAcwGIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T20:40:15.619Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ClienteExtensions.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Models\\Extensions\\ClienteExtensions.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Models\\Extensions\\ClienteExtensions.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Models\\Extensions\\ClienteExtensions.cs",
+              "RelativeToolTip": "ProyectoSauna\\Models\\Extensions\\ClienteExtensions.cs",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAiwIUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T20:12:23.733Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "App.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\App.xaml.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\App.xaml.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\App.xaml.cs",
+              "RelativeToolTip": "ProyectoSauna\\App.xaml.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAAAowDUAAABSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T20:09:39.629Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "DescuentoService.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Services\\DescuentoService.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Services\\DescuentoService.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Services\\DescuentoService.cs",
+              "RelativeToolTip": "ProyectoSauna\\Services\\DescuentoService.cs",
+              "ViewState": "AgIAABUBAAAAAAAAAAA2wEMBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T20:09:05.121Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "UserControlServicios.xaml",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\UserControlServicios.xaml",
+              "RelativeDocumentMoniker": "ProyectoSauna\\UserControlServicios.xaml",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\UserControlServicios.xaml",
+              "RelativeToolTip": "ProyectoSauna\\UserControlServicios.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-24T20:07:00.489Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "PromocionesRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\PromocionesRepository.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\PromocionesRepository.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\PromocionesRepository.cs",
+              "RelativeToolTip": "ProyectoSauna\\Repositories\\PromocionesRepository.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAiwEIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T20:06:36.128Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "TipoDescuentoRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\TipoDescuentoRepository.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\TipoDescuentoRepository.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\TipoDescuentoRepository.cs",
+              "RelativeToolTip": "ProyectoSauna\\Repositories\\TipoDescuentoRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T20:06:07.999Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "IPromocionesRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\Interfaces\\IPromocionesRepository.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\Interfaces\\IPromocionesRepository.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\Interfaces\\IPromocionesRepository.cs",
+              "RelativeToolTip": "ProyectoSauna\\Repositories\\Interfaces\\IPromocionesRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T20:05:34.106Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "ITipoDescuentoRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\Interfaces\\ITipoDescuentoRepository.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\Interfaces\\ITipoDescuentoRepository.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\Interfaces\\ITipoDescuentoRepository.cs",
+              "RelativeToolTip": "ProyectoSauna\\Repositories\\Interfaces\\ITipoDescuentoRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T20:05:11.252Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Promociones.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Models\\Entities\\Promociones.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Models\\Entities\\Promociones.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Models\\Entities\\Promociones.cs",
+              "RelativeToolTip": "ProyectoSauna\\Models\\Entities\\Promociones.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T20:04:21.141Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "TipoDescuento.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Models\\Entities\\TipoDescuento.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Models\\Entities\\TipoDescuento.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Models\\Entities\\TipoDescuento.cs",
+              "RelativeToolTip": "ProyectoSauna\\Models\\Entities\\TipoDescuento.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T20:02:02.805Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "TipoMovimientoRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\TipoMovimientoRepository.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\TipoMovimientoRepository.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\TipoMovimientoRepository.cs",
+              "RelativeToolTip": "ProyectoSauna\\Repositories\\TipoMovimientoRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T03:39:32.21Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "CuentasViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\ViewModels\\CuentasViewModel.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\ViewModels\\CuentasViewModel.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\ViewModels\\CuentasViewModel.cs",
+              "RelativeToolTip": "ProyectoSauna\\ViewModels\\CuentasViewModel.cs",
+              "ViewState": "AgIAAKYGAAAAAAAAAAAuwM8GAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T02:35:32.275Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "UserControlInventario.xaml",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\UserControlInventario.xaml",
+              "RelativeDocumentMoniker": "ProyectoSauna\\UserControlInventario.xaml",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\UserControlInventario.xaml",
+              "RelativeToolTip": "ProyectoSauna\\UserControlInventario.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-21T02:37:58.127Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "MovimientoInventarioRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\MovimientoInventarioRepository.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\MovimientoInventarioRepository.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\MovimientoInventarioRepository.cs",
+              "RelativeToolTip": "ProyectoSauna\\Repositories\\MovimientoInventarioRepository.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAkwFUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T03:38:26.683Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "UserControlCuentas.xaml",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\UserControlCuentas.xaml",
+              "RelativeDocumentMoniker": "ProyectoSauna\\UserControlCuentas.xaml",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\UserControlCuentas.xaml",
+              "RelativeToolTip": "ProyectoSauna\\UserControlCuentas.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-20T19:34:42.283Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "ConsumoItem.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Models\\ConsumoItem.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Models\\ConsumoItem.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Models\\ConsumoItem.cs",
+              "RelativeToolTip": "ProyectoSauna\\Models\\ConsumoItem.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T03:37:03.8Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "UserControlCuentas.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\UserControlCuentas.xaml.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\UserControlCuentas.xaml.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\UserControlCuentas.xaml.cs",
+              "RelativeToolTip": "ProyectoSauna\\UserControlCuentas.xaml.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAywEUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T21:25:49.51Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "UserControlInventario.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\UserControlInventario.xaml.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\UserControlInventario.xaml.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\UserControlInventario.xaml.cs",
+              "RelativeToolTip": "ProyectoSauna\\UserControlInventario.xaml.cs",
+              "ViewState": "AgIAAIUCAAAAAAAAAAAkwLACAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T02:38:04.744Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "IMovimientoInventarioRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\Interfaces\\IMovimientoInventarioRepository.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\Interfaces\\IMovimientoInventarioRepository.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\Interfaces\\IMovimientoInventarioRepository.cs",
+              "RelativeToolTip": "ProyectoSauna\\Repositories\\Interfaces\\IMovimientoInventarioRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T03:38:10.303Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "ITipoMovimientoRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\Interfaces\\ITipoMovimientoRepository.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\Interfaces\\ITipoMovimientoRepository.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\Interfaces\\ITipoMovimientoRepository.cs",
+              "RelativeToolTip": "ProyectoSauna\\Repositories\\Interfaces\\ITipoMovimientoRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T03:38:53.511Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "InventoryEventService.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Services\\Helpers\\InventoryEventService.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Services\\Helpers\\InventoryEventService.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Services\\Helpers\\InventoryEventService.cs",
+              "RelativeToolTip": "ProyectoSauna\\Services\\Helpers\\InventoryEventService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T03:01:50.26Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "NullToVisibilityConverter.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Converters\\NullToVisibilityConverter.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Converters\\NullToVisibilityConverter.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Converters\\NullToVisibilityConverter.cs",
+              "RelativeToolTip": "ProyectoSauna\\Converters\\NullToVisibilityConverter.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T03:20:57.413Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "ProductoRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\Base\\ProductoRepository.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\Base\\ProductoRepository.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\Base\\ProductoRepository.cs",
+              "RelativeToolTip": "ProyectoSauna\\Repositories\\Base\\ProductoRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T02:37:30.788Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "UsuarioRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\UsuarioRepository.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\UsuarioRepository.cs",
+              "ToolTip": "C:\\Users\\Angel\\OneDrive\\Documentos\\PROYECTO SAUNA\\PREYECTO_SAUNA_WPF\\PREYECTO_SAUNA_WPF\\ProyectoSauna\\ProyectoSauna\\Repositories\\UsuarioRepository.cs",
+              "RelativeToolTip": "ProyectoSauna\\Repositories\\UsuarioRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-21T03:00:59.948Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

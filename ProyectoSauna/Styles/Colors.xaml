@@ -1,0 +1,37 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!-- 🎨 PALETA DE COLORES - SAUNA KALIXTO -->
+    
+    <!-- Colores principales -->
+    <SolidColorBrush x:Key="PrimaryBrush" Color="#00B4D8"/>
+    <SolidColorBrush x:Key="PrimaryHoverBrush" Color="#0096B6"/>
+    <SolidColorBrush x:Key="PrimaryDarkBrush" Color="#007A94"/>
+    
+    <!-- Colores de fondo -->
+    <SolidColorBrush x:Key="BackgroundBrush" Color="#0C0D11"/>
+    <SolidColorBrush x:Key="SidebarBrush" Color="#15171C"/>
+    <SolidColorBrush x:Key="CardBrush" Color="#1B1D23"/>
+    <SolidColorBrush x:Key="AccentBrush" Color="#19272F"/>
+    <SolidColorBrush x:Key="HeaderBrush" Color="#181A20"/>
+    
+    <!-- Colores de texto -->
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="#F3F4F6"/>
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="#9EA3AD"/>
+    <SolidColorBrush x:Key="TextTertiaryBrush" Color="#5F6770"/>
+    
+    <!-- Colores de borde y separadores -->
+    <SolidColorBrush x:Key="DividerBrush" Color="#272A31"/>
+    <SolidColorBrush x:Key="BorderBrush" Color="#222"/>
+    
+    <!-- Colores de estado -->
+    <SolidColorBrush x:Key="SuccessBrush" Color="#10B981"/>
+    <SolidColorBrush x:Key="ErrorBrush" Color="#EF4444"/>
+    <SolidColorBrush x:Key="WarningBrush" Color="#F59E0B"/>
+    <SolidColorBrush x:Key="InfoBrush" Color="#3B82F6"/>
+    
+    <!-- Efectos -->
+    <DropShadowEffect x:Key="SoftShadow" BlurRadius="25" ShadowDepth="3" Color="#2200B4D8"/>
+    <DropShadowEffect x:Key="CardShadow" BlurRadius="15" ShadowDepth="2" Color="#33000000" Opacity="0.3"/>
+    
+</ResourceDictionary>
