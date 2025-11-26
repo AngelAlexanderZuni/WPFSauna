@@ -1,0 +1,168 @@
+﻿<Window x:Class="ProyectoSauna.LoginSauna"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Login Sauna"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Height="480" Width="820"
+        Background="Transparent"
+        AllowsTransparency="True">
+
+    <Window.Resources>
+        <!-- Efecto sombra -->
+        <DropShadowEffect x:Key="ShadowEffect" BlurRadius="25" ShadowDepth="4" Color="#000000" Opacity="0.5"/>
+    </Window.Resources>
+
+    <Grid>
+        <!-- Fondo degradado -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#14161C" Offset="0.0"/>
+                <GradientStop Color="#1E2230" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <!-- Panel principal -->
+        <Border CornerRadius="18"
+                Background="#1C1F26"
+                Margin="60"
+                Effect="{StaticResource ShadowEffect}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Imagen izquierda -->
+                <Grid Grid.Column="0">
+                    <Rectangle Fill="#99000000"/>
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="SAUNA KALIXTO"
+                                   FontSize="32"
+                                   FontWeight="Bold"
+                                   Foreground="#4CC9F0"
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="Bienvenido al sistema administrativo"
+                                   FontSize="14"
+                                   Foreground="#A9B1C1"
+                                   Margin="0,5,0,0"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Formulario derecho -->
+                <StackPanel Grid.Column="1" Margin="60,0" VerticalAlignment="Center" Width="280">
+
+                    <TextBlock Text="Iniciar Sesión"
+                               FontSize="26"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,30"/>
+
+                    <!-- Usuario -->
+                    <StackPanel Margin="0,10">
+                        <TextBlock Foreground="#9CA3AF" FontSize="13" Margin="0,0,0,5"><Run Text="Usuario"/><Run Language="es-es" Text=" o correo"/></TextBlock>
+                        <Border CornerRadius="6" Background="#232632" Height="38">
+                            <Grid Margin="10,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="👤" FontSize="16" Foreground="#4CC9F0" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                <TextBox x:Name="txtUsuario"
+                                         Grid.Column="1"
+                                         Background="Transparent"
+                                         Foreground="White"
+                                         BorderThickness="0"
+                                         FontSize="14"
+                                         VerticalContentAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Contraseña -->
+                    <StackPanel Margin="0,15">
+                        <TextBlock Text="Contraseña" Foreground="#9CA3AF" FontSize="13" Margin="0,0,0,5"/>
+                        <Border CornerRadius="6" Background="#232632" Height="38">
+                            <Grid Margin="10,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="🔒" FontSize="16" Foreground="#4CC9F0" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                <PasswordBox x:Name="txtPassword"
+                                             Grid.Column="1"
+                                             Background="Transparent"
+                                             Foreground="White"
+                                             BorderThickness="0"
+                                             FontSize="14"
+                                             VerticalContentAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Botón Ingresar -->
+                    <Border Background="#4CC9F0" CornerRadius="8" Margin="0,30,0,15">
+                        <Button Content="INGRESAR"
+                                Width="280"
+                                Height="40"
+                                Background="Transparent"
+                                Foreground="White"
+                                FontWeight="SemiBold"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Click="BtnLogin_Click"/>
+                    </Border>
+
+                    
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Botón cerrar mejorado -->
+        <Button x:Name="BtnCerrarLogin"
+                Content="✕"
+                Width="32"
+                Height="32"
+                Background="#252A34"
+                Foreground="White"
+                BorderThickness="0"
+                FontWeight="Bold"
+                FontSize="16"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,20,20,0"
+                Cursor="Hand"
+                Click="BtnCerrarLogin_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="#252A34"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}"
+                                        CornerRadius="6"
+                                        BorderThickness="0">
+                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                    VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#D62828"/>
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+    </Grid>
+</Window>

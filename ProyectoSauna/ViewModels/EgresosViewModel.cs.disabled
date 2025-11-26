@@ -1,0 +1,401 @@
+using ProyectoSauna.Commands;
+using ProyectoSauna.Models.DTOs;
+using ProyectoSauna.Services.Interfaces;
+using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using System.Linq;
+
+namespace ProyectoSauna.ViewModels
+{
+    public class EgresosViewModel : BaseViewModel
+    {
+        private readonly IEgresoService _egresoService;
+        public event Action? ActualizacionExitosa;
+
+        public ObservableCollection<TipoEgresoDTO> TiposEgreso { get; set; } = new();
+        public ObservableCollection<DetEgresoDTO> Detalles { get; set; } = new();
+        public ObservableCollection<DetEgresoDTO> DetallesPopup { get; set; } = new();
+        public ObservableCollection<UsuarioDTO> Usuarios { get; set; } = new();
+        private UsuarioDTO? _selectedUsuario;
+        public UsuarioDTO? SelectedUsuario
+        {
+            get => _selectedUsuario;
+            set
+            {
+                _selectedUsuario = value;
+                if (value != null)
+                {
+                    IdUsuario = value.idUsuario;
+                    UsuarioNombre = value.nombreUsuario;
+                }
+                OnPropertyChanged();
+            }
+        }
+
+        private DateTime _fecha = DateTime.Now;
+        public DateTime Fecha { get => _fecha; set { _fecha = value; OnPropertyChanged(); } }
+
+        private decimal _montoTotal;
+        public decimal MontoTotal { get => _montoTotal; set { _montoTotal = value; OnPropertyChanged(); } }
+
+        // Cabecera adicional
+        private int _idCabecera;
+        public int IdCabecera { get => _idCabecera; set { _idCabecera = value; OnPropertyChanged(); } }
+
+        private int? _idUsuario;
+        public int? IdUsuario { get => _idUsuario; set { _idUsuario = value; OnPropertyChanged(); } }
+
+        private string _usuarioNombre = string.Empty;
+        public string UsuarioNombre { get => _usuarioNombre; set { _usuarioNombre = value; OnPropertyChanged(); } }
+
+        private bool _mostrarFormularioDetalle = true;
+        public bool MostrarFormularioDetalle { get => _mostrarFormularioDetalle; set { _mostrarFormularioDetalle = value; OnPropertyChanged(); } }
+
+        // Formulario detalle
+        public int IdTipoEgreso { get; set; }
+        public string Concepto { get; set; } = string.Empty;
+        public decimal Monto { get; set; }
+        public bool Recurrente { get; set; }
+        public string? ComprobanteRuta { get; set; }
+
+        // Comandos
+        public ICommand CargarTiposCommand { get; }
+        public ICommand AgregarDetalleCommand { get; }
+        public ICommand LimpiarDetalleCommand { get; }
+        public ICommand GuardarEgresoCommand { get; }
+        public ICommand NuevoMovimientoCommand { get; }
+        public ICommand ToggleFormularioDetalleCommand { get; }
+        public ICommand AbrirDetalleCommand { get; }
+        public ICommand CerrarDetalleCommand { get; }
+        public ICommand AgregarLineaPopupCommand { get; }
+        public ICommand QuitarLineaPopupCommand { get; }
+        public ICommand ConfirmarPopupCommand { get; }
+        public ICommand EditarDetalleCommand { get; }
+        public ICommand EliminarDetalleCommand { get; }
+        public ICommand AbrirConfirmarEliminarCommand { get; }
+        public ICommand ConfirmarEliminarCommand { get; }
+        public ICommand CancelarEliminarCommand { get; }
+        public ICommand CancelarMovimientoCommand { get; }
+
+        private bool _isDetalleDialogOpen;
+        public bool IsDetalleDialogOpen
+        {
+            get => _isDetalleDialogOpen;
+            set { _isDetalleDialogOpen = value; OnPropertyChanged(); }
+        }
+
+        // Confirmación de eliminación
+        private bool _isConfirmDeleteOpen;
+        public bool IsConfirmDeleteOpen
+        {
+            get => _isConfirmDeleteOpen;
+            set { _isConfirmDeleteOpen = value; OnPropertyChanged(); }
+        }
+
+        private DetEgresoDTO? _detallePendienteEliminar;
+        public DetEgresoDTO? DetallePendienteEliminar
+        {
+            get => _detallePendienteEliminar;
+            set { _detallePendienteEliminar = value; OnPropertyChanged(); }
+        }
+
+        // Estado de edición en popup
+        private DetEgresoDTO? _detalleEditando;
+        private bool _esEdicion;
+
+        private readonly IUsuarioService? _usuarioService;
+        public EgresosViewModel(IEgresoService egresoService, IUsuarioService? usuarioService = null)
+        {
+            _egresoService = egresoService;
+            _usuarioService = usuarioService;
+
+            CargarTiposCommand = new AsyncRelayCommand(async _ => await CargarTiposAsync());
+            AgregarDetalleCommand = new RelayCommand(() => AgregarDetalle());
+            LimpiarDetalleCommand = new RelayCommand(() => LimpiarDetalle());
+            GuardarEgresoCommand = new AsyncRelayCommand(async _ => await GuardarAsync());
+            NuevoMovimientoCommand = new RelayCommand(() => ReiniciarMovimiento());
+            ToggleFormularioDetalleCommand = new RelayCommand(() => MostrarFormularioDetalle = !MostrarFormularioDetalle);
+            AbrirDetalleCommand = new RelayCommand(() => IsDetalleDialogOpen = true);
+            CerrarDetalleCommand = new RelayCommand(() => IsDetalleDialogOpen = false);
+            AgregarLineaPopupCommand = new RelayCommand(() => AgregarLineaPopup());
+            QuitarLineaPopupCommand = new RelayCommand<DetEgresoDTO?>(item => {
+                if (item != null) DetallesPopup.Remove(item);
+            });
+            ConfirmarPopupCommand = new AsyncRelayCommand(async _ => await ConfirmarPopupAsync());
+            EditarDetalleCommand = new RelayCommand<DetEgresoDTO?>(item => {
+                if (item == null) return;
+                // Cargar valores al popup para editar
+                IdTipoEgreso = item.idTipoEgreso;
+                Concepto = item.concepto;
+                Monto = item.monto;
+                Recurrente = item.recurrente;
+                ComprobanteRuta = item.comprobanteRuta;
+                // Preseleccionar usuario por nombre (si existe en la lista)
+                if (!string.IsNullOrWhiteSpace(item.UsuarioNombre))
+                {
+                    UsuarioNombre = item.UsuarioNombre;
+                    var us = Usuarios.FirstOrDefault(u => u.nombreUsuario == item.UsuarioNombre);
+                    if (us != null) SelectedUsuario = us;
+                }
+                OnPropertyChanged(nameof(IdTipoEgreso));
+                OnPropertyChanged(nameof(Concepto));
+                OnPropertyChanged(nameof(Monto));
+                OnPropertyChanged(nameof(Recurrente));
+                OnPropertyChanged(nameof(ComprobanteRuta));
+                _detalleEditando = item;
+                _esEdicion = true;
+                IsDetalleDialogOpen = true;
+            });
+            EliminarDetalleCommand = new RelayCommand<DetEgresoDTO?>(async item => {
+                if (item == null) return;
+                // Si existe en BD, eliminar y recargar por cabecera
+                if (item.idDetEgreso > 0 && item.idCabEgreso.HasValue)
+                {
+                    var ok = await _egresoService.EliminarDetalleAsync(item.idDetEgreso);
+                    if (ok)
+                    {
+                        var rec = await _egresoService.GetDetallesPorCabeceraAsync(item.idCabEgreso.Value);
+                        Detalles.Clear();
+                        foreach (var d in rec) Detalles.Add(d);
+                        RecalcularTotal();
+                        return;
+                    }
+                }
+                // Si no existía en BD o falló, remover localmente
+                Detalles.Remove(item);
+                RecalcularTotal();
+            });
+
+            AbrirConfirmarEliminarCommand = new RelayCommand<DetEgresoDTO?>(item => {
+                if (item == null) return;
+                DetallePendienteEliminar = item;
+                IsConfirmDeleteOpen = true;
+            });
+
+            ConfirmarEliminarCommand = new AsyncRelayCommand(async _ => {
+                if (DetallePendienteEliminar == null) { IsConfirmDeleteOpen = false; return; }
+                var item = DetallePendienteEliminar;
+                if (item.idDetEgreso > 0 && item.idCabEgreso.HasValue)
+                {
+                    var ok = await _egresoService.EliminarDetalleAsync(item.idDetEgreso);
+                    if (ok)
+                    {
+                        var rec = await _egresoService.GetDetallesPorCabeceraAsync(item.idCabEgreso.Value);
+                        Detalles.Clear();
+                        foreach (var d in rec) Detalles.Add(d);
+                        RecalcularTotal();
+                    }
+                }
+                else
+                {
+                    Detalles.Remove(item);
+                    RecalcularTotal();
+                }
+                DetallePendienteEliminar = null;
+                IsConfirmDeleteOpen = false;
+            });
+
+            CancelarEliminarCommand = new RelayCommand(() => {
+                DetallePendienteEliminar = null;
+                IsConfirmDeleteOpen = false;
+            });
+            CancelarMovimientoCommand = new RelayCommand(() => ReiniciarMovimiento());
+
+            _ = InicializarAsync();
+        }
+
+        private async Task InicializarAsync()
+        {
+            await CargarTiposAsync();
+            if (_usuarioService != null) await CargarUsuariosAsync();
+            await CargarRecientesAsync();
+        }
+
+        private async Task CargarTiposAsync()
+        {
+            var tipos = await _egresoService.GetTiposEgresoAsync();
+            TiposEgreso.Clear();
+            foreach (var t in tipos) TiposEgreso.Add(t);
+        }
+
+        private async Task CargarUsuariosAsync()
+        {
+            var usuarios = await _usuarioService!.GetUsuariosActivosAsync();
+            Usuarios.Clear();
+            foreach (var u in usuarios) Usuarios.Add(u);
+            // Intenta seleccionar por nombre si ya se tenía uno
+            if (!string.IsNullOrWhiteSpace(UsuarioNombre))
+            {
+                SelectedUsuario = Usuarios.FirstOrDefault(u => u.nombreUsuario == UsuarioNombre);
+            }
+        }
+
+        public async Task CargarRecientesAsync()
+        {
+            var recientes = await _egresoService.GetDetallesRecientesAsync(10);
+            Detalles.Clear();
+            foreach (var d in recientes)
+            {
+                Detalles.Add(d);
+            }
+            RecalcularTotal();
+        }
+
+        private void AgregarDetalle()
+        {
+            if (IdTipoEgreso <= 0 || string.IsNullOrWhiteSpace(Concepto) || Monto <= 0) return;
+
+            var tipoSel = TiposEgreso.FirstOrDefault(t => t.idTipoEgreso == IdTipoEgreso);
+            var linea = new DetEgresoDTO
+            {
+                idTipoEgreso = IdTipoEgreso,
+                TipoEgreso = tipoSel,
+                concepto = Concepto.Trim(),
+                monto = Monto,
+                recurrente = Recurrente,
+                comprobanteRuta = string.IsNullOrWhiteSpace(ComprobanteRuta) ? null : ComprobanteRuta,
+                NumeroLinea = Detalles.Count + 1,
+                UsuarioNombre = this.UsuarioNombre
+            };
+            Detalles.Add(linea);
+            RecalcularTotal();
+            LimpiarDetalle();
+        }
+
+        private void AgregarLineaPopup()
+        {
+            if (IdTipoEgreso <= 0 || string.IsNullOrWhiteSpace(Concepto) || Monto <= 0) return;
+            var tipoSel = TiposEgreso.FirstOrDefault(t => t.idTipoEgreso == IdTipoEgreso);
+            var linea = new DetEgresoDTO
+            {
+                idTipoEgreso = IdTipoEgreso,
+                TipoEgreso = tipoSel,
+                concepto = Concepto.Trim(),
+                monto = Monto,
+                recurrente = Recurrente,
+                comprobanteRuta = string.IsNullOrWhiteSpace(ComprobanteRuta) ? null : ComprobanteRuta,
+                NumeroLinea = DetallesPopup.Count + 1,
+                UsuarioNombre = this.UsuarioNombre
+            };
+            DetallesPopup.Add(linea);
+            LimpiarDetalle();
+        }
+
+        private async Task ConfirmarPopupAsync()
+        {
+            // Si estamos editando una fila existente, actualizar en sitio
+            if (_esEdicion && _detalleEditando != null)
+            {
+                // Actualizar objeto en memoria
+                _detalleEditando.idTipoEgreso = IdTipoEgreso;
+                _detalleEditando.concepto = Concepto.Trim();
+                _detalleEditando.monto = Monto;
+                _detalleEditando.recurrente = Recurrente;
+                _detalleEditando.comprobanteRuta = string.IsNullOrWhiteSpace(ComprobanteRuta) ? null : ComprobanteRuta;
+                _detalleEditando.TipoEgreso = TiposEgreso.FirstOrDefault(t => t.idTipoEgreso == IdTipoEgreso);
+
+                // Si ya existe en BD, persistir cambios; si no, solo reflejar en colección
+                if (_detalleEditando.idDetEgreso > 0 && _detalleEditando.idCabEgreso.HasValue)
+                {
+                    await _egresoService.ActualizarDetalleAsync(_detalleEditando);
+                    if (_detalleEditando.idCabEgreso.HasValue)
+                    {
+                        // Recargar detalles desde BD para sincronizar totales y NavProps
+                        var rec = await _egresoService.GetDetallesPorCabeceraAsync(_detalleEditando.idCabEgreso.Value);
+                        Detalles.Clear();
+                        foreach (var d in rec) Detalles.Add(d);
+                        RecalcularTotal();
+                    }
+                    // Notificar éxito
+                    ActualizacionExitosa?.Invoke();
+                }
+                else
+                {
+                    // Recalcular total si solo fue edición local (no persistida aún)
+                    RecalcularTotal();
+                }
+
+                // Salir de modo edición
+                _detalleEditando = null;
+                _esEdicion = false;
+                IsDetalleDialogOpen = false;
+                return;
+            }
+
+            // Flujo normal: agregar líneas del staging y guardar
+            if (DetallesPopup.Count == 0) { IsDetalleDialogOpen = false; return; }
+            foreach (var d in DetallesPopup)
+            {
+                d.NumeroLinea = Detalles.Count + 1;
+                Detalles.Add(d);
+            }
+            DetallesPopup.Clear();
+            RecalcularTotal();
+            IsDetalleDialogOpen = false;
+            await GuardarAsync();
+        }
+
+        private void LimpiarDetalle()
+        {
+            IdTipoEgreso = 0; Concepto = string.Empty; Monto = 0; Recurrente = false; ComprobanteRuta = null;
+            OnPropertyChanged(nameof(IdTipoEgreso));
+            OnPropertyChanged(nameof(Concepto));
+            OnPropertyChanged(nameof(Monto));
+            OnPropertyChanged(nameof(Recurrente));
+            OnPropertyChanged(nameof(ComprobanteRuta));
+        }
+
+        private void RecalcularTotal()
+        {
+            MontoTotal = 0m;
+            foreach (var d in Detalles) MontoTotal += d.monto;
+        }
+
+        private async Task GuardarAsync()
+        {
+            var nuevos = Detalles.Where(d => d.idCabEgreso == null).ToList();
+            if (nuevos.Count == 0) return;
+            // Asegurar IdUsuario si se seleccionó por nombre
+            if ((!IdUsuario.HasValue || IdUsuario.Value == 0) && !string.IsNullOrWhiteSpace(UsuarioNombre) && Usuarios.Count > 0)
+            {
+                var u = Usuarios.FirstOrDefault(x => x.nombreUsuario == UsuarioNombre);
+                if (u != null) { SelectedUsuario = u; }
+            }
+            var cab = new CabEgresoDTO
+            {
+                fecha = Fecha,
+                idUsuario = IdUsuario,
+                Detalles = new System.Collections.Generic.List<DetEgresoDTO>(nuevos)
+            };
+
+            var resp = await _egresoService.CrearEgresoAsync(cab);
+            if (resp.exito)
+            {
+                IdCabecera = resp.egreso!.idCabEgreso;
+                // Recargar desde BD para evidenciar persistencia y sincronizar
+                var desdeBd = await _egresoService.GetDetallesPorCabeceraAsync(IdCabecera);
+                Detalles.Clear();
+                foreach (var d in desdeBd) Detalles.Add(d);
+                MontoTotal = resp.egreso.montoTotal;
+                // Mantener detalles en pantalla ya con Id para evidencia, pero ofrecer iniciar uno nuevo
+                // Opcionalmente: ReiniciarMovimiento();
+            }
+        }
+
+        private void ReiniciarMovimiento()
+        {
+            IdCabecera = 0;
+            Fecha = DateTime.Now;
+            IdUsuario = null;
+            UsuarioNombre = string.Empty;
+            Detalles.Clear();
+            RecalcularTotal();
+            LimpiarDetalle();
+            MostrarFormularioDetalle = true;
+        }
+    }
+}

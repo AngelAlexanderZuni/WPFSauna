@@ -1,0 +1,55 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!-- 📝 ESTILOS DE TEXTO -->
+    
+    <!-- Título principal -->
+    <Style x:Key="TitleText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="34"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
+    </Style>
+    
+    <!-- Subtítulo -->
+    <Style x:Key="SubtitleText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+    </Style>
+    
+    <!-- Encabezado -->
+    <Style x:Key="HeadingText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+    </Style>
+    
+    <!-- Texto normal -->
+    <Style x:Key="BodyText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+    </Style>
+    
+    <!-- Texto secundario -->
+    <Style x:Key="SecondaryText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+    </Style>
+    
+    <!-- Texto pequeño -->
+    <Style x:Key="SmallText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+    </Style>
+    
+    <!-- Etiqueta de campo de formulario -->
+    <Style x:Key="LabelText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+        <Setter Property="Margin" Value="0,0,0,5"/>
+    </Style>
+    
+</ResourceDictionary>

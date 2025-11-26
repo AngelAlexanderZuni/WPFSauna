@@ -1,0 +1,24 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ProyectoSauna.Models.DTOs
+{
+    public class DetEgresoDTO
+    {
+        public int idDetEgreso { get; set; }
+        public int? idCabEgreso { get; set; }
+        public string concepto { get; set; } = string.Empty;
+        public decimal monto { get; set; }
+        public bool recurrente { get; set; }
+        public string? comprobanteRuta { get; set; }
+        public int idTipoEgreso { get; set; }
+
+        // Auxiliares para UI
+        public int NumeroLinea { get; set; }
+        public TipoEgresoDTO? TipoEgreso { get; set; }
+        public string? UsuarioNombre { get; set; }
+    }
+}
