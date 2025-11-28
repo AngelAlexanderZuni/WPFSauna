@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -88,6 +88,31 @@ namespace ProyectoSauna.ViewModels
         {
             get => _totalGeneral;
             set { _totalGeneral = value; OnPropertyChanged(); }
+        }
+
+        // Propiedades compatibles con pruebas unitarias
+        private decimal _totalProductos;
+        public decimal TotalProductos
+        {
+            get => _totalProductos;
+            set { _totalProductos = value; OnPropertyChanged(); OnPropertyChanged(nameof(TotalCuenta)); }
+        }
+
+        private decimal _totalServicios;
+        public decimal TotalServicios
+        {
+            get => _totalServicios;
+            set { _totalServicios = value; OnPropertyChanged(); OnPropertyChanged(nameof(TotalCuenta)); }
+        }
+
+        public decimal TotalCuenta
+        {
+            get
+            {
+                var entrada = CuentaSeleccionada?.precioEntrada ?? 0m;
+                var descuento = CuentaSeleccionada?.descuento ?? 0m;
+                return entrada - descuento + TotalProductos + TotalServicios;
+            }
         }
 
         // Colecciones

@@ -1,4 +1,4 @@
-﻿using ProyectoSauna.Models.Entities;
+using ProyectoSauna.Models.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,5 +11,7 @@ namespace ProyectoSauna.Repositories.Interfaces
         Task<IEnumerable<DetEgreso>> GetDetallesPorCabeceraAsync(int idCabEgreso);
         Task<bool> ActualizarDetalleAsync(DetEgreso detalle);
         Task<bool> EliminarDetalleAsync(int idDetEgreso);
+        Task<DetEgreso> AgregarDetalleAsync(DetEgreso detalle);
+        Task<bool> EliminarCabeceraAsync(int idCabEgreso);
     }
 }

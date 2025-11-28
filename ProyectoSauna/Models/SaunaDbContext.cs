@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using ProyectoSauna.Models.Entities;
@@ -52,9 +52,15 @@ public partial class SaunaDbContext : DbContext
 
     public virtual DbSet<Usuario> Usuario { get; set; }
 
+    public virtual DbSet<Servicio> Servicio { get; set; }
+
+    public virtual DbSet<DetalleServicio> DetalleServicio { get; set; }
+
+    public virtual DbSet<CategoriaServicio> CategoriaServicio { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=.;Database=ProyectoSauna;Trusted_Connection=true;TrustServerCertificate=true;");
+        => optionsBuilder.UseSqlServer("Server=LAPTOP-2BE5D2EQ\\SQL2019;Database=ProyectoSauna1;Trusted_Connection=true;TrustServerCertificate=true;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -292,6 +298,43 @@ public partial class SaunaDbContext : DbContext
 
             entity.Property(e => e.montoDescuentoCumpleanos).HasColumnType("decimal(12, 2)");
             entity.Property(e => e.porcentajeDescuento).HasColumnType("decimal(5, 2)");
+        });
+
+        modelBuilder.Entity<Servicio>(entity =>
+        {
+            entity.HasKey(e => e.idServicio);
+            entity.Property(e => e.nombre).HasMaxLength(120);
+            entity.Property(e => e.precio).HasColumnType("decimal(12, 2)");
+
+            entity.HasOne(d => d.idCategoriaServicioNavigation)
+                .WithMany(p => p.Servicio)
+                .HasForeignKey(d => d.idCategoriaServicio)
+                .HasConstraintName("FK_Servicio_CategoriaServicio");
+        });
+
+        modelBuilder.Entity<DetalleServicio>(entity =>
+        {
+            entity.HasKey(e => e.idDetalleServicio);
+            entity.Property(e => e.precioUnitario).HasColumnType("decimal(12, 2)");
+            entity.Property(e => e.subtotal).HasColumnType("decimal(12, 2)");
+
+            entity.HasOne(d => d.idCuentaNavigation)
+                .WithMany()
+                .HasForeignKey(d => d.idCuenta)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_DetalleServicio_Cuenta");
+
+            entity.HasOne(d => d.idServicioNavigation)
+                .WithMany(p => p.DetalleServicio)
+                .HasForeignKey(d => d.idServicio)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_DetalleServicio_Servicio");
+        });
+
+        modelBuilder.Entity<CategoriaServicio>(entity =>
+        {
+            entity.HasKey(e => e.idCategoriaServicio);
+            entity.Property(e => e.nombre).HasMaxLength(80);
         });
 
         modelBuilder.Entity<Rol>(entity =>

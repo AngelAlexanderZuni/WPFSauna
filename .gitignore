@@ -1,0 +1,6 @@
+# Visual Studio
+.vs/
+
+# Directorios de compilación
+[Bb]in/
+[Oo]bj/

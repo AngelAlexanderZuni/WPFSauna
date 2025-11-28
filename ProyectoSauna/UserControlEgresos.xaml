@@ -20,7 +20,7 @@
             <StackPanel Grid.Column="0" Orientation="Horizontal">
                 <materialDesign:PackIcon Kind="CashMinus" Width="36" Height="36" 
                                         Foreground="#4CC9F0" VerticalAlignment="Center"/>
-                <TextBlock Text="Gesti├│n de Egresos" FontSize="24" FontWeight="SemiBold" 
+                <TextBlock Text="Gestión de Egresos" FontSize="24" FontWeight="SemiBold" 
                           Foreground="White" Margin="15,0,0,0" VerticalAlignment="Center"/>
             </StackPanel>
 
@@ -62,7 +62,7 @@
                                             Foreground="#4CC9F0" VerticalAlignment="Center"/>
                     <TextBlock Text="Cabecera del Movimiento" FontSize="18" FontWeight="SemiBold" 
                               Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                    <TextBlock x:Name="txtEstadoCabecera" Text="[Nuevo]" 
+                    <TextBlock x:Name="txtEstadoCabecera" Text="" 
                               Foreground="#10B981" FontSize="12" FontWeight="Bold"
                               Margin="15,0,0,0" VerticalAlignment="Center"/>
                 </StackPanel>
@@ -90,7 +90,7 @@
                         <TextBlock Text="Nro. Documento" Foreground="#9CA3AF" FontSize="12" Margin="0,0,0,5"/>
                         <TextBox x:Name="txtIdCabecera" 
                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                materialDesign:HintAssist.Hint="Generado autom├íticamente"
+                                materialDesign:HintAssist.Hint="Generado automaticamente"
                                 Text="{Binding IdCabecera}"
                                 Foreground="#9CA3AF" IsReadOnly="True"/>
                     </StackPanel>
@@ -159,7 +159,7 @@
                         <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
                             <TextBlock Text="Usuario:" Foreground="#9CA3AF" Margin="0,0,5,0"/>
                             <TextBlock Text="{Binding UsuarioNombre}" Foreground="White"/>
-                            <TextBlock Text="  ÔÇó  IdCab:" Foreground="#9CA3AF" Margin="10,0,5,0"/>
+                            <TextBlock Text="IdCab:" Foreground="#9CA3AF" Margin="10,0,5,0"/>
                             <TextBlock Text="{Binding IdCabecera}" Foreground="#4CC9F0"/>
                         </StackPanel>
                     </StackPanel>
@@ -275,7 +275,7 @@
                                     <TextBlock Text="Resumen del Movimiento" 
                                               Foreground="#9CA3AF" FontSize="12" Margin="0,0,0,5"/>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Total de l├¡neas: " Foreground="White" FontSize="13"/>
+                                        <TextBlock Text="Total de lineas: " Foreground="White" FontSize="13"/>
                                         <TextBlock Text="{Binding Detalles.Count}" 
                                               Foreground="#4CC9F0" FontSize="13" FontWeight="Bold" Margin="5,0"/>
                                     </StackPanel>
@@ -436,7 +436,7 @@
                 <Border Background="#1E2128" Padding="24" CornerRadius="10">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" >
                         <materialDesign:PackIcon Kind="CheckCircle" Width="28" Height="28" Foreground="#10B981"/>
-                        <TextBlock Text="Actualizaci├│n exitosa" Foreground="White" FontSize="16" FontWeight="SemiBold" Margin="12,0,0,0"/>
+                        <TextBlock Text="Actualizacion exitosa" Foreground="White" FontSize="16" FontWeight="SemiBold" Margin="12,0,0,0"/>
                     </StackPanel>
                 </Border>
             </materialDesign:DialogHost.DialogContent>

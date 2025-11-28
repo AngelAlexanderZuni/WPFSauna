@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -117,6 +117,56 @@ namespace ProyectoSauna.Repositories
             await _context.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<DetEgreso> AgregarDetalleAsync(DetEgreso detalle)
+        {
+            using var tx = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                await _context.DetEgreso.AddAsync(detalle);
+                await _context.SaveChangesAsync();
+
+                var cab = await _context.CabEgreso.FirstAsync(c => c.idCabEgreso == detalle.idCabEgreso);
+                cab.montoTotal = await _context.DetEgreso
+                    .Where(x => x.idCabEgreso == detalle.idCabEgreso)
+                    .SumAsync(x => (decimal?)x.monto) ?? 0m;
+                _context.CabEgreso.Update(cab);
+                await _context.SaveChangesAsync();
+
+                await tx.CommitAsync();
+                return detalle;
+            }
+            catch
+            {
+                await tx.RollbackAsync();
+                throw;
+            }
+        }
+
+        public async Task<bool> EliminarCabeceraAsync(int idCabEgreso)
+        {
+            using var tx = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                var cab = await _context.CabEgreso.FindAsync(idCabEgreso);
+                if (cab == null) return false;
+
+                var detalles = _context.DetEgreso.Where(d => d.idCabEgreso == idCabEgreso);
+                _context.DetEgreso.RemoveRange(detalles);
+                await _context.SaveChangesAsync();
+
+                _context.CabEgreso.Remove(cab);
+                await _context.SaveChangesAsync();
+
+                await tx.CommitAsync();
+                return true;
+            }
+            catch
+            {
+                await tx.RollbackAsync();
+                throw;
+            }
         }
     }
 }
