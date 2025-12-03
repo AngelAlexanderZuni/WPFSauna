@@ -7,6 +7,9 @@ using ProyectoSauna.Models;
 using ProyectoSauna.Repositories.Base;
 using ProyectoSauna.Repositories.Interfaces;
 using ProyectoSauna.Repositories;
+using ProyectoSauna.Services;
+using ProyectoSauna.Services.Interfaces;
+using ProyectoSauna.ViewModels;
 using System.Windows;
 
 namespace ProyectoSauna
@@ -47,6 +50,22 @@ namespace ProyectoSauna
                         services.AddScoped<CategoriaProductoRepository>();
                         services.AddScoped<ITipoMovimientoRepository, TipoMovimientoRepository>();
                         services.AddScoped<IMovimientoInventarioRepository, MovimientoInventarioRepository>();
+
+                        // Pagos y Comprobantes
+                        services.AddScoped<IComprobanteRepository, ComprobanteRepository>();
+                        services.AddScoped<ITipoComprobanteRepository, TipoComprobanteRepository>();
+                        services.AddScoped<ICuentaRepository, CuentaRepository>(); // Asegurando que esté registrado si no lo estaba
+                        services.AddScoped<IPagoRepository, PagoRepository>();
+                        services.AddScoped<IMetodoPagoRepository, MetodoPagoRepository>();
+
+                        // Servicios
+                        services.AddScoped<IComprobanteService, ComprobanteService>();
+                        services.AddScoped<ICuentaService, CuentaService>();
+                        services.AddScoped<IPagoService, PagoService>();
+                        services.AddScoped<IMetodoPagoService, MetodoPagoService>();
+
+                        // ViewModels
+                        services.AddTransient<ComprobantesViewModel>();
 
                     })
                     .Build();

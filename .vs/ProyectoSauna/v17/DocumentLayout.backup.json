@@ -3,12 +3,28 @@
   "WorkspaceRootPath": "E:\\ProyectoSaunaFinal\\WPFSauna\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\proyectosaunafinal\\wpfsauna\\proyectosauna\\usercontrolegresos.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolegresos.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\proyectosaunafinal\\wpfsauna\\proyectosauna\\usercontrolcuentas.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolcuentas.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\proyectosaunafinal\\wpfsauna\\proyectosauna\\repositories\\cuentarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\cuentarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\proyectosaunafinal\\wpfsauna\\proyectosauna\\usercontrolpago.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolpago.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\proyectosaunafinal\\wpfsauna\\proyectosauna\\models\\dtos\\comprobantedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\dtos\\comprobantedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\proyectosaunafinal\\wpfsauna\\proyectosauna\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\proyectosaunafinal\\wpfsauna\\proyectosauna\\usercontrolegresos.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolegresos.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\proyectosaunafinal\\wpfsauna\\proyectosauna\\data\\databaseconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -95,10 +111,6 @@
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\entities\\tipodescuento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\proyectosaunafinal\\wpfsauna\\proyectosauna\\usercontrolcuentas.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolcuentas.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\proyectosaunafinal\\wpfsauna\\proyectosauna\\usercontrolcuentas.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolcuentas.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
     },
@@ -162,7 +174,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -174,7 +186,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
+              "Title": "CuentaRepository.cs",
+              "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Repositories\\CuentaRepository.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\CuentaRepository.cs",
+              "ToolTip": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Repositories\\CuentaRepository.cs",
+              "RelativeToolTip": "ProyectoSauna\\Repositories\\CuentaRepository.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAAwBIAAAA8AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T20:40:15.619Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ComprobanteDTO.cs",
+              "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Models\\DTOs\\ComprobanteDTO.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Models\\DTOs\\ComprobanteDTO.cs",
+              "ToolTip": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Models\\DTOs\\ComprobanteDTO.cs",
+              "RelativeToolTip": "ProyectoSauna\\Models\\DTOs\\ComprobanteDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-28T02:30:24.596Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "UserControlEgresos.xaml",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\UserControlEgresos.xaml",
               "RelativeDocumentMoniker": "ProyectoSauna\\UserControlEgresos.xaml",
@@ -186,20 +224,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "CuentaRepository.cs",
-              "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Repositories\\CuentaRepository.cs",
-              "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\CuentaRepository.cs",
-              "ToolTip": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Repositories\\CuentaRepository.cs",
-              "RelativeToolTip": "ProyectoSauna\\Repositories\\CuentaRepository.cs",
-              "ViewState": "AgIAACcAAAAAAAAAAAArwC0AAABDAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T20:40:15.619Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "DatabaseConfig.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Data\\DatabaseConfig.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Data\\DatabaseConfig.cs",
@@ -212,7 +237,43 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 0,
+              "Title": "UserControlCuentas.xaml",
+              "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\UserControlCuentas.xaml",
+              "RelativeDocumentMoniker": "ProyectoSauna\\UserControlCuentas.xaml",
+              "ToolTip": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\UserControlCuentas.xaml",
+              "RelativeToolTip": "ProyectoSauna\\UserControlCuentas.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-20T19:34:42.283Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UserControlPago.xaml",
+              "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\UserControlPago.xaml",
+              "RelativeDocumentMoniker": "ProyectoSauna\\UserControlPago.xaml",
+              "ToolTip": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\UserControlPago.xaml",
+              "RelativeToolTip": "ProyectoSauna\\UserControlPago.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-28T02:08:31.901Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "ProyectoSauna\\MainWindow.xaml",
+              "ToolTip": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\MainWindow.xaml",
+              "RelativeToolTip": "ProyectoSauna\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-28T02:09:04.572Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
               "Title": "ClienteDTO.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Models\\DTOs\\ClienteDTO.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Models\\DTOs\\ClienteDTO.cs",
@@ -224,7 +285,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 13,
               "Title": "ClienteRepository.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Repositories\\ClienteRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\ClienteRepository.cs",
@@ -236,7 +297,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "scripts.sql ",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Data\\scripts.sql",
               "RelativeDocumentMoniker": "ProyectoSauna\\Data\\scripts.sql",
@@ -248,7 +309,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 14,
               "Title": "IClienteRepository.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\IClienteRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\Interfaces\\IClienteRepository.cs",
@@ -260,7 +321,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 15,
               "Title": "SaunaDbContext.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Models\\SaunaDbContext.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Models\\SaunaDbContext.cs",
@@ -272,7 +333,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "UserControlPromociones.xaml.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\UserControlPromociones.xaml.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\UserControlPromociones.xaml.cs",
@@ -285,7 +346,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 10,
               "Title": "ClientesViewModel.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\ViewModels\\ClientesViewModel.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\ViewModels\\ClientesViewModel.cs",
@@ -297,7 +358,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 9,
               "Title": "UserControlPromociones.xaml",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\UserControlPromociones.xaml",
               "RelativeDocumentMoniker": "ProyectoSauna\\UserControlPromociones.xaml",
@@ -308,7 +369,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 16,
               "Title": "Cliente.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Models\\Entities\\Cliente.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Models\\Entities\\Cliente.cs",
@@ -320,7 +381,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 11,
               "Title": "ClienteService.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Services\\ClienteService.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Services\\ClienteService.cs",
@@ -332,7 +393,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 19,
               "Title": "ClienteExtensions.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Models\\Extensions\\ClienteExtensions.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Models\\Extensions\\ClienteExtensions.cs",
@@ -344,7 +405,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 17,
               "Title": "App.xaml.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\App.xaml.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\App.xaml.cs",
@@ -356,7 +417,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 18,
               "Title": "DescuentoService.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Services\\DescuentoService.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Services\\DescuentoService.cs",
@@ -368,7 +429,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 20,
               "Title": "UserControlServicios.xaml",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\UserControlServicios.xaml",
               "RelativeDocumentMoniker": "ProyectoSauna\\UserControlServicios.xaml",
@@ -379,7 +440,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 21,
               "Title": "PromocionesRepository.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Repositories\\PromocionesRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\PromocionesRepository.cs",
@@ -391,7 +452,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 22,
               "Title": "TipoDescuentoRepository.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Repositories\\TipoDescuentoRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\TipoDescuentoRepository.cs",
@@ -403,7 +464,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 23,
               "Title": "IPromocionesRepository.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\IPromocionesRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\Interfaces\\IPromocionesRepository.cs",
@@ -415,7 +476,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 24,
               "Title": "ITipoDescuentoRepository.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\ITipoDescuentoRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\Interfaces\\ITipoDescuentoRepository.cs",
@@ -427,7 +488,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 25,
               "Title": "Promociones.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Models\\Entities\\Promociones.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Models\\Entities\\Promociones.cs",
@@ -439,7 +500,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 26,
               "Title": "TipoDescuento.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Models\\Entities\\TipoDescuento.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Models\\Entities\\TipoDescuento.cs",
@@ -451,7 +512,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 29,
               "Title": "TipoMovimientoRepository.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Repositories\\TipoMovimientoRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\TipoMovimientoRepository.cs",
@@ -463,7 +524,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 28,
               "Title": "CuentasViewModel.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\ViewModels\\CuentasViewModel.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\ViewModels\\CuentasViewModel.cs",
@@ -475,7 +536,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 31,
               "Title": "UserControlInventario.xaml",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\UserControlInventario.xaml",
               "RelativeDocumentMoniker": "ProyectoSauna\\UserControlInventario.xaml",
@@ -486,7 +547,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 32,
               "Title": "MovimientoInventarioRepository.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Repositories\\MovimientoInventarioRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\MovimientoInventarioRepository.cs",
@@ -498,18 +559,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "UserControlCuentas.xaml",
-              "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\UserControlCuentas.xaml",
-              "RelativeDocumentMoniker": "ProyectoSauna\\UserControlCuentas.xaml",
-              "ToolTip": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\UserControlCuentas.xaml",
-              "RelativeToolTip": "ProyectoSauna\\UserControlCuentas.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-11-20T19:34:42.283Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 36,
               "Title": "ConsumoItem.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Models\\ConsumoItem.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Models\\ConsumoItem.cs",
@@ -521,7 +571,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 27,
               "Title": "UserControlCuentas.xaml.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\UserControlCuentas.xaml.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\UserControlCuentas.xaml.cs",
@@ -533,7 +583,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 30,
               "Title": "UserControlInventario.xaml.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\UserControlInventario.xaml.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\UserControlInventario.xaml.cs",
@@ -545,7 +595,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 33,
               "Title": "IMovimientoInventarioRepository.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\IMovimientoInventarioRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\Interfaces\\IMovimientoInventarioRepository.cs",
@@ -557,7 +607,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 34,
               "Title": "ITipoMovimientoRepository.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\ITipoMovimientoRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\Interfaces\\ITipoMovimientoRepository.cs",
@@ -569,7 +619,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 35,
               "Title": "InventoryEventService.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Services\\Helpers\\InventoryEventService.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Services\\Helpers\\InventoryEventService.cs",
@@ -581,7 +631,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 37,
               "Title": "NullToVisibilityConverter.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Converters\\NullToVisibilityConverter.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Converters\\NullToVisibilityConverter.cs",
@@ -593,7 +643,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 39,
               "Title": "ProductoRepository.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Repositories\\Base\\ProductoRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\Base\\ProductoRepository.cs",
@@ -605,7 +655,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 38,
               "Title": "UsuarioRepository.cs",
               "DocumentMoniker": "E:\\ProyectoSaunaFinal\\WPFSauna\\ProyectoSauna\\Repositories\\UsuarioRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\UsuarioRepository.cs",
