@@ -10,7 +10,7 @@ namespace ProyectoSauna.Data
         /// </summary>
         public static string GetConnectionString()
         {
-            return "Server=LAPTOP-2BE5D2EQ\\SQL2019;Database=ProyectoSauna1;Trusted_Connection=true;TrustServerCertificate=true;";
+            return "Server=.;Database=ProyectoSauna;Trusted_Connection=true;TrustServerCertificate=true;";
         }
     }
 }
