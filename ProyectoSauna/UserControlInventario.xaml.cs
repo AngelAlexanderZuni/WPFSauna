@@ -2,7 +2,6 @@
 using ProyectoSauna.Models.Entities;
 using ProyectoSauna.Repositories.Base;
 using ProyectoSauna.Repositories.Interfaces;
-using ProyectoSauna.Services; 
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -16,21 +15,19 @@ namespace ProyectoSauna
 {
     public partial class UserControlInventario : UserControl
     {
+        // ======== REPOS ========
         private readonly IProductoRepository _productoRepo;
         private readonly CategoriaProductoRepository _categoriaRepo;
         private readonly ITipoMovimientoRepository _tipoMovimientoRepo;
         private readonly IMovimientoInventarioRepository _movimientoRepo;
 
+        // ======== CACHE ========
         private List<Producto> listaProductos = new();
         private List<CategoriaProducto> listaCategorias = new();
 
-        private MovimientoInventario? _movimientoEnEdicion = null;
-        private int _stockAnteriorMovimiento = 0;
-
+        // control de carga
         private bool _isLoading = false;
         private bool _isInitialized = false;
-
-        private EventHandler? _stockChangedHandler;
 
         public UserControlInventario()
         {
@@ -41,54 +38,35 @@ namespace ProyectoSauna
             _tipoMovimientoRepo = App.AppHost!.Services.GetRequiredService<ITipoMovimientoRepository>();
             _movimientoRepo = App.AppHost!.Services.GetRequiredService<IMovimientoInventarioRepository>();
 
-            _stockChangedHandler = (s, e) =>
-            {
-                _ = Application.Current.Dispatcher.InvokeAsync(async () =>
-                {
-                    _isLoading = false;
-                    await RefrescarDatosAsync();
-                });
-            };
-            InventoryEventService.StockChanged += _stockChangedHandler;
-
-            Loaded += async (_, __) => await RefrescarDatosAsync();
-
-            Unloaded += (s, e) =>
-            {
-                if (_stockChangedHandler != null)
-                    InventoryEventService.StockChanged -= _stockChangedHandler;
-            };
+            Loaded += async (_, __) => await InicializarAsync();
         }
 
-        public async Task RefrescarDatosAsync()
+        private async Task InicializarAsync()
         {
-            if (_isLoading) return;
+            if (_isLoading || _isInitialized) return;
             _isLoading = true;
-
             try
             {
-                if (!_isInitialized)
-                {
-                    dpFecha.SelectedDate = DateTime.Now;
-                    await CargarCategoriasAsync();
-                    rbEntrada.IsChecked = true;
-                    _isInitialized = true;
-                }
+                dpFecha.SelectedDate = DateTime.Now;
 
+                await CargarCategoriasAsync();
                 await CargarProductosAsync();
+
+                rbEntrada.IsChecked = true; // por defecto
                 await CargarMovimientosRecientesAsync();
+
                 VerificarStockBajo();
+
+                _isInitialized = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al refrescar: {ex.Message}", "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error al iniciar: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            finally
-            {
-                _isLoading = false;
-            }
+            finally { _isLoading = false; }
         }
+
+        // ============== STOCKMINIMO =================
 
         private void VerificarStockBajo()
         {
@@ -107,10 +85,14 @@ namespace ProyectoSauna
             }
         }
 
+
+        // ============== CARGAS =================
+
         private async Task CargarCategoriasAsync()
         {
             listaCategorias = (await _categoriaRepo.GetAllAsync()).ToList();
 
+            // Para el FILTRO (cbCategorias) - con "Todas las categorías"
             var listaFiltro = new List<CategoriaProducto> {
                 new CategoriaProducto { idCategoriaProducto = 0, nombre = "Todas las categorías" }
             };
@@ -121,6 +103,7 @@ namespace ProyectoSauna
             cbCategorias.DisplayMemberPath = "nombre";
             cbCategorias.SelectedIndex = 0;
 
+            // Para el FORMULARIO (cbCategoriaProducto) - sin "Todas"
             cbCategoriaProducto.ItemsSource = listaCategorias;
             cbCategoriaProducto.DisplayMemberPath = "nombre";
             cbCategoriaProducto.SelectedValuePath = "idCategoriaProducto";
@@ -128,14 +111,12 @@ namespace ProyectoSauna
 
         private async Task CargarProductosAsync()
         {
-            if (_productoRepo is ProyectoSauna.Repositories.ProductoRepository pr)
-                listaProductos = (await pr.GetAllFreshAsync()).ToList();
-            else
-                listaProductos = (await _productoRepo.GetAllAsync()).ToList();
+            listaProductos = (await _productoRepo.GetAllAsync()).ToList();
             dataGridProductos.ItemsSource = listaProductos;
-            ActualizarEstadisticas();
-            await ValidarUIContraBDAsync();
+            ActualizarEstadisticas(); // Actualizar KPIs
         }
+
+        // ============== ESTADÍSTICAS KPI ==============
 
         private void ActualizarEstadisticas()
         {
@@ -167,6 +148,7 @@ namespace ProyectoSauna
                 var listaFiltrada = filtrado.ToList();
                 dataGridProductos.ItemsSource = listaFiltrada;
 
+                // Actualizar estadísticas con los datos filtrados
                 txtTotalProductos.Text = listaFiltrada.Count.ToString();
                 txtStockTotal.Text = listaFiltrada.Sum(p => p.stockActual).ToString();
                 txtStockBajo.Text = listaFiltrada.Count(p => p.stockActual <= p.stockMinimo).ToString();
@@ -187,11 +169,14 @@ namespace ProyectoSauna
                 txtStockActual.Text = p.stockActual.ToString(CultureInfo.InvariantCulture);
                 txtStockMinimo.Text = p.stockMinimo.ToString(CultureInfo.InvariantCulture);
 
+                // Seleccionar categoría en el combo del formulario
                 cbCategoriaProducto.SelectedValue = p.idCategoriaProducto;
 
                 await CargarMovimientosPorProductoAsync(p.idProducto);
             }
         }
+
+        // ============== CRUD PRODUCTO ==============
 
         private async void btnAgregar_Click(object sender, RoutedEventArgs e)
         {
@@ -286,6 +271,8 @@ namespace ProyectoSauna
             }
         }
 
+        // ============== BUSCAR / LIMPIAR ==============
+
         private void txtBuscar_TextChanged(object sender, TextChangedEventArgs e)
         {
             var f = (txtBuscar.Text ?? "").Trim().ToLowerInvariant();
@@ -295,6 +282,7 @@ namespace ProyectoSauna
                 .ToList();
             dataGridProductos.ItemsSource = data;
 
+            // Actualizar estadísticas con resultados de búsqueda
             txtTotalProductos.Text = data.Count.ToString();
             txtStockTotal.Text = data.Sum(p => p.stockActual).ToString();
             txtStockBajo.Text = data.Count(p => p.stockActual <= p.stockMinimo).ToString();
@@ -308,6 +296,7 @@ namespace ProyectoSauna
 
         private void LimpiarFormulario()
         {
+            // --- Sección de Información del Producto ---
             txtCodigo.Clear();
             txtNombre.Clear();
             txtDescripcion.Clear();
@@ -317,98 +306,32 @@ namespace ProyectoSauna
             txtStockMinimo.Text = "0";
             cbCategoriaProducto.SelectedIndex = -1;
 
-            LimpiarFormularioMovimiento();
-
-            dataGridProductos.UnselectAll();
-            txtBuscar.Clear();
-
-            txtStockActual.Background = Brushes.Transparent;
-            txtStockMinimo.Background = Brushes.Transparent;
-        }
-
-        private void LimpiarFormularioMovimiento()
-        {
+            // --- Sección de Movimiento ---
             txtCantidad.Clear();
             txtCostoUnitario.Clear();
             txtCostoTotal.Text = "0.00";
             txtObservaciones.Clear();
             dpFecha.SelectedDate = DateTime.Now;
 
-            rbEntrada.IsChecked = true;
+            // --- RadioButtons de tipo de movimiento ---
+            rbEntrada.IsChecked = false;
             rbSalida.IsChecked = false;
 
-            _movimientoEnEdicion = null;
-            _stockAnteriorMovimiento = 0;
+            // --- DataGrid y otros ---
+            dataGridProductos.UnselectAll();  // Deselecciona cualquier producto
+            txtBuscar.Clear();              // Limpia campo de búsqueda si lo usas
 
-            dataGridMovimientos.UnselectAll();
-
-            ActualizarBotonMovimiento();
+            // --- (Opcional) Restablecer color de indicadores ---
+            txtStockActual.Background = Brushes.Transparent;
+            txtStockMinimo.Background = Brushes.Transparent;
         }
 
-        private async void dataGridMovimientos_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (!_isInitialized || _isLoading) return;
 
-            if (dataGridMovimientos.SelectedItem is MovimientoInventario mov)
-            {
-                try
-                {
-                    _movimientoEnEdicion = mov;
-
-                    var producto = listaProductos.FirstOrDefault(p => p.idProducto == mov.idProducto);
-                    if (producto != null)
-                    {
-                        var esEntrada = await EsMovimientoEntrada(mov.idTipoMovimiento);
-                        _stockAnteriorMovimiento = producto.stockActual - (esEntrada ? mov.cantidad : -mov.cantidad);
-                    }
-
-                    txtCantidad.Text = mov.cantidad.ToString(CultureInfo.InvariantCulture);
-                    txtCostoUnitario.Text = mov.costoUnitario.ToString(CultureInfo.InvariantCulture);
-                    txtCostoTotal.Text = mov.costoTotal.ToString("0.00", CultureInfo.InvariantCulture);
-                    txtObservaciones.Text = mov.observaciones ?? "";
-                    dpFecha.SelectedDate = mov.fecha;
-
-                    var esEntradaMov = await EsMovimientoEntrada(mov.idTipoMovimiento);
-                    rbEntrada.IsChecked = esEntradaMov;
-                    rbSalida.IsChecked = !esEntradaMov;
-
-                    ActualizarBotonMovimiento();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error al cargar movimiento: {ex.Message}", "Error",
-                        MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-        }
-
-        private void ActualizarBotonMovimiento()
-        {
-            var boton = btnRegistrarMovimiento;
-
-            if (_movimientoEnEdicion != null)
-            {
-                boton.Content = "✏️ ACTUALIZAR MOVIMIENTO";
-                boton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3B82F6"));
-            }
-            else
-            {
-                boton.Content = "✓ REGISTRAR MOVIMIENTO";
-                boton.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#16C784"));
-            }
-        }
-
-        private async Task<bool> EsMovimientoEntrada(int idTipoMovimiento)
-        {
-            var tipo = await _tipoMovimientoRepo.GetByIdAsync(idTipoMovimiento);
-            if (tipo == null) return true;
-
-            var desc = tipo.descripcion?.ToUpperInvariant() ?? "";
-            return desc.Contains("ENTRADA") || desc == "E";
-        }
+        // ============== MOVIMIENTOS (AUTOMÁTICOS) ==============
 
         private async Task<int?> GetDefaultTipoIdAsync(bool esEntrada)
         {
+            // Soporta valores: "Entrada", "Salida", "Entrada/Proveedor" y también "E"/"S" si existieran
             var lista = new List<TipoMovimiento>();
 
             if (esEntrada)
@@ -437,30 +360,16 @@ namespace ProyectoSauna
 
         private async void btnRegistrarMovimiento_Click(object sender, RoutedEventArgs e)
         {
-            if (_movimientoEnEdicion != null)
-            {
-                await ActualizarMovimiento();
-            }
-            else
-            {
-                await RegistrarNuevoMovimiento();
-            }
-        }
-
-        private async Task RegistrarNuevoMovimiento()
-        {
             if (dataGridProductos.SelectedItem is not Producto prod)
             {
-                MessageBox.Show("Seleccione un producto.", "Advertencia",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Seleccione un producto.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (!decimal.TryParse(txtCantidad.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var cantDec) ||
                 !decimal.TryParse(txtCostoUnitario.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var unit))
             {
-                MessageBox.Show("Cantidad y costo unitario deben ser numéricos.", "Validación",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Cantidad y costo unitario deben ser numéricos.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -475,13 +384,10 @@ namespace ProyectoSauna
             }
 
             int cantidad = (int)Math.Round(cantDec);
-            int stockAntes = prod.stockActual;
-            int nuevoStock = stockAntes + (esEntrada ? +cantidad : -cantidad);
-
+            int nuevoStock = prod.stockActual + (esEntrada ? +cantidad : -cantidad);
             if (nuevoStock < 0)
             {
-                MessageBox.Show("La operación dejaría el stock en negativo.", "Validación",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("La operación dejaría el stock en negativo.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -501,11 +407,9 @@ namespace ProyectoSauna
             {
                 await _movimientoRepo.AddAsync(mov);
 
+                // Actualizar stock del producto
                 prod.stockActual = nuevoStock;
                 await _productoRepo.UpdateAsync(prod);
-
-                ProyectoSauna.Services.AuditLogger.LogInventario(esEntrada ? "Entrada" : "Salida", prod, stockAntes, nuevoStock, mov.idUsuario, mov.observaciones ?? "");
-                InventoryEventService.NotifyStockChanged();
 
                 await CargarProductosAsync();
                 await CargarMovimientosPorProductoAsync(prod.idProducto);
@@ -513,136 +417,18 @@ namespace ProyectoSauna
 
                 dataGridProductos.SelectedItem = listaProductos.FirstOrDefault(p => p.idProducto == prod.idProducto);
 
-                MessageBox.Show("Movimiento registrado y stock actualizado.", "Éxito",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
+                txtCantidad.Clear();
+                txtCostoUnitario.Clear();
+                txtCostoTotal.Text = "0.00";
+                txtObservaciones.Clear();
+                dpFecha.SelectedDate = DateTime.Now;
 
-                LimpiarFormularioMovimiento();
+                MessageBox.Show("Movimiento registrado y stock actualizado.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                LimpiarFormulario();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al registrar movimiento: {ex.Message}", "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private async Task ActualizarMovimiento()
-        {
-            if (_movimientoEnEdicion == null)
-            {
-                MessageBox.Show("No hay movimiento seleccionado para actualizar.", "Advertencia",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            if (!decimal.TryParse(txtCantidad.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var cantDec) ||
-                !decimal.TryParse(txtCostoUnitario.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var unit))
-            {
-                MessageBox.Show("Cantidad y costo unitario deben ser numéricos.", "Validación",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            var producto = listaProductos.FirstOrDefault(p => p.idProducto == _movimientoEnEdicion.idProducto);
-            if (producto == null)
-            {
-                MessageBox.Show("No se encontró el producto asociado.", "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            try
-            {
-                int nuevaCantidad = (int)Math.Round(cantDec);
-                var esEntrada = rbEntrada.IsChecked == true;
-                var idTipoMov = await GetDefaultTipoIdAsync(esEntrada);
-
-                if (idTipoMov is null)
-                {
-                    MessageBox.Show("No hay tipos configurados para el movimiento seleccionado.", "Configuración",
-                        MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
-                int stockAntes = _stockAnteriorMovimiento;
-                int stockFinal = stockAntes + (esEntrada ? +nuevaCantidad : -nuevaCantidad);
-
-                if (stockFinal < 0)
-                {
-                    MessageBox.Show("La actualización dejaría el stock en negativo.", "Validación",
-                        MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-
-                _movimientoEnEdicion.cantidad = nuevaCantidad;
-                _movimientoEnEdicion.costoUnitario = unit;
-                _movimientoEnEdicion.costoTotal = unit * nuevaCantidad;
-                _movimientoEnEdicion.fecha = dpFecha.SelectedDate ?? DateTime.Now;
-                _movimientoEnEdicion.observaciones = txtObservaciones.Text;
-                _movimientoEnEdicion.idTipoMovimiento = idTipoMov.Value;
-
-                await _movimientoRepo.UpdateAsync(_movimientoEnEdicion);
-
-                producto.stockActual = stockFinal;
-                await _productoRepo.UpdateAsync(producto);
-
-                ProyectoSauna.Services.AuditLogger.LogInventario(esEntrada ? "Entrada" : "Salida", producto, stockAntes, stockFinal, _movimientoEnEdicion.idUsuario, _movimientoEnEdicion.observaciones ?? "");
-                InventoryEventService.NotifyStockChanged();
-
-                await CargarProductosAsync();
-                await CargarMovimientosPorProductoAsync(producto.idProducto);
-                await CargarMovimientosRecientesAsync();
-
-                dataGridProductos.SelectedItem = listaProductos.FirstOrDefault(p => p.idProducto == producto.idProducto);
-
-                MessageBox.Show("Movimiento actualizado correctamente.", "Éxito",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
-
-                LimpiarFormularioMovimiento();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al actualizar movimiento: {ex.Message}", "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private async Task ValidarUIContraBDAsync()
-        {
-            try
-            {
-                IEnumerable<Producto> frescos;
-                if (_productoRepo is ProyectoSauna.Repositories.ProductoRepository pr)
-                    frescos = await pr.GetAllFreshAsync();
-                else
-                    frescos = await _productoRepo.GetAllAsync();
-
-                var mapa = frescos.ToDictionary(p => p.idProducto);
-                bool mismatch = false;
-
-                foreach (var p in listaProductos)
-                {
-                    if (mapa.TryGetValue(p.idProducto, out var real))
-                    {
-                        if (p.stockActual != real.stockActual || p.precioCompra != real.precioCompra || p.precioVenta != real.precioVenta)
-                        {
-                            p.stockActual = real.stockActual;
-                            p.precioCompra = real.precioCompra;
-                            p.precioVenta = real.precioVenta;
-                            mismatch = true;
-                        }
-                    }
-                }
-
-                if (mismatch)
-                {
-                    dataGridProductos.ItemsSource = null;
-                    dataGridProductos.ItemsSource = listaProductos;
-                    ActualizarEstadisticas();
-                }
-            }
-            catch
-            {
-                // No interrumpir la UI
+                MessageBox.Show($"Error al registrar movimiento: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -655,8 +441,7 @@ namespace ProyectoSauna
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar movimientos del producto: {ex.Message}", "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error al cargar movimientos del producto: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -669,11 +454,11 @@ namespace ProyectoSauna
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar movimientos recientes: {ex.Message}", "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error al cargar movimientos recientes: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
+        // Radio handlers (solo por si luego quieres hacer algo al cambiar)
         private async void rbEntrada_Checked(object sender, RoutedEventArgs e)
         {
             if (!_isInitialized) return;

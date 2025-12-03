@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -59,11 +59,6 @@ namespace ProyectoSauna
                     {
                         string rol = reader["Rol"].ToString();
                         string nombreUsuario = reader["nombreUsuario"].ToString();
-                        int idUsuario = Convert.ToInt32(reader["idUsuario"]);
-
-                        ProyectoSauna.Models.SesionActual.IdUsuario = idUsuario;
-                        ProyectoSauna.Models.SesionActual.NombreCompleto = nombreUsuario;
-                        ProyectoSauna.Models.SesionActual.Rol = rol;
 
                         MessageBox.Show($"Bienvenido {nombreUsuario} ({rol})", "Acceso correcto",
                                         MessageBoxButton.OK, MessageBoxImage.Information);

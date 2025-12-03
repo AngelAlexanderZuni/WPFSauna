@@ -42,7 +42,7 @@ namespace ProyectoSauna
         {
             _categorias = (await _categoriaRepo.GetAllAsync()).ToList();
             cbCategoria.ItemsSource = _categorias;
-
+            
             var filtroCategorias = new List<CategoriaServicio> { new CategoriaServicio { idCategoriaServicio = 0, nombre = "Todas" } };
             filtroCategorias.AddRange(_categorias);
             cbFiltroCategoria.ItemsSource = filtroCategorias;
@@ -63,9 +63,12 @@ namespace ProyectoSauna
 
         private async Task CargarCuentasAsync()
         {
+            var selectedId = cbCuenta.SelectedValue as int?;
             _cuentas = await _cuentaRepo.GetCuentasPendientesAsync();
             cbCuenta.ItemsSource = _cuentas;
             cbCuenta.SelectedValuePath = "idCuenta";
+            if (selectedId.HasValue && _cuentas.Any(c => c.idCuenta == selectedId.Value))
+                cbCuenta.SelectedValue = selectedId.Value;
         }
 
         private void AplicarFiltrosServicios()
@@ -228,10 +231,10 @@ namespace ProyectoSauna
                 MessageBox.Show("Seleccione un servicio para eliminar.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-
+            
             if (MessageBox.Show($"¿Está seguro de eliminar el servicio '{s.nombre}'?", "Confirmar", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
                 return;
-
+            
             try
             {
                 await _servicioRepo.DeleteAsync(s.idServicio);
@@ -255,10 +258,10 @@ namespace ProyectoSauna
                 txtDuracion.Text = s.duracionEstimada?.ToString(CultureInfo.InvariantCulture) ?? string.Empty;
                 chkActivo.IsChecked = s.activo;
                 cbCategoria.SelectedValue = s.idCategoriaServicio;
-
+                
                 // Actualizar el título del servicio seleccionado
                 txtServicioSeleccionado.Text = $"→ {s.nombre}";
-
+                
                 _ = CargarDetallesPorServicioAsync(s.idServicio);
                 LimpiarDetalleFormulario();
                 ActualizarBotonServicio();
@@ -292,7 +295,7 @@ namespace ProyectoSauna
         {
             var texto = (txtBuscar.Text ?? string.Empty).Trim().ToLowerInvariant();
             IEnumerable<Servicio> datos = _servicios;
-
+            
             // Filtro por nombre
             if (!string.IsNullOrWhiteSpace(texto))
                 datos = datos.Where(s => s.nombre.ToLower().Contains(texto));
@@ -326,35 +329,35 @@ namespace ProyectoSauna
                 MessageBox.Show("Seleccione un detalle para actualizar.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-
+            
             try
             {
                 if (cbCuenta.SelectedValue is int idCuenta)
                     _detalleEnEdicion.idCuenta = idCuenta;
-
+                
                 if (!int.TryParse(txtCantidad.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var cantidad) || cantidad <= 0)
                 {
                     MessageBox.Show("Ingrese una cantidad válida.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
-
+                
                 if (!decimal.TryParse(txtPrecioUnitario.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var unit) || unit <= 0)
                 {
                     MessageBox.Show("Ingrese un precio unitario válido.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
                 }
-
+                
                 _detalleEnEdicion.cantidad = cantidad;
                 _detalleEnEdicion.precioUnitario = unit;
                 _detalleEnEdicion.subtotal = unit * cantidad;
 
                 await _detalleRepo.UpdateAsync(_detalleEnEdicion);
-
+                
                 // Refrescar listas
                 await CargarHistorialGeneralAsync();
                 if (dataGridServicios.SelectedItem is Servicio s)
                     await CargarDetallesPorServicioAsync(s.idServicio);
-
+                
                 LimpiarDetalleFormulario();
                 MessageBox.Show("Detalle actualizado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -371,19 +374,19 @@ namespace ProyectoSauna
                 MessageBox.Show("Seleccione un detalle para eliminar.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-
+            
             if (MessageBox.Show("¿Está seguro de eliminar este detalle?", "Confirmar", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
                 return;
-
+            
             try
             {
                 await _detalleRepo.DeleteAsync(d.idDetalleServicio);
-
+                
                 // Refrescar listas
                 await CargarHistorialGeneralAsync();
                 if (dataGridServicios.SelectedItem is Servicio s)
                     await CargarDetallesPorServicioAsync(s.idServicio);
-
+                
                 LimpiarDetalleFormulario();
                 MessageBox.Show("Detalle eliminado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -413,7 +416,6 @@ namespace ProyectoSauna
         private void LimpiarDetalleFormulario()
         {
             _detalleEnEdicion = null;
-            cbCuenta.SelectedIndex = -1;
             txtCantidad.Clear();
             txtPrecioUnitario.Clear();
             txtSubtotal.Text = "0.00";

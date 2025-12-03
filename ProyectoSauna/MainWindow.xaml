@@ -6,7 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="Panel Administrativo - Sauna Kalixto"
-        Height="938" Width="1700"
+        Height="950" Width="1400"
         WindowStartupLocation="CenterScreen"
         Background="#14161C"
         WindowStyle="None"
@@ -14,6 +14,10 @@
         ResizeMode="CanResize">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1141*"/>
+            <ColumnDefinition Width="309*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="32"/>
             <RowDefinition Height="*"/>
@@ -24,7 +28,7 @@
                 Background="#181A20" 
                 BorderBrush="#222" 
                 BorderThickness="0,0,0,1"
-                MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                MouseLeftButtonDown="TitleBar_MouseLeftButtonDown" Grid.ColumnSpan="2">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -108,7 +112,7 @@
         </Border>
 
         <!-- ===== CONTENIDO PRINCIPAL ===== -->
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="210"/>
                 <ColumnDefinition Width="*"/>
@@ -185,12 +189,6 @@
                             <StackPanel Orientation="Horizontal" Margin="8,1">
                                 <materialDesign:PackIcon Kind="Warehouse" Width="14" Height="14" Foreground="#4CC9F0" Margin="0,0,5,0"/>
                                 <TextBlock Text="Inventario" Foreground="White" FontSize="11"/>
-                            </StackPanel>
-                        </Button>
-                        <Button Style="{StaticResource SidebarButtonStyle}" Click="SidebarButton_Click">
-                            <StackPanel Orientation="Horizontal" Margin="8,1">
-                                <materialDesign:PackIcon Kind="Tools" Width="14" Height="14" Foreground="#4CC9F0" Margin="0,0,5,0"/>
-                                <TextBlock Text="Servicios" Foreground="White" FontSize="11"/>
                             </StackPanel>
                         </Button>
 
@@ -302,7 +300,11 @@
                   Background="#14161C"
                   Opacity="0.97"
                   Margin="0,38,0,0">
-                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="438*"/>
+                        <RowDefinition Height="17*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,388,0,0">
                         <Border Background="#1C1F26"
                             CornerRadius="10"
                             Padding="30"

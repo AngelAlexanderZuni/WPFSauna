@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProyectoSauna.Models.DTOs
 {
@@ -14,9 +10,7 @@ namespace ProyectoSauna.Models.DTOs
         public string? numeroReferencia { get; set; }
         public int idMetodoPago { get; set; }
         public int idCuenta { get; set; }
-
-        // Para listados
-        public string? nombreMetodo { get; set; }
-        public string? nombreCuenta { get; set; }
+        // Auxiliares
+        public string? metodoPagoNombre { get; set; }
     }
 }

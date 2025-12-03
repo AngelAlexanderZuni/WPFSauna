@@ -19,8 +19,7 @@ public partial class Usuario
 
     public int idRol { get; set; }
 
-    // TODO: Módulo Egresos temporalmente deshabilitado
-    // public virtual ICollection<CabEgreso> CabEgreso { get; set; } = new List<CabEgreso>();
+    public virtual ICollection<CabEgreso> CabEgreso { get; set; } = new List<CabEgreso>();
 
     public virtual ICollection<Cuenta> Cuenta { get; set; } = new List<Cuenta>();
 

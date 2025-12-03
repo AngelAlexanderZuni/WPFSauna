@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
@@ -9,24 +9,13 @@ namespace ProyectoSauna.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            // Si el parámetro es "Invert", invertir la lógica
-            bool invert = parameter?.ToString() == "Invert";
-
-            bool isNull = value == null;
-
-            if (invert)
-            {
-                return isNull ? Visibility.Visible : Visibility.Collapsed;
-            }
-            else
-            {
-                return isNull ? Visibility.Collapsed : Visibility.Visible;
-            }
+            return value == null ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            // No se soporta la conversi├│n inversa, retorna el valor original o Binding.DoNothing
+            return Binding.DoNothing;
         }
     }
 }

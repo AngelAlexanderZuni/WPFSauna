@@ -120,11 +120,8 @@ namespace ProyectoSauna
                     case "Inventario":
                         ContenidoPrincipal.Content = new UserControlInventario();
                         break;
-                    case "Servicios":
-                        ContenidoPrincipal.Content = new UserControlServicios();
-                        break;
                     case "Egresos":
-                        MessageBox.Show("Módulo de Egresos temporalmente deshabilitado.\\nSe habilitará más adelante.", "En Desarrollo", MessageBoxButton.OK, MessageBoxImage.Information);
+                        ContenidoPrincipal.Content = new UserControlEgresos();
                         break;
                     case "Promociones":
                         ContenidoPrincipal.Content = new UserControlPromociones();

@@ -24,7 +24,7 @@ namespace ProyectoSauna
         public UserControlUsuarios()
         {
             InitializeComponent();
-
+            
             _usuarios = new List<Usuario>();
             _roles = new List<Rol>();
             _ = InicializarAsync();
@@ -39,7 +39,7 @@ namespace ProyectoSauna
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al inicializar: {ex.Message}", "Error",
+                MessageBox.Show($"Error al inicializar: {ex.Message}", "Error", 
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -51,13 +51,13 @@ namespace ProyectoSauna
                 // Crear scope específico
                 using var scope = App.AppHost!.Services.CreateScope();
                 var rolRepository = scope.ServiceProvider.GetRequiredService<IRolRepository>();
-
+                
                 _roles = (await rolRepository.GetAllAsync()).ToList();
                 cmbRol.ItemsSource = _roles;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar roles: {ex.Message}", "Error",
+                MessageBox.Show($"Error al cargar roles: {ex.Message}", "Error", 
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -100,7 +100,7 @@ namespace ProyectoSauna
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar usuarios: {ex.Message}", "Error",
+                MessageBox.Show($"Error al cargar usuarios: {ex.Message}", "Error", 
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -129,7 +129,7 @@ namespace ProyectoSauna
                     };
 
                     await usuarioRepository.AddAsync(nuevoUsuario);
-                    MessageBox.Show("Usuario creado exitosamente", "Éxito",
+                    MessageBox.Show("Usuario creado exitosamente", "Éxito", 
                         MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
@@ -145,7 +145,7 @@ namespace ProyectoSauna
                     }
 
                     await usuarioRepository.UpdateAsync(_usuarioSeleccionado);
-                    MessageBox.Show("Usuario actualizado exitosamente", "Éxito",
+                    MessageBox.Show("Usuario actualizado exitosamente", "Éxito", 
                         MessageBoxButton.OK, MessageBoxImage.Information);
                 }
 
@@ -154,7 +154,7 @@ namespace ProyectoSauna
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al guardar usuario: {ex.Message}", "Error",
+                MessageBox.Show($"Error al guardar usuario: {ex.Message}", "Error", 
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -177,7 +177,7 @@ namespace ProyectoSauna
                 CargarDatosEnFormulario(usuario);
 
                 btnGuardar.Content = "ACTUALIZAR";
-                txtNombreUsuario.Focus();
+                txtNombreUsuario.Focus(); 
             }
         }
 
@@ -197,18 +197,18 @@ namespace ProyectoSauna
                     {
                         using var scope = App.AppHost!.Services.CreateScope();
                         var usuarioRepository = scope.ServiceProvider.GetRequiredService<IUsuarioRepository>();
-
+                        
                         await usuarioRepository.DesactivarAsync(usuario.idUsuario);
-
-                        MessageBox.Show("Usuario desactivado exitosamente", "Éxito",
+                        
+                        MessageBox.Show("Usuario desactivado exitosamente", "Éxito", 
                             MessageBoxButton.OK, MessageBoxImage.Information);
-
+                        
                         LimpiarFormulario();
-                        await CargarUsuariosAsync();
+                        await CargarUsuariosAsync(); 
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Error al eliminar usuario: {ex.Message}", "Error",
+                        MessageBox.Show($"Error al eliminar usuario: {ex.Message}", "Error", 
                             MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
@@ -219,7 +219,7 @@ namespace ProyectoSauna
         {
             if (string.IsNullOrWhiteSpace(txtNombreUsuario.Text))
             {
-                MessageBox.Show("El nombre de usuario es obligatorio", "Error de validación",
+                MessageBox.Show("El nombre de usuario es obligatorio", "Error de validación", 
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 txtNombreUsuario.Focus();
                 return false;
@@ -227,7 +227,7 @@ namespace ProyectoSauna
 
             if (_usuarioSeleccionado == null && string.IsNullOrEmpty(txtPassword.Password))
             {
-                MessageBox.Show("La contraseña es obligatoria para usuarios nuevos", "Error de validación",
+                MessageBox.Show("La contraseña es obligatoria para usuarios nuevos", "Error de validación", 
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 txtPassword.Focus();
                 return false;
@@ -235,7 +235,7 @@ namespace ProyectoSauna
 
             if (cmbRol.SelectedValue == null)
             {
-                MessageBox.Show("Debe seleccionar un rol", "Error de validación",
+                MessageBox.Show("Debe seleccionar un rol", "Error de validación", 
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 cmbRol.Focus();
                 return false;
@@ -243,7 +243,7 @@ namespace ProyectoSauna
 
             if (!string.IsNullOrWhiteSpace(txtCorreo.Text) && !IsValidEmail(txtCorreo.Text))
             {
-                MessageBox.Show("El formato del correo electrónico no es válido", "Error de validación",
+                MessageBox.Show("El formato del correo electrónico no es válido", "Error de validación", 
                     MessageBoxButton.OK, MessageBoxImage.Warning);
                 txtCorreo.Focus();
                 return false;
@@ -253,14 +253,14 @@ namespace ProyectoSauna
             {
                 using var scope = App.AppHost!.Services.CreateScope();
                 var usuarioRepository = scope.ServiceProvider.GetRequiredService<IUsuarioRepository>();
-
+                
                 var existeUsuario = await usuarioRepository.ExisteNombreUsuarioAsync(
-                    txtNombreUsuario.Text.Trim(),
+                    txtNombreUsuario.Text.Trim(), 
                     _usuarioSeleccionado?.idUsuario);
 
                 if (existeUsuario)
                 {
-                    MessageBox.Show("Ya existe un usuario con ese nombre", "Error de validación",
+                    MessageBox.Show("Ya existe un usuario con ese nombre", "Error de validación", 
                         MessageBoxButton.OK, MessageBoxImage.Warning);
                     txtNombreUsuario.Focus();
                     return false;
@@ -268,7 +268,7 @@ namespace ProyectoSauna
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al validar usuario: {ex.Message}", "Error",
+                MessageBox.Show($"Error al validar usuario: {ex.Message}", "Error", 
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }

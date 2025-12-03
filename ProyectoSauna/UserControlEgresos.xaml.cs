@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,7 +24,7 @@ using System.Windows.Threading;
 namespace ProyectoSauna
 {
     /// <summary>
-    /// Lógica de interacción para UserControlEgresos.xaml
+    /// L├│gica de interacci├│n para UserControlEgresos.xaml
     /// </summary>
     public partial class UserControlEgresos : UserControl
     {
@@ -32,9 +32,6 @@ namespace ProyectoSauna
         {
             InitializeComponent();
 
-            // TODO: Módulo Egresos temporalmente deshabilitado
-            // Descomentar cuando se implemente completamente
-            /*
             var context = new SaunaDbContext();
             var egresoRepo = new EgresoRepository(context);
             var tipoRepo = new TipoEgresoRepository(context);
@@ -43,7 +40,7 @@ namespace ProyectoSauna
             IUsuarioService usuarioService = new UsuarioService(usuarioRepo);
             var vm = new EgresosViewModel(service, usuarioService);
 
-            // Intentar obtener datos de usuario desde propiedades globales de la aplicación
+            // Intentar obtener datos de usuario desde propiedades globales de la aplicaci├│n
             try
             {
                 var props = Application.Current?.Properties;
@@ -63,10 +60,10 @@ namespace ProyectoSauna
 
             DataContext = vm;
 
-            // Suscribirse a notificación de actualización exitosa
+            // Suscribirse a notificaci├│n de actualizaci├│n exitosa
             vm.ActualizacionExitosa += () =>
             {
-                // Mostrar diálogo centrado y autocerrar
+                // Mostrar di├ílogo centrado y autocerrar
                 if (NotifDialog != null)
                 {
                     NotifDialog.IsOpen = true;
@@ -79,7 +76,6 @@ namespace ProyectoSauna
                     timer.Start();
                 }
             };
-            */
         }
     }
 }

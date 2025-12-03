@@ -1,4 +1,4 @@
- <UserControl x:Class="ProyectoSauna.UserControlEgresos"
+﻿ <UserControl x:Class="ProyectoSauna.UserControlEgresos"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -49,7 +49,7 @@
             </StackPanel>
         </Grid>
 
-        <!-- Sección Cabecera del Egreso -->
+        <!-- Secci├│n Cabecera del Egreso -->
         <materialDesign:Card Grid.Row="1" Background="#1E2128" Padding="20" Margin="0,0,0,15">
             <Grid>
                 <Grid.RowDefinitions>
@@ -62,7 +62,7 @@
                                             Foreground="#4CC9F0" VerticalAlignment="Center"/>
                     <TextBlock Text="Cabecera del Movimiento" FontSize="18" FontWeight="SemiBold" 
                               Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                    <TextBlock x:Name="txtEstadoCabecera" Text="[Nuevo]" 
+                    <TextBlock x:Name="txtEstadoCabecera" Text="" 
                               Foreground="#10B981" FontSize="12" FontWeight="Bold"
                               Margin="15,0,0,0" VerticalAlignment="Center"/>
                 </StackPanel>
@@ -90,7 +90,7 @@
                         <TextBlock Text="Nro. Documento" Foreground="#9CA3AF" FontSize="12" Margin="0,0,0,5"/>
                         <TextBox x:Name="txtIdCabecera" 
                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                materialDesign:HintAssist.Hint="Generado automáticamente"
+                                materialDesign:HintAssist.Hint="Generado automaticamente"
                                 Text="{Binding IdCabecera}"
                                 Foreground="#9CA3AF" IsReadOnly="True"/>
                     </StackPanel>
@@ -135,7 +135,7 @@
             </Grid>
         </materialDesign:Card>
 
-        <!-- Sección Detalle de Egresos -->
+        <!-- Secci├│n Detalle de Egresos -->
         <Grid Grid.Row="2">
             <!-- Se elimina el panel izquierdo y la grilla ocupa todo el ancho -->
             <materialDesign:Card Grid.Column="0" Background="#1E2128" Padding="20">
@@ -146,20 +146,20 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <!-- Título y datos de cabecera -->
+                    <!-- T├¡tulo y datos de cabecera -->
                     <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,15">
                         <materialDesign:PackIcon Kind="FormatListBulleted" Width="24" Height="24" 
                                                 Foreground="#4CC9F0" VerticalAlignment="Center"/>
                         <TextBlock Text="Detalles del Movimiento" FontSize="16" FontWeight="SemiBold" 
                                   Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center"/>
                         <TextBlock 
-                                  Text="{Binding Detalles.Count, StringFormat=({0} líneas)}" 
+                                  Text="{Binding Detalles.Count, StringFormat=({0} l├¡neas)}" 
                                   Foreground="#9CA3AF" FontSize="12"
                                   Margin="10,0,0,0" VerticalAlignment="Center"/>
                         <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
                             <TextBlock Text="Usuario:" Foreground="#9CA3AF" Margin="0,0,5,0"/>
                             <TextBlock Text="{Binding UsuarioNombre}" Foreground="White"/>
-                            <TextBlock Text="  •  IdCab:" Foreground="#9CA3AF" Margin="10,0,5,0"/>
+                            <TextBlock Text="IdCab:" Foreground="#9CA3AF" Margin="10,0,5,0"/>
                             <TextBlock Text="{Binding IdCabecera}" Foreground="#4CC9F0"/>
                         </StackPanel>
                     </StackPanel>
@@ -241,7 +241,7 @@
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                             <Button x:Name="btnEditarDetalle" 
                                                    Style="{StaticResource MaterialDesignIconButton}"
-                                                   ToolTip="Editar línea"
+                                                   ToolTip="Editar l├¡nea"
                                                    Width="30" Height="30"
                                                    Command="{Binding DataContext.EditarDetalleCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                    CommandParameter="{Binding}">
@@ -249,7 +249,7 @@
                                             </Button>
                                             <Button x:Name="btnEliminarDetalle" 
                                                    Style="{StaticResource MaterialDesignIconButton}"
-                                                   ToolTip="Eliminar línea"
+                                                   ToolTip="Eliminar l├¡nea"
                                                    Width="30" Height="30"
                                                    Command="{Binding DataContext.AbrirConfirmarEliminarCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                    CommandParameter="{Binding}">
@@ -275,7 +275,7 @@
                                     <TextBlock Text="Resumen del Movimiento" 
                                               Foreground="#9CA3AF" FontSize="12" Margin="0,0,0,5"/>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Total de líneas: " Foreground="White" FontSize="13"/>
+                                        <TextBlock Text="Total de lineas: " Foreground="White" FontSize="13"/>
                                         <TextBlock Text="{Binding Detalles.Count}" 
                                               Foreground="#4CC9F0" FontSize="13" FontWeight="Bold" Margin="5,0"/>
                                     </StackPanel>
@@ -366,7 +366,7 @@
                         </Grid>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Button Content="Agregar línea" Style="{StaticResource MaterialDesignRaisedButton}"
+                            <Button Content="Agregar l├¡nea" Style="{StaticResource MaterialDesignRaisedButton}"
                                     Background="#4CC9F0" Command="{Binding AgregarLineaPopupCommand}"/>
                         </StackPanel>
                     </StackPanel>
@@ -430,19 +430,19 @@
                 </Grid>
             </materialDesign:DialogHost.DialogContent>
         </materialDesign:DialogHost>
-        <!-- Dialogo de Notificación Centrada -->
+        <!-- Dialogo de Notificaci├│n Centrada -->
         <materialDesign:DialogHost x:Name="NotifDialog">
             <materialDesign:DialogHost.DialogContent>
                 <Border Background="#1E2128" Padding="24" CornerRadius="10">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" >
                         <materialDesign:PackIcon Kind="CheckCircle" Width="28" Height="28" Foreground="#10B981"/>
-                        <TextBlock Text="Actualización exitosa" Foreground="White" FontSize="16" FontWeight="SemiBold" Margin="12,0,0,0"/>
+                        <TextBlock Text="Actualizacion exitosa" Foreground="White" FontSize="16" FontWeight="SemiBold" Margin="12,0,0,0"/>
                     </StackPanel>
                 </Border>
             </materialDesign:DialogHost.DialogContent>
         </materialDesign:DialogHost>
 
-        <!-- Diálogo de Confirmación de Eliminación -->
+        <!-- Di├ílogo de Confirmaci├│n de Eliminaci├│n -->
         <materialDesign:DialogHost IsOpen="{Binding IsConfirmDeleteOpen}">
             <materialDesign:DialogHost.DialogContent>
                 <Border Background="#1E2128" Padding="24" CornerRadius="10" Width="420">
@@ -455,10 +455,10 @@
 
                         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,12">
                             <materialDesign:PackIcon Kind="Alert" Width="28" Height="28" Foreground="#F59E0B"/>
-                            <TextBlock Text="Confirmar eliminación" Foreground="White" FontSize="16" FontWeight="SemiBold" Margin="8,0,0,0"/>
+                            <TextBlock Text="Confirmar eliminaci├│n" Foreground="White" FontSize="16" FontWeight="SemiBold" Margin="8,0,0,0"/>
                         </StackPanel>
 
-                        <TextBlock Grid.Row="1" Text="Esta acción eliminará el egreso seleccionado. ¿Deseas continuar?" 
+                        <TextBlock Grid.Row="1" Text="Esta acci├│n eliminar├í el egreso seleccionado. ┬┐Deseas continuar?" 
                                    TextWrapping="Wrap" Foreground="#9CA3AF" HorizontalAlignment="Center"/>
 
                         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
