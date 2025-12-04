@@ -1,4 +1,4 @@
-﻿// Repositories/Interfaces/IClienteRepository.cs - COMPLETO
+// Repositories/Interfaces/IClienteRepository.cs - COMPLETO
 using ProyectoSauna.Models.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;

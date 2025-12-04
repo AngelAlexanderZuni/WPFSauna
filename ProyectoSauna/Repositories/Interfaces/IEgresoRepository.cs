@@ -1,17 +1,15 @@
 using ProyectoSauna.Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ProyectoSauna.Repositories.Interfaces
 {
-    public interface IEgresoRepository : IRepository<CabEgreso>
+    public interface IEgresoRepository : IRepository<DetEgreso>
     {
-        Task<CabEgreso> CrearEgresoAsync(CabEgreso cabecera, IEnumerable<DetEgreso> detalles);
-        Task<IEnumerable<CabEgreso>> GetRecientesAsync(int count = 20);
-        Task<IEnumerable<DetEgreso>> GetDetallesPorCabeceraAsync(int idCabEgreso);
-        Task<bool> ActualizarDetalleAsync(DetEgreso detalle);
-        Task<bool> EliminarDetalleAsync(int idDetEgreso);
-        Task<DetEgreso> AgregarDetalleAsync(DetEgreso detalle);
-        Task<bool> EliminarCabeceraAsync(int idCabEgreso);
+        Task<IEnumerable<DetEgreso>> ObtenerPorTipoAsync(int idTipoEgreso);
+        Task<IEnumerable<DetEgreso>> ObtenerPorRangoFechasAsync(DateTime desde, DateTime hasta);
+        Task<IEnumerable<DetEgreso>> BuscarPorConceptoAsync(string texto);
+        Task<IEnumerable<DetEgreso>> ObtenerConNavegacionAsync();
     }
 }

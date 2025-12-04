@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -7,9 +7,7 @@ using ProyectoSauna.Models;
 using ProyectoSauna.Repositories.Base;
 using ProyectoSauna.Repositories.Interfaces;
 using ProyectoSauna.Repositories;
-using ProyectoSauna.Services;
-using ProyectoSauna.Services.Interfaces;
-using ProyectoSauna.ViewModels;
+using ProyectoSauna.Services; 
 using System.Windows;
 
 namespace ProyectoSauna
@@ -50,27 +48,20 @@ namespace ProyectoSauna
                         services.AddScoped<CategoriaProductoRepository>();
                         services.AddScoped<ITipoMovimientoRepository, TipoMovimientoRepository>();
                         services.AddScoped<IMovimientoInventarioRepository, MovimientoInventarioRepository>();
-                        services.AddScoped<IPromocionesRepository, PromocionesRepository>();
-                        services.AddScoped<ITipoDescuentoRepository, TipoDescuentoRepository>();
                         services.AddScoped<IServicioRepository, ServicioRepository>();
                         services.AddScoped<CategoriaServicioRepository>();
+                        services.AddScoped<IDetalleServicioRepository, DetalleServicioRepository>();
+                        services.AddScoped<ICuentaRepository, CuentaRepository>();                   
+                        services.AddScoped<IDetalleConsumoRepository, DetalleConsumoRepository>();
+                        services.AddScoped<IDetalleServicioRepository, DetalleServicioRepository>();
+                        services.AddScoped<IProductoRepository, ProductoRepository>();
+                        services.AddScoped<IServicioRepository, ServicioRepository>();
+                        services.AddScoped<ITipoDescuentoRepository, TipoDescuentoRepository>();
+                        services.AddScoped<IPromocionesRepository, PromocionesRepository>();
+                        services.AddScoped<DescuentoService>();
 
-                        // Pagos y Comprobantes
-                        services.AddScoped<IComprobanteRepository, ComprobanteRepository>();
-                        services.AddScoped<ITipoComprobanteRepository, TipoComprobanteRepository>();
-                        services.AddScoped<ICuentaRepository, CuentaRepository>(); // Asegurando que esté registrado si no lo estaba
-                        services.AddScoped<IPagoRepository, PagoRepository>();
-                        services.AddScoped<IMetodoPagoRepository, MetodoPagoRepository>();
-
-                        // Servicios
-                        services.AddScoped<IComprobanteService, ComprobanteService>();
-                        services.AddScoped<ICuentaService, CuentaService>();
-                        services.AddScoped<IPagoService, PagoService>();
-                        services.AddScoped<IMetodoPagoService, MetodoPagoService>();
-
-                        // ViewModels
-                        services.AddTransient<ComprobantesViewModel>();
-
+                        // Servicio de descuentos
+                        services.AddTransient<DescuentoService>();
                     })
                     .Build();
 
@@ -81,8 +72,8 @@ namespace ProyectoSauna
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    $"Error cr├¡tico al inicializar la aplicaci├│n:\n\n{ex.Message}",
-                    "Error de Inicializaci├│n",
+                    $"Error crítico al inicializar la aplicación:\n\n{ex.Message}",
+                    "Error de Inicialización",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error
                 );
@@ -106,12 +97,12 @@ namespace ProyectoSauna
                 #if DEBUG
                 var totalClientes = await context.Cliente.CountAsync();
                 var totalProductos = await context.Producto.CountAsync();
-                System.Diagnostics.Debug.WriteLine($"Ô£à Conexi├│n exitosa! Clientes: {totalClientes}, Productos: {totalProductos}");
+                System.Diagnostics.Debug.WriteLine($"✅ Conexión exitosa! Clientes: {totalClientes}, Productos: {totalProductos}");
                 #endif
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException($"Error al probar conexi├│n: {ex.Message}", ex);
+                throw new InvalidOperationException($"Error al probar conexión: {ex.Message}", ex);
             }
         }
 

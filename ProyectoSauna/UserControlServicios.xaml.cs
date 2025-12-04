@@ -19,6 +19,7 @@ namespace ProyectoSauna
 
         private List<Servicio> _servicios = new();
         private List<CategoriaServicio> _categorias = new();
+        private Servicio? _servicioEnEdicion = null;
 
         public UserControlServicios()
         {
@@ -32,331 +33,111 @@ namespace ProyectoSauna
 
         private async Task InicializarAsync()
         {
-            _categorias = (await _categoriaRepo.GetAllAsync()).ToList();
-            cbCategoria.ItemsSource = _categorias;
-            
-            var filtroCategorias = new List<CategoriaServicio> { new CategoriaServicio { idCategoriaServicio = 0, nombre = "Todas" } };
-            filtroCategorias.AddRange(_categorias);
-            cbFiltroCategoria.ItemsSource = filtroCategorias;
-            cbFiltroCategoria.SelectedIndex = 0;
-
+            await CargarCategoriasAsync();
             await CargarServiciosAsync();
-            chkActivo.IsChecked = true;
-            UpdateGuardarActualizarEnabled();
+        }
+
+        private async Task CargarCategoriasAsync()
+        {
+            try
+            {
+                var categorias = await _categoriaRepo.GetAllAsync();
+                _categorias = categorias.ToList();
+                
+                // Cargar categorías en filtro
+                cbFiltroCategoria.Items.Clear();
+                cbFiltroCategoria.Items.Add(new { idCategoriaServicio = (int?)null, nombre = "Todas las categorías" });
+                foreach (var cat in _categorias.Where(c => c.activo))
+                {
+                    cbFiltroCategoria.Items.Add(cat);
+                }
+                cbFiltroCategoria.SelectedIndex = 0;
+
+                // Cargar categorías en formulario
+                cbCategoria.ItemsSource = _categorias.Where(c => c.activo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar categorías: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private async Task CargarServiciosAsync()
         {
-            _servicios = (await _servicioRepo.GetAllAsync()).ToList();
-            dataGridServicios.ItemsSource = _servicios;
-        }
-
-
-
-        private void AplicarFiltrosServicios()
-        {
-            var texto = (txtBuscar.Text ?? string.Empty).Trim().ToLowerInvariant();
-            IEnumerable<Servicio> datos = _servicios;
-            if (!string.IsNullOrWhiteSpace(texto))
-                datos = datos.Where(s => (s.nombre ?? string.Empty).ToLower().Contains(texto));
-            var catId = cbFiltroCategoria.SelectedValue as int?;
-            if (catId.HasValue && catId.Value != 0)
-                datos = datos.Where(s => s.idCategoriaServicio == catId.Value);
-            var mostrarInactivos = chkMostrarInactivos.IsChecked == true;
-            datos = datos.Where(s => mostrarInactivos ? !s.activo : s.activo);
-            dataGridServicios.ItemsSource = datos.ToList();
-        }
-
-        private async void btnGuardarActualizar_Click(object sender, RoutedEventArgs e)
-        {
             try
             {
-                var nombre = SanitizeName(txtNombre.Text);
-                if (!ValidateNombre(nombre)) return;
-                if (!ValidatePrecio(txtPrecio.Text, out var precio)) return;
-                if (!ValidateDuracion(txtDuracion.Text, out var duracion)) return;
-
-                if (dataGridServicios.SelectedItem is Servicio s)
-                {
-                    s.nombre = nombre;
-                    s.precio = precio;
-                    s.duracionEstimada = duracion;
-                    s.activo = chkActivo.IsChecked == true;
-                    s.idCategoriaServicio = cbCategoria.SelectedValue as int?;
-                    await _servicioRepo.UpdateAsync(s);
-                    AplicarFiltrosServicios();
-                    ActualizarBotonServicio();
-                    LimpiarFormulario();
-                    MessageBox.Show("Servicio actualizado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                else
-                {
-                    // Validar duplicados de forma más estricta
-                    var servicioExistente = _servicios.FirstOrDefault(x => 
-                        !string.IsNullOrWhiteSpace(x.nombre) && 
-                        string.Equals(x.nombre.Trim(), nombre.Trim(), StringComparison.OrdinalIgnoreCase));
-                        
-                    if (servicioExistente != null)
-                    {
-                        MessageBox.Show($"Ya existe un servicio con el nombre '{servicioExistente.nombre}'.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return;
-                    }
-                    
-                    if (cbCategoria.SelectedValue == null)
-                    {
-                        MessageBox.Show("Seleccione una categoría.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return;
-                    }
-
-                    var nuevo = new Servicio
-                    {
-                        nombre = nombre,
-                        precio = precio,
-                        duracionEstimada = duracion,
-                        activo = chkActivo.IsChecked == true,
-                        idCategoriaServicio = cbCategoria.SelectedValue as int?
-                    };
-                    await _servicioRepo.AddAsync(nuevo);
-                    _servicios.Add(nuevo);
-                    AplicarFiltrosServicios();
-                    LimpiarFormulario();
-                    MessageBox.Show("Servicio guardado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
+                var servicios = await _servicioRepo.GetAllAsync();
+                _servicios = servicios.ToList();
+                AplicarFiltros();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al guardar: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error al cargar servicios: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-        private static string SanitizeName(string? input)
+        private void AplicarFiltros()
         {
-            if (string.IsNullOrWhiteSpace(input)) return string.Empty;
-            
-            var s = input.Trim();
-            
-            // Eliminar espacios múltiples
-            while (s.Contains("  ")) s = s.Replace("  ", " ");
-            
-            // Eliminar espacios al inicio y final de cada línea
-            s = string.Join(" ", s.Split(' ', StringSplitOptions.RemoveEmptyEntries));
-            
-            // Convertir a formato título (primera letra de cada palabra en mayúscula)
-            var words = s.Split(' ');
-            for (int i = 0; i < words.Length; i++)
-            {
-                if (words[i].Length > 0)
-                {
-                    words[i] = char.ToUpperInvariant(words[i][0]) + 
-                              (words[i].Length > 1 ? words[i][1..].ToLowerInvariant() : "");
-                }
-            }
-            
-            return string.Join(" ", words);
-        }
+            var serviciosFiltrados = _servicios.AsEnumerable();
 
-        private bool ValidateNombre(string nombre)
-        {
-            if (string.IsNullOrWhiteSpace(nombre))
+            // Filtro por estado activo/inactivo (excluyente)
+            if (chkMostrarInactivos.IsChecked == true)
             {
-                MessageBox.Show("El nombre es obligatorio.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-            
-            if (nombre.Length < 3 || nombre.Length > 100)
-            {
-                MessageBox.Show("El nombre debe tener entre 3 y 100 caracteres.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-            
-            if (!nombre.Any(char.IsLetter))
-            {
-                MessageBox.Show("El nombre debe contener al menos una letra.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-            
-            // Validar que no tenga solo espacios o caracteres especiales
-            if (nombre.All(c => char.IsWhiteSpace(c) || char.IsPunctuation(c) || char.IsSymbol(c)))
-            {
-                MessageBox.Show("El nombre debe contener texto válido, no solo espacios o símbolos.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-            
-            // Validar que no contenga caracteres especiales peligrosos
-            var caracteresProhibidos = new[] { '<', '>', '"', '\'', '&', '%', '#', '@', '!', '$', '^', '*', '(', ')', '[', ']', '{', '}', '|', '\\', '/', '?' };
-            if (nombre.Any(c => caracteresProhibidos.Contains(c)))
-            {
-                MessageBox.Show("El nombre contiene caracteres no permitidos. Use solo letras, números, espacios, puntos, comas y guiones.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-            
-            return true;
-        }
-
-        private bool ValidatePrecio(string? texto, out decimal precio)
-        {
-            precio = 0m;
-            
-            if (string.IsNullOrWhiteSpace(texto))
-            {
-                MessageBox.Show("El precio es obligatorio.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-            
-            // Limpiar el texto de caracteres no numéricos excepto punto y coma
-            var textoLimpio = new string(texto.Where(c => char.IsDigit(c) || c == '.' || c == ',').ToArray());
-            
-            if (!decimal.TryParse(textoLimpio, NumberStyles.Any, CultureInfo.InvariantCulture, out precio))
-            {
-                MessageBox.Show("El formato del precio no es válido. Use números decimales (ej: 50.00).", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-            
-            if (precio <= 0)
-            {
-                MessageBox.Show("El precio debe ser mayor a 0.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-            
-            if (precio > 10000)
-            {
-                MessageBox.Show("El precio no puede ser mayor a S/ 10,000.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-            
-            // Limitar a 2 decimales
-            precio = Math.Round(precio, 2);
-            
-            return true;
-        }
-
-        private bool ValidateDuracion(string? texto, out int? duracion)
-        {
-            duracion = null;
-            
-            // La duración es opcional
-            if (string.IsNullOrWhiteSpace(texto)) return true;
-            
-            // Limpiar texto de caracteres no numéricos
-            var textoLimpio = new string(texto.Where(char.IsDigit).ToArray());
-            
-            if (string.IsNullOrWhiteSpace(textoLimpio))
-            {
-                MessageBox.Show("Si especifica duración, debe ser un número válido.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-            
-            if (!int.TryParse(textoLimpio, out var d))
-            {
-                MessageBox.Show("La duración debe ser un número entero.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-            
-            if (d < 1 || d > 600)
-            {
-                MessageBox.Show("La duración debe estar entre 1 y 600 minutos.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
-            
-            duracion = d;
-            return true;
-        }
-
-        private void txtBuscar_TextChanged(object sender, TextChangedEventArgs e) => AplicarFiltrosServicios();
-        private void cbFiltroCategoria_SelectionChanged(object sender, SelectionChangedEventArgs e) => AplicarFiltrosServicios();
-        private void chkMostrarInactivos_Checked(object sender, RoutedEventArgs e) => AplicarFiltrosServicios();
-        private void chkMostrarInactivos_Unchecked(object sender, RoutedEventArgs e) => AplicarFiltrosServicios();
-
-        private void FormularioServicio_Changed(object sender, RoutedEventArgs e)
-        {
-            UpdateGuardarActualizarEnabled();
-        }
-
-        private void UpdateGuardarActualizarEnabled()
-        {
-            var nombre = SanitizeName(txtNombre.Text);
-            var nombreOk = !string.IsNullOrWhiteSpace(nombre) && nombre.Length >= 3 && nombre.Length <= 100 && nombre.Any(char.IsLetter);
-            var precioOk = decimal.TryParse(txtPrecio.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var precio) && precio > 0 && precio <= 10000;
-            var durOk = string.IsNullOrWhiteSpace(txtDuracion.Text) || (int.TryParse(txtDuracion.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var d) && d >= 0 && d <= 600);
-            var creando = dataGridServicios.SelectedItem is not Servicio;
-            var categoriaOk = cbCategoria.SelectedValue != null;
-            btnGuardarActualizar.IsEnabled = nombreOk && precioOk && durOk && (!creando || categoriaOk);
-        }
-
-        private async void btnEliminar_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataGridServicios.SelectedItem is not Servicio s)
-            {
-                MessageBox.Show("Seleccione un servicio para eliminar.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-            
-            if (MessageBox.Show($"¿Está seguro de eliminar el servicio '{s.nombre}'?", "Confirmar", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
-                return;
-            
-            try
-            {
-                await _servicioRepo.DeleteAsync(s.idServicio);
-                _servicios.Remove(s);
-                AplicarFiltrosServicios();
-                LimpiarFormulario();
-                MessageBox.Show("Servicio eliminado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al eliminar: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private void dataGridServicios_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (dataGridServicios.SelectedItem is Servicio s)
-            {
-                txtNombre.Text = s.nombre;
-                txtPrecio.Text = s.precio.ToString(CultureInfo.InvariantCulture);
-                txtDuracion.Text = s.duracionEstimada?.ToString(CultureInfo.InvariantCulture) ?? string.Empty;
-                chkActivo.IsChecked = s.activo;
-                cbCategoria.SelectedValue = s.idCategoriaServicio;
-                
-                ActualizarBotonServicio();
-                UpdateGuardarActualizarEnabled();
+                // Mostrar solo inactivos
+                serviciosFiltrados = serviciosFiltrados.Where(s => !s.activo);
             }
             else
             {
-                ActualizarBotonServicio();
-                UpdateGuardarActualizarEnabled();
+                // Mostrar solo activos
+                serviciosFiltrados = serviciosFiltrados.Where(s => s.activo);
+            }
+
+            // Filtro por texto
+            if (!string.IsNullOrWhiteSpace(txtBuscar.Text))
+            {
+                var busqueda = txtBuscar.Text.ToLower();
+                serviciosFiltrados = serviciosFiltrados.Where(s => 
+                    s.nombre.ToLower().Contains(busqueda));
+            }
+
+            // Filtro por categoría
+            if (cbFiltroCategoria.SelectedValue is int categoriaId)
+            {
+                serviciosFiltrados = serviciosFiltrados.Where(s => s.idCategoriaServicio == categoriaId);
+            }
+
+            dataGridServicios.ItemsSource = serviciosFiltrados.ToList();
+        }
+
+        // Eventos de filtros
+        private void txtBuscar_TextChanged(object sender, TextChangedEventArgs e) => AplicarFiltros();
+        private void cbFiltroCategoria_SelectionChanged(object sender, SelectionChangedEventArgs e) => AplicarFiltros();
+        private void chkMostrarInactivos_Checked(object sender, RoutedEventArgs e) => AplicarFiltros();
+        private void chkMostrarInactivos_Unchecked(object sender, RoutedEventArgs e) => AplicarFiltros();
+
+        private void dataGridServicios_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dataGridServicios.SelectedItem is Servicio servicio)
+            {
+                CargarServicioEnFormulario(servicio);
+                _servicioEnEdicion = servicio;
+            }
+            else
+            {
+                LimpiarFormulario();
+                _servicioEnEdicion = null;
             }
         }
 
-
-
-        private async void btnBuscar_Click(object sender, RoutedEventArgs e)
+        private void CargarServicioEnFormulario(Servicio servicio)
         {
-            var texto = (txtBuscar.Text ?? string.Empty).Trim().ToLowerInvariant();
-            IEnumerable<Servicio> datos = _servicios;
-            
-            // Filtro por nombre
-            if (!string.IsNullOrWhiteSpace(texto))
-                datos = datos.Where(s => s.nombre.ToLower().Contains(texto));
+            txtNombre.Text = servicio.nombre;
+            txtPrecio.Text = servicio.precio.ToString("0.00", CultureInfo.InvariantCulture);
+            txtDuracion.Text = servicio.duracionEstimada?.ToString() ?? string.Empty;
+            cbCategoria.SelectedValue = servicio.idCategoriaServicio;
+            chkActivo.IsChecked = servicio.activo;
 
-            // Filtro por categoría
-            var catId = cbFiltroCategoria.SelectedValue as int?;
-            if (catId.HasValue && catId.Value != 0)
-                datos = datos.Where(s => s.idCategoriaServicio == catId.Value);
-
-            // Filtro por estado activo/inactivo
-            var mostrarInactivos = chkMostrarInactivos.IsChecked == true;
-            if (!mostrarInactivos)
-                datos = datos.Where(s => s.activo);
-
-            dataGridServicios.ItemsSource = datos.ToList();
-        }
-
-
-
-        private void btnLimpiar_Click(object sender, RoutedEventArgs e)
-        {
-            LimpiarFormulario();
+            btnGuardarActualizar.Content = "🔄 Actualizar";
         }
 
         private void LimpiarFormulario()
@@ -366,18 +147,136 @@ namespace ProyectoSauna
             txtDuracion.Clear();
             cbCategoria.SelectedIndex = -1;
             chkActivo.IsChecked = true;
-            dataGridServicios.UnselectAll();
-            ActualizarBotonServicio();
-            UpdateGuardarActualizarEnabled();
+
+            btnGuardarActualizar.Content = "💾 Guardar";
+            _servicioEnEdicion = null;
+
+            ValidarFormulario();
         }
 
-        private void ActualizarBotonServicio()
+        private async void btnGuardarActualizar_Click(object sender, RoutedEventArgs e)
         {
-            var editando = dataGridServicios.SelectedItem is Servicio;
-            btnGuardarActualizar.Content = editando ? "✏️ Actualizar" : "💾 Guardar";
-            btnGuardarActualizar.Style = (Style)FindResource(editando ? "PrimaryButton" : "SuccessButton");
+            if (!ValidarDatos())
+                return;
+
+            try
+            {
+                var nombre = SanitizeName(txtNombre.Text.Trim());
+                var precio = decimal.Parse(txtPrecio.Text, CultureInfo.InvariantCulture);
+                var duracion = string.IsNullOrWhiteSpace(txtDuracion.Text) ? (int?)null : int.Parse(txtDuracion.Text);
+                var idCategoria = (int?)cbCategoria.SelectedValue;
+                var activo = chkActivo.IsChecked == true;
+
+                if (_servicioEnEdicion == null)
+                {
+                    // Nuevo servicio
+                    if (await ExisteNombreAsync(nombre))
+                    {
+                        MessageBox.Show("Ya existe un servicio con ese nombre.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+
+                    var nuevoServicio = new Servicio
+                    {
+                        nombre = nombre,
+                        precio = precio,
+                        duracionEstimada = duracion,
+                        idCategoriaServicio = idCategoria,
+                        activo = activo
+                    };
+
+                    await _servicioRepo.AddAsync(nuevoServicio);
+                    MessageBox.Show("Servicio creado exitosamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    // Actualizar servicio existente
+                    if (await ExisteNombreAsync(nombre, _servicioEnEdicion.idServicio))
+                    {
+                        MessageBox.Show("Ya existe otro servicio con ese nombre.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+
+                    _servicioEnEdicion.nombre = nombre;
+                    _servicioEnEdicion.precio = precio;
+                    _servicioEnEdicion.duracionEstimada = duracion;
+                    _servicioEnEdicion.idCategoriaServicio = idCategoria;
+                    _servicioEnEdicion.activo = activo;
+
+                    await _servicioRepo.UpdateAsync(_servicioEnEdicion);
+                    MessageBox.Show("Servicio actualizado exitosamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+
+                await CargarServiciosAsync();
+                LimpiarFormulario();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al guardar el servicio: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
+        private void btnLimpiar_Click(object sender, RoutedEventArgs e)
+        {
+            LimpiarFormulario();
+            dataGridServicios.SelectedItem = null;
+        }
 
+        private void FormularioServicio_Changed(object sender, RoutedEventArgs e)
+        {
+            ValidarFormulario();
+        }
+
+        private void ValidarFormulario()
+        {
+            if (btnGuardarActualizar == null) return;
+
+            var nombreValido = !string.IsNullOrWhiteSpace(txtNombre?.Text);
+            var precioValido = decimal.TryParse(txtPrecio?.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var precio) && precio > 0;
+            var duracionValida = string.IsNullOrWhiteSpace(txtDuracion?.Text) || (int.TryParse(txtDuracion.Text, out var dur) && dur > 0);
+
+            btnGuardarActualizar.IsEnabled = nombreValido && precioValido && duracionValida;
+        }
+
+        private bool ValidarDatos()
+        {
+            if (string.IsNullOrWhiteSpace(txtNombre.Text))
+            {
+                MessageBox.Show("El nombre es obligatorio.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtNombre.Focus();
+                return false;
+            }
+
+            if (!decimal.TryParse(txtPrecio.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var precio) || precio <= 0)
+            {
+                MessageBox.Show("El precio debe ser un valor positivo.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtPrecio.Focus();
+                return false;
+            }
+
+            if (!string.IsNullOrWhiteSpace(txtDuracion.Text) && (!int.TryParse(txtDuracion.Text, out var duracion) || duracion <= 0))
+            {
+                MessageBox.Show("La duración debe ser un número entero positivo.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtDuracion.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        private async Task<bool> ExisteNombreAsync(string nombre, int? idExcluir = null)
+        {
+            var servicios = await _servicioRepo.GetAllAsync();
+            return servicios.Any(s => s.nombre.Equals(nombre, StringComparison.OrdinalIgnoreCase) && 
+                                     s.idServicio != (idExcluir ?? 0));
+        }
+
+        private static string SanitizeName(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                return string.Empty;
+
+            return System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(input.ToLower().Trim());
+        }
     }
 }

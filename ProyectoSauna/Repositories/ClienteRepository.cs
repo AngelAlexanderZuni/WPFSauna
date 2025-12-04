@@ -1,4 +1,4 @@
-﻿// Repositories/ClienteRepository.cs - COMPLETO
+// Repositories/ClienteRepository.cs - COMPLETO
 using Microsoft.EntityFrameworkCore;
 using ProyectoSauna.Models;
 using ProyectoSauna.Models.Entities;

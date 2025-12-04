@@ -4,8 +4,10 @@ using System.Threading.Tasks;
 
 namespace ProyectoSauna.Repositories.Interfaces
 {
-    public interface ITipoMovimientoRepository : IRepository<TipoMovimiento>
+    public interface ITipoMovimientoRepository
     {
-        Task<IEnumerable<TipoMovimiento>> GetByTipoAsync(string tipo); // Entrada o Salida
+        Task<IEnumerable<TipoMovimiento>> GetAllAsync();
+        Task<TipoMovimiento> GetByIdAsync(int id);
+        Task<IEnumerable<TipoMovimiento>> GetByTipoAsync(string tipo);
     }
 }

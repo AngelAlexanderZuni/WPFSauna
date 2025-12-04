@@ -28,6 +28,11 @@ namespace ProyectoSauna
                 e.Handled = !e.Text.All(c => char.IsLetter(c) || char.IsWhiteSpace(c));
             }
         }
+
+        private void btnLimpiar_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ViewModel?.LimpiarFormulario();
+        }
     
         public UserControlClientes()
         {

@@ -180,7 +180,7 @@
             </Border>
 
             <Grid Grid.Column="2">
-                <!-- LISTA DE SERVICIOS -->
+                <!-- LISTA DE SERVICIOS (SIN COLUMNA DURACIÓN) -->
                 <Border Background="{StaticResource CardBrush}" 
                         CornerRadius="8" 
                         Padding="18" 

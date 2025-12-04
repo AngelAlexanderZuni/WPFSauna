@@ -211,7 +211,7 @@
                                 </StackPanel>
                             </Button>
                             
-                            <Button Command="{Binding LimpiarFormularioCommand}"
+                            <Button Click="btnLimpiar_Click"
                                     Style="{StaticResource MaterialDesignOutlinedButton}"
                                     BorderBrush="#6B7280"
                                     Foreground="#9CA3AF"

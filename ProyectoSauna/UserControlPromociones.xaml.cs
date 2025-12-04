@@ -1,4 +1,4 @@
-﻿// UserControlPromociones.xaml.cs - CON FUNCIONALIDAD DE AGREGAR TIPO
+// UserControlPromociones.xaml.cs - CON FUNCIONALIDAD DE AGREGAR TIPO
 using Microsoft.Extensions.DependencyInjection;
 using ProyectoSauna.Models.Entities;
 using ProyectoSauna.Repositories.Interfaces;
@@ -283,7 +283,7 @@ namespace ProyectoSauna
             var nombreOk = !string.IsNullOrWhiteSpace(txtNombreDescuento?.Text);
             var tipoOk = cmbTipoDescuento?.SelectedValue != null;
             var montoOk = decimal.TryParse(txtMontoDescuento?.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var m) && m >= 0;
-            var condicionOk = int.TryParse(txtValorCondicion?.Text, NumberStyles.Integer, CultureInfo.InvariantCulture, out var c) && c >= 0;
+            var condicionOk = int.TryParse(txtValorCondicion?.Text, out var c) && c >= 0;
             var motivoOk = !string.IsNullOrWhiteSpace(txtMotivo?.Text);
 
             btnGuardarActualizar.IsEnabled = nombreOk && tipoOk && montoOk && condicionOk && motivoOk;
@@ -342,9 +342,9 @@ namespace ProyectoSauna
                 return false;
             }
 
-            if (!int.TryParse(txtValorCondicion.Text, NumberStyles.Integer, CultureInfo.InvariantCulture, out valorCondicion) || valorCondicion < 0)
+            if (!int.TryParse(txtValorCondicion.Text, out valorCondicion) || valorCondicion < 0)
             {
-                MessageBox.Show("El valor de condición debe ser un número entero mayor o igual a 0.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("El valor de condición debe ser un número entero positivo.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
                 txtValorCondicion.Focus();
                 return false;
             }

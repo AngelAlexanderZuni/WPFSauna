@@ -1,65 +1,73 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
-using ProyectoSauna.Models;
+﻿using ProyectoSauna.Models;
 using ProyectoSauna.Models.Entities;
 using ProyectoSauna.Repositories.Base;
 using ProyectoSauna.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProyectoSauna.Repositories
 {
     public class PagoRepository : Repository<Pago>, IPagoRepository
     {
-        private readonly SaunaDbContext _context;
         public PagoRepository(SaunaDbContext context) : base(context)
         {
-            _context = context;
         }
 
-        public async Task<Pago> CrearPagoAsync(Pago pago)
+        public async Task<IEnumerable<Pago>> ObtenerConNavegacionAsync()
         {
-            using var tx = await _context.Database.BeginTransactionAsync();
-            try
-            {
-                await _context.Pago.AddAsync(pago);
-                await _context.SaveChangesAsync();
-
-                // Actualizar montos de la cuenta
-                var cuenta = await _context.Cuenta.FirstAsync(c => c.idCuenta == pago.idCuenta);
-                cuenta.montoPagado = await _context.Pago.Where(p => p.idCuenta == pago.idCuenta)
-                    .SumAsync(p => (decimal?)p.monto) ?? 0m;
-                cuenta.saldo = cuenta.total - cuenta.montoPagado;
-                _context.Cuenta.Update(cuenta);
-                await _context.SaveChangesAsync();
-
-                await tx.CommitAsync();
-                return pago;
-            }
-            catch
-            {
-                await tx.RollbackAsync();
-                throw;
-            }
+            // Evitamos Include a Cuenta/MetodoPago para no provocar lectura de columnas inexistentes
+            return await _context.Pago.AsNoTracking().ToListAsync();
         }
 
-        public async Task<IEnumerable<Pago>> GetPorCuentaAsync(int idCuenta)
+        public async Task<Pago> CrearAsync(Pago pago)
         {
+            await _context.Pago.AddAsync(pago);
+            await _context.SaveChangesAsync();
+            return pago;
+        }
+
+        public async Task<bool> EliminarAsync(int idPago)
+        {
+            var entity = await _context.Pago.FindAsync(idPago);
+            if (entity == null) return false;
+            _context.Pago.Remove(entity);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<IEnumerable<Pago>> ObtenerPorRangoFechasAsync(DateTime desde, DateTime hasta)
+        {
+            var d = desde.Date;
+            var h = hasta.Date.AddDays(1).AddTicks(-1);
             return await _context.Pago
                 .Include(p => p.idMetodoPagoNavigation)
-                .Where(p => p.idCuenta == idCuenta)
-                .OrderByDescending(p => p.fechaHora)
+                .Include(p => p.idCuentaNavigation)
+                .Where(p => p.fechaHora >= d && p.fechaHora <= h)
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Pago>> GetRecientesAsync(int count = 20)
+        public async Task<IEnumerable<Pago>> ObtenerPorMetodoAsync(int idMetodoPago)
         {
             return await _context.Pago
                 .Include(p => p.idMetodoPagoNavigation)
                 .Include(p => p.idCuentaNavigation)
-                .OrderByDescending(p => p.fechaHora)
-                .Take(count)
+                .Where(p => p.idMetodoPago == idMetodoPago)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Pago>> BuscarPorReferenciaAsync(string referencia)
+        {
+            referencia = referencia?.Trim().ToLower() ?? string.Empty;
+            if (string.IsNullOrEmpty(referencia)) return new List<Pago>();
+
+            return await _context.Pago
+                .Include(p => p.idMetodoPagoNavigation)
+                .Include(p => p.idCuentaNavigation)
+                .Where(p => (p.numeroReferencia ?? string.Empty).ToLower().Contains(referencia))
                 .ToListAsync();
         }
     }

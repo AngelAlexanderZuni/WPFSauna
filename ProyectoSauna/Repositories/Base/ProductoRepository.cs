@@ -32,6 +32,10 @@ namespace ProyectoSauna.Repositories
                 .Where(p => p.nombre.ToLower().Contains(nombre.ToLower()))
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Producto>> GetAllFreshAsync()
+        {
+            return await _context.Producto.AsNoTracking().ToListAsync();
+        }
     }
 }
-

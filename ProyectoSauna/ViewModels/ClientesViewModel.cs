@@ -1,4 +1,4 @@
-﻿// ViewModels/ClientesViewModel.cs - COMPLETAMENTE CORREGIDO
+// ViewModels/ClientesViewModel.cs - COMPLETAMENTE CORREGIDO
 using ProyectoSauna.Commands;
 using ProyectoSauna.Models.DTOs;
 using ProyectoSauna.Services.Interfaces;
@@ -131,8 +131,6 @@ namespace ProyectoSauna.ViewModels
 
         public ICommand GuardarClienteCommand { get; }
         public ICommand BuscarClienteCommand { get; }
-        public ICommand LimpiarFormularioCommand { get; }
-        public ICommand CancelarEdicionCommand { get; }
         public ICommand MostrarTodosCommand { get; }
         public ICommand DesactivarClienteCommand { get; }
 
@@ -325,7 +323,7 @@ namespace ProyectoSauna.ViewModels
             ModoEdicion = true;
         }
 
-        private void LimpiarFormulario()
+        public void LimpiarFormulario()
         {
             IdCliente = 0;
             Nombre = string.Empty;
@@ -337,6 +335,12 @@ namespace ProyectoSauna.ViewModels
             FechaNacimiento = null;
             ModoEdicion = false;
             ClienteSeleccionado = null;
+            MensajeEstado = string.Empty;
+        }
+
+        private void CancelarEdicion()
+        {
+            LimpiarFormulario();
         }
 
         private async System.Threading.Tasks.Task DesactivarClienteAsync()

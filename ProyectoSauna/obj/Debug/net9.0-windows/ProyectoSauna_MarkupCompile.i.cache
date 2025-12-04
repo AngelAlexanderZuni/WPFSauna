@@ -4,15 +4,15 @@
 winexe
 C#
 .cs
-C:\Users\pumaq\Music\WPFSauna-main\ProyectoSauna\obj\Debug\net9.0-windows\
+C:\Users\pumaq\Music\ProyectoSauna\ProyectoSauna\obj\Debug\net9.0-windows\
 ProyectoSauna
 none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
-C:\Users\pumaq\Music\WPFSauna-main\ProyectoSauna\App.xaml
+C:\Users\pumaq\Music\ProyectoSauna\ProyectoSauna\App.xaml
 16930188844
 22273115567
-1141824412429
+104-2081688821
 266-72772359
 LoginSauna.xaml;MainWindow.xaml;Styles\Animations.xaml;Styles\ButtonStyles.xaml;Styles\Colors.xaml;Styles\TextStyles.xaml;UserControlCaja.xaml;UserControlClientes.xaml;UserControlCuentas.xaml;UserControlEgresos.xaml;UserControlInventario.xaml;UserControlPago.xaml;UserControlPromociones.xaml;UserControlReporte.xaml;UserControlServicios.xaml;UserControlUsuarios.xaml;
 

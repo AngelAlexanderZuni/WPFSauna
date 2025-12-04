@@ -1,17 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProyectoSauna.Models;
 using ProyectoSauna.Models.Entities;
 using ProyectoSauna.Repositories.Base;
 using ProyectoSauna.Repositories.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ProyectoSauna.Repositories
 {
-    public class EgresoRepository : Repository<CabEgreso>, IEgresoRepository
+    public class EgresoRepository : Repository<DetEgreso>, IEgresoRepository
     {
         private readonly SaunaDbContext _context;
 
@@ -20,153 +19,53 @@ namespace ProyectoSauna.Repositories
             _context = context;
         }
 
-        public async Task<CabEgreso> CrearEgresoAsync(CabEgreso cabecera, IEnumerable<DetEgreso> detalles)
-        {
-            using var transaction = await _context.Database.BeginTransactionAsync();
-            try
-            {
-                await _context.CabEgreso.AddAsync(cabecera);
-                await _context.SaveChangesAsync();
-
-                foreach (var d in detalles)
-                {
-                    d.idCabEgreso = cabecera.idCabEgreso;
-                }
-
-                await _context.DetEgreso.AddRangeAsync(detalles);
-                await _context.SaveChangesAsync();
-
-                // Recalcular total
-                cabecera.montoTotal = await _context.DetEgreso
-                    .Where(x => x.idCabEgreso == cabecera.idCabEgreso)
-                    .SumAsync(x => (decimal?)x.monto) ?? 0m;
-
-                _context.CabEgreso.Update(cabecera);
-                await _context.SaveChangesAsync();
-
-                await transaction.CommitAsync();
-                return cabecera;
-            }
-            catch
-            {
-                await transaction.RollbackAsync();
-                throw;
-            }
-        }
-
-        public async Task<IEnumerable<CabEgreso>> GetRecientesAsync(int count = 20)
-        {
-            return await _context.CabEgreso
-                .Include(c => c.idUsuarioNavigation)
-                .OrderByDescending(c => c.fecha)
-                .Take(count)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<DetEgreso>> GetDetallesPorCabeceraAsync(int idCabEgreso)
+        public async Task<IEnumerable<DetEgreso>> ObtenerPorTipoAsync(int idTipoEgreso)
         {
             return await _context.DetEgreso
-                .Include(d => d.idTipoEgresoNavigation)
-                .Include(d => d.idCabEgresoNavigation)
+                .Include(e => e.idTipoEgresoNavigation)
+                .Include(e => e.idCabEgresoNavigation)
                     .ThenInclude(c => c.idUsuarioNavigation)
-                .Where(d => d.idCabEgreso == idCabEgreso)
-                .OrderBy(d => d.idDetEgreso)
+                .Where(e => e.idTipoEgreso == idTipoEgreso)
+                .OrderByDescending(e => e.idCabEgresoNavigation!.fecha)
                 .ToListAsync();
         }
 
-        public async Task<bool> ActualizarDetalleAsync(DetEgreso detalle)
+        public async Task<IEnumerable<DetEgreso>> ObtenerPorRangoFechasAsync(DateTime desde, DateTime hasta)
         {
-            var existente = await _context.DetEgreso.FirstOrDefaultAsync(x => x.idDetEgreso == detalle.idDetEgreso);
-            if (existente == null) return false;
+            var desdeDate = desde.Date;
+            var hastaInclusive = hasta.Date.AddDays(1).AddTicks(-1);
 
-            existente.concepto = detalle.concepto;
-            existente.monto = detalle.monto;
-            existente.recurrente = detalle.recurrente;
-            existente.comprobanteRuta = detalle.comprobanteRuta;
-            existente.idTipoEgreso = detalle.idTipoEgreso;
-
-            _context.DetEgreso.Update(existente);
-            await _context.SaveChangesAsync();
-
-            // Recalcular total de cabecera
-            var cab = await _context.CabEgreso.FirstAsync(c => c.idCabEgreso == existente.idCabEgreso);
-            cab.montoTotal = await _context.DetEgreso
-                .Where(x => x.idCabEgreso == existente.idCabEgreso)
-                .SumAsync(x => (decimal?)x.monto) ?? 0m;
-            _context.CabEgreso.Update(cab);
-            await _context.SaveChangesAsync();
-
-            return true;
+            return await _context.DetEgreso
+                .Include(e => e.idTipoEgresoNavigation)
+                .Include(e => e.idCabEgresoNavigation)
+                    .ThenInclude(c => c.idUsuarioNavigation)
+                .Where(e => e.idCabEgresoNavigation != null && e.idCabEgresoNavigation.fecha >= desdeDate && e.idCabEgresoNavigation.fecha <= hastaInclusive)
+                .OrderByDescending(e => e.idCabEgresoNavigation!.fecha)
+                .ToListAsync();
         }
 
-        public async Task<bool> EliminarDetalleAsync(int idDetEgreso)
+        public async Task<IEnumerable<DetEgreso>> BuscarPorConceptoAsync(string texto)
         {
-            var existente = await _context.DetEgreso.FirstOrDefaultAsync(x => x.idDetEgreso == idDetEgreso);
-            if (existente == null) return false;
+            texto = texto?.Trim() ?? string.Empty;
+            if (string.IsNullOrEmpty(texto)) return new List<DetEgreso>();
 
-            var idCab = existente.idCabEgreso;
-            _context.DetEgreso.Remove(existente);
-            await _context.SaveChangesAsync();
-
-            // Recalcular total de cabecera
-            var cab = await _context.CabEgreso.FirstAsync(c => c.idCabEgreso == idCab);
-            cab.montoTotal = await _context.DetEgreso
-                .Where(x => x.idCabEgreso == idCab)
-                .SumAsync(x => (decimal?)x.monto) ?? 0m;
-            _context.CabEgreso.Update(cab);
-            await _context.SaveChangesAsync();
-
-            return true;
+            return await _context.DetEgreso
+                .Include(e => e.idTipoEgresoNavigation)
+                .Include(e => e.idCabEgresoNavigation)
+                    .ThenInclude(c => c.idUsuarioNavigation)
+                .Where(e => e.concepto.ToLower().Contains(texto.ToLower()))
+                .OrderByDescending(e => e.idCabEgresoNavigation!.fecha)
+                .ToListAsync();
         }
 
-        public async Task<DetEgreso> AgregarDetalleAsync(DetEgreso detalle)
+        public async Task<IEnumerable<DetEgreso>> ObtenerConNavegacionAsync()
         {
-            using var tx = await _context.Database.BeginTransactionAsync();
-            try
-            {
-                await _context.DetEgreso.AddAsync(detalle);
-                await _context.SaveChangesAsync();
-
-                var cab = await _context.CabEgreso.FirstAsync(c => c.idCabEgreso == detalle.idCabEgreso);
-                cab.montoTotal = await _context.DetEgreso
-                    .Where(x => x.idCabEgreso == detalle.idCabEgreso)
-                    .SumAsync(x => (decimal?)x.monto) ?? 0m;
-                _context.CabEgreso.Update(cab);
-                await _context.SaveChangesAsync();
-
-                await tx.CommitAsync();
-                return detalle;
-            }
-            catch
-            {
-                await tx.RollbackAsync();
-                throw;
-            }
-        }
-
-        public async Task<bool> EliminarCabeceraAsync(int idCabEgreso)
-        {
-            using var tx = await _context.Database.BeginTransactionAsync();
-            try
-            {
-                var cab = await _context.CabEgreso.FindAsync(idCabEgreso);
-                if (cab == null) return false;
-
-                var detalles = _context.DetEgreso.Where(d => d.idCabEgreso == idCabEgreso);
-                _context.DetEgreso.RemoveRange(detalles);
-                await _context.SaveChangesAsync();
-
-                _context.CabEgreso.Remove(cab);
-                await _context.SaveChangesAsync();
-
-                await tx.CommitAsync();
-                return true;
-            }
-            catch
-            {
-                await tx.RollbackAsync();
-                throw;
-            }
+            return await _context.DetEgreso
+                .Include(e => e.idTipoEgresoNavigation)
+                .Include(e => e.idCabEgresoNavigation)
+                    .ThenInclude(c => c.idUsuarioNavigation)
+                .OrderByDescending(e => e.idCabEgresoNavigation!.fecha)
+                .ToListAsync();
         }
     }
 }
