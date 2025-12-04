@@ -4,3 +4,7 @@
 # Directorios de compilación
 [Bb]in/
 [Oo]bj/
+
+# Carpetas de desarrollo temporal
+WPFSauna-dev_Norma/
+WPFSauna-dev_Norma2/
