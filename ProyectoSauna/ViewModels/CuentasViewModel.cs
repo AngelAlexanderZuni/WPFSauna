@@ -721,6 +721,12 @@ namespace ProyectoSauna.ViewModels
                 return Task.CompletedTask;
             }
 
+            // Pasar datos de la cuenta seleccionada al módulo de pagos
+            Application.Current.Properties["IdCuenta"] = CuentaSeleccionada.idCuenta;
+            Application.Current.Properties["NombreCliente"] = CuentaSeleccionada.NombreCliente;
+            Application.Current.Properties["DocumentoCliente"] = CuentaSeleccionada.DocumentoCliente;
+            Application.Current.Properties["TotalCuenta"] = CuentaSeleccionada.total;
+
             Application.Current.Dispatcher.Invoke(() =>
             {
                 var mainWindow = Application.Current.MainWindow as MainWindow;

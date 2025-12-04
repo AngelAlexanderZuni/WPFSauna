@@ -1,0 +1,122 @@
+﻿<UserControl x:Class="ProyectoSauna.UserControlPago"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Background="#14161C">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Encabezado -->
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="CreditCardOutline" Width="36" Height="36" Foreground="#4CC9F0"/>
+                <TextBlock Text="Gestión de Pagos" FontSize="22" FontWeight="SemiBold" Foreground="White" Margin="10,0,0,0"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
+                    <TextBlock Text="IdCuenta" Foreground="#9CA3AF" Margin="0,0,8,0"/>
+                    <TextBox Width="120" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="{Binding IdCuenta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Content="Cargar" Style="{StaticResource MaterialDesignRaisedButton}" Background="#4CC9F0" Margin="8,0,0,0" Command="{Binding CargarPagosCommand}"/>
+                </StackPanel>
+                <Button Content="Agregar Pago" Style="{StaticResource MaterialDesignRaisedButton}" Background="#10B981" Command="{Binding AbrirDialogCommand}"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Contenido -->
+        <materialDesign:Card Grid.Row="1" Background="#1E2128" Padding="16">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <DataGrid ItemsSource="{Binding Pagos}" AutoGenerateColumns="False" CanUserAddRows="False"
+                          Background="#1E2128" Foreground="White" RowBackground="#252830" AlternatingRowBackground="#2A2D37" GridLinesVisibility="None" BorderThickness="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="#" Binding="{Binding idPago}" Width="60"/>
+                        <DataGridTextColumn Header="Fecha/Hora" Binding="{Binding fechaHora, StringFormat=dd/MM/yyyy HH:mm}" Width="150"/>
+                        <DataGridTextColumn Header="Método" Binding="{Binding metodoPagoNombre}" Width="180"/>
+                        <DataGridTextColumn Header="Nro Ref" Binding="{Binding numeroReferencia}" Width="180"/>
+                        <DataGridTextColumn Header="Monto" Binding="{Binding monto, StringFormat=S/. {0:N2}}" Width="130">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                                    <Setter Property="Foreground" Value="#10B981"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+                    <TextBlock Text="Total Pagado:" Foreground="#9CA3AF" Margin="0,0,8,0"/>
+                    <TextBlock Text="{Binding TotalPagos, StringFormat=S/. {0:N2}}" Foreground="#10B981" FontSize="18" FontWeight="Bold"/>
+                </StackPanel>
+            </Grid>
+        </materialDesign:Card>
+
+        <!-- Popup agregar pago -->
+        <materialDesign:DialogHost IsOpen="{Binding IsDialogOpen}">
+            <materialDesign:DialogHost.DialogContent>
+                <Grid Width="560" Background="#1E2128" Margin="16">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                        <materialDesign:PackIcon Kind="CashCheck" Width="24" Height="24" Foreground="#4CC9F0"/>
+                        <TextBlock Text="Registrar Pago" Margin="8,0,0,0" Foreground="White" FontWeight="SemiBold"/>
+                    </StackPanel>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Margin="0,0,12,0">
+                            <TextBlock Text="Método de Pago *" Foreground="#9CA3AF" FontSize="12" Margin="0,0,0,5"/>
+                            <ComboBox ItemsSource="{Binding MetodosPago}" DisplayMemberPath="nombre" SelectedValuePath="idMetodoPago"
+                                      SelectedValue="{Binding IdMetodoPago, Mode=TwoWay}" Style="{StaticResource MaterialDesignOutlinedComboBox}" Foreground="White"/>
+
+                            <TextBlock Text="Numero de Referencia" Foreground="#9CA3AF" FontSize="12" Margin="0,10,0,5"/>
+                            <TextBox Text="{Binding NumeroReferencia, Mode=TwoWay}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Foreground="White"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="Monto *" Foreground="#9CA3AF" FontSize="12" Margin="0,0,0,5"/>
+                            <TextBox Text="{Binding Monto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Foreground="White"/>
+
+                            <TextBlock Text="Fecha/Hora" Foreground="#9CA3AF" FontSize="12" Margin="0,10,0,5"/>
+                            <DatePicker SelectedDate="{Binding FechaHora, Mode=TwoWay}" Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+                        <Button Content="Cancelar" Style="{StaticResource MaterialDesignOutlinedButton}" BorderBrush="#9CA3AF" Foreground="#9CA3AF" Margin="0,0,10,0" Command="{Binding CerrarDialogCommand}"/>
+                        <Button Content="Confirmar" Style="{StaticResource MaterialDesignRaisedButton}" Background="#10B981" Command="{Binding ConfirmarPagoCommand}"/>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
+
+        <!-- Notificaci├│n centrada -->
+        <materialDesign:DialogHost x:Name="PagoNotifDialog">
+            <materialDesign:DialogHost.DialogContent>
+                <Border Background="#1E2128" Padding="20" CornerRadius="8">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <materialDesign:PackIcon Kind="CheckCircle" Width="26" Height="26" Foreground="#10B981"/>
+                        <TextBlock Text="Pago registrado" Foreground="White" FontSize="15" FontWeight="SemiBold" Margin="10,0,0,0"/>
+                    </StackPanel>
+                </Border>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
+    </Grid>
+</UserControl>

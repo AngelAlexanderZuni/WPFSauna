@@ -1,7 +1,6 @@
 using ProyectoSauna.Commands;
 using ProyectoSauna.Models.DTOs;
 using ProyectoSauna.Services.Interfaces;
-using ProyectoSauna.Repositories.Interfaces;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -14,8 +13,7 @@ namespace ProyectoSauna.ViewModels
     public class ComprobantesViewModel : BaseViewModel
     {
         private readonly IComprobanteService _comprobanteService;
-        private readonly ICuentaRepository _cuentaRepository;
-        private readonly IPagoRepository _pagoRepository;
+        private readonly IPagoService _pagoService;
 
         // Listas
         public ObservableCollection<PagoDTO> Pagos { get; } = new();
@@ -83,11 +81,10 @@ namespace ProyectoSauna.ViewModels
         public ICommand GuardarComprobanteCommand { get; }
         public ICommand CancelarComprobanteCommand { get; }
 
-        public ComprobantesViewModel(IComprobanteService comprobanteService, ICuentaRepository cuentaRepository, IPagoRepository pagoRepository)
+        public ComprobantesViewModel(IComprobanteService comprobanteService, IPagoService pagoService)
         {
             _comprobanteService = comprobanteService;
-            _cuentaRepository = cuentaRepository;
-            _pagoRepository = pagoRepository;
+            _pagoService = pagoService;
 
             CargarDatosCuentaCommand = new AsyncRelayCommand(async _ => await CargarDatosCuentaAsync());
             NuevoComprobanteCommand = new AsyncRelayCommand(async _ => await PrepararNuevoComprobanteAsync());
@@ -119,27 +116,25 @@ namespace ProyectoSauna.ViewModels
 
             try
             {
-                // Cargar información de la cuenta
-                var cuenta = await _cuentaRepository.GetCuentaByIdAsync(IdCuenta);
-                if (cuenta == null)
-                {
-                    MessageBox.Show("No se encontró la cuenta especificada.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    LimpiarDatos();
-                    return;
-                }
+                // Cargar información de la cuenta - Removido ICuentaService dependency
+                // var cuenta = await _cuentaService.GetByIdAsync(IdCuenta);
+                // if (cuenta == null)
+                // {
+                //     MessageBox.Show("No se encontró la cuenta especificada.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                //     LimpiarDatos();
+                //     return;
+                // }
 
-                // Mapear los datos de la entidad Cuenta
-                NombreCliente = cuenta.idClienteNavigation != null ? $"{cuenta.idClienteNavigation.nombre} {cuenta.idClienteNavigation.apellidos}" : "";
-                DocumentoCliente = cuenta.idClienteNavigation?.numero_documento ?? "";
-                TotalCuenta = cuenta.total;
+                // NombreCliente = cuenta.NombreCliente;
+                // DocumentoCliente = cuenta.DocumentoCliente;
+                // TotalCuenta = cuenta.total;
                 TotalPagado = cuenta.montoPagado;
-                SaldoPendiente = cuenta.total - cuenta.montoPagado;
+                SaldoPendiente = cuenta.saldo;
 
-                // Cargar pagos - por ahora lo dejamos vacío hasta implementar el método en el repository
+                // Cargar pagos
+                var pagos = await _pagoService.GetPagosPorCuentaAsync(IdCuenta);
                 Pagos.Clear();
-                // TODO: Implementar GetPagosPorCuentaAsync en PagoRepository
-                // var pagos = await _pagoRepository.GetPagosPorCuentaAsync(IdCuenta);
-                // foreach (var p in pagos) Pagos.Add(p);
+                foreach (var p in pagos) Pagos.Add(p);
 
                 // Cargar detalles de consumo (asumiendo que existe un servicio para esto)
                 // Si no existe, puedes dejarlo vacío por ahora

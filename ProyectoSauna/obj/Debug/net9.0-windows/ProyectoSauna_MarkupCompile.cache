@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 C:\Users\pumaq\Music\WPFSauna\ProyectoSauna\App.xaml
-17-1376769071
+16930188844
 22273115567
-112995655190
+127-736825659
 266-72772359
-LoginSauna.xaml;MainWindow.xaml;Styles\Animations.xaml;Styles\ButtonStyles.xaml;Styles\Colors.xaml;Styles\TextStyles.xaml;UserControlCaja.xaml;UserControlClientes.xaml;UserControlComprobantes.xaml;UserControlCuentas.xaml;UserControlEgresos.xaml;UserControlInventario.xaml;UserControlPago.xaml;UserControlPromociones.xaml;UserControlReporte.xaml;UserControlServicios.xaml;UserControlUsuarios.xaml;
+LoginSauna.xaml;MainWindow.xaml;Styles\Animations.xaml;Styles\ButtonStyles.xaml;Styles\Colors.xaml;Styles\TextStyles.xaml;UserControlCaja.xaml;UserControlClientes.xaml;UserControlCuentas.xaml;UserControlEgresos.xaml;UserControlInventario.xaml;UserControlPago.xaml;UserControlPromociones.xaml;UserControlReporte.xaml;UserControlServicios.xaml;UserControlUsuarios.xaml;
 
-True
+False
 
