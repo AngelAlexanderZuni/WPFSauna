@@ -106,7 +106,7 @@ namespace ProyectoSauna
                         MessageBox.Show("Módulo de Consumos en desarrollo.\nSe implementará junto con Cuentas.", "En Desarrollo", MessageBoxButton.OK, MessageBoxImage.Information);
                         break;
                     case "Pagos y Comprobantes":
-                        ContenidoPrincipal.Content = new UserControlPago();
+                        ContenidoPrincipal.Content = new UserControlComprobantes();
                         break;
                     case "Clientes":
                         ContenidoPrincipal.Content = new UserControlClientes();
