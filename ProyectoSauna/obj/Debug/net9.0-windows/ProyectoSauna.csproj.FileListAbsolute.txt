@@ -3094,3 +3094,5 @@ C:\Users\pumaq\Music\WPFSauna\ProyectoSauna\obj\Debug\net9.0-windows\refint\Proy
 C:\Users\pumaq\Music\WPFSauna\ProyectoSauna\obj\Debug\net9.0-windows\ProyectoSauna.pdb
 C:\Users\pumaq\Music\WPFSauna\ProyectoSauna\obj\Debug\net9.0-windows\ProyectoSauna.genruntimeconfig.cache
 C:\Users\pumaq\Music\WPFSauna\ProyectoSauna\obj\Debug\net9.0-windows\ref\ProyectoSauna.dll
+C:\Users\pumaq\Music\WPFSauna\ProyectoSauna\obj\Debug\net9.0-windows\UserControlComprobantes.baml
+C:\Users\pumaq\Music\WPFSauna\ProyectoSauna\obj\Debug\net9.0-windows\UserControlComprobantes.g.cs
