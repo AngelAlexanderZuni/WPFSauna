@@ -194,6 +194,13 @@
 
                         <Button Style="{StaticResource SidebarButtonStyle}" Click="SidebarButton_Click">
                             <StackPanel Orientation="Horizontal" Margin="8,1">
+                                <materialDesign:PackIcon Kind="Tools" Width="14" Height="14" Foreground="#4CC9F0" Margin="0,0,5,0"/>
+                                <TextBlock Text="Servicios" Foreground="White" FontSize="11"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource SidebarButtonStyle}" Click="SidebarButton_Click">
+                            <StackPanel Orientation="Horizontal" Margin="8,1">
                                 <materialDesign:PackIcon Kind="CashMinus" Width="14" Height="14" Foreground="#4CC9F0" Margin="0,0,5,0"/>
                                 <TextBlock Text="Egresos" Foreground="White" FontSize="11"/>
                             </StackPanel>

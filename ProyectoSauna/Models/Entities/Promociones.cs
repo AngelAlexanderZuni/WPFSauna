@@ -9,7 +9,7 @@ namespace ProyectoSauna.Models.Entities
         public string nombreDescuento { get; set; } = string.Empty;
         public decimal montoDescuento { get; set; }
         public int idTipoDescuento { get; set; }
-        public decimal valorCondicion { get; set; }
+        public int valorCondicion { get; set; }
         public bool activo { get; set; }
         public string motivo { get; set; } = string.Empty;
 

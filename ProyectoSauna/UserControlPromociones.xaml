@@ -1,26 +1,332 @@
-﻿<UserControl x:Class="ProyectoSauna.UserControlPromociones"
+﻿<!-- UserControlPromociones.xaml - VERSIÓN COMPACTA -->
+<UserControl x:Class="ProyectoSauna.UserControlPromociones"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             Background="#14161C">
-    <Grid Margin="30">
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" TextBlock.Foreground="White">
-            <materialDesign:PackIcon Kind="GiftOutline" 
-                                     Width="60" Height="60" 
-                                     Foreground="#4CC9F0" 
-                                     HorizontalAlignment="Center"/>
+             Background="{StaticResource BackgroundBrush}">
+    <UserControl.Resources>
+        <Style TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="CaretBrush" Value="{StaticResource PrimaryBrush}"/>
+            <Setter Property="BorderBrush" Value="#6B7280"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+        <Style TargetType="ComboBox" BasedOn="{StaticResource MaterialDesignOutlinedComboBox}">
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+        <Style TargetType="CheckBox" BasedOn="{StaticResource MaterialDesignCheckBox}">
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+        </Style>
+    </UserControl.Resources>
 
-            <TextBlock Text="Módulo de Promociones" 
-                       FontSize="28" 
-                       FontWeight="SemiBold" 
-                       Margin="0,10,0,5" 
-                       HorizontalAlignment="Center"/>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-            <TextBlock Text="Crea, administra y controla promociones especiales para tus clientes." 
-                       FontSize="16" 
-                       Foreground="#9CA3AF" 
-                       TextAlignment="Center" 
-                       MaxWidth="600" />
-        </StackPanel>
+        <!-- HEADER COMPACTO -->
+        <Border Grid.Row="0" Background="{StaticResource HeaderBrush}" CornerRadius="6" Padding="12" Margin="0,0,0,10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" 
+                           Text="🎁 Gestión de Promociones" 
+                           FontSize="16" 
+                           FontWeight="SemiBold" 
+                           Foreground="{StaticResource TextPrimaryBrush}"/>
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <TextBox x:Name="txtBuscar" 
+                             materialDesign:HintAssist.Hint="Buscar..." 
+                             Width="200" 
+                             Margin="0,0,10,0"
+                             TextChanged="Filtros_Changed"/>
+
+                    <ComboBox x:Name="cmbTipoFiltro" 
+                              materialDesign:HintAssist.Hint="Tipo"
+                              Width="150"
+                              Margin="0,0,10,0"
+                              DisplayMemberPath="nombre"
+                              SelectedValuePath="idTipoDescuento"
+                              SelectionChanged="Filtros_Changed"/>
+
+                    <CheckBox x:Name="chkSoloActivos" 
+                              Content="Solo activos" 
+                              VerticalAlignment="Center"
+                              IsChecked="True"
+                              Checked="Filtros_Changed" 
+                              Unchecked="Filtros_Changed"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="360"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- FORMULARIO COMPACTO -->
+            <Border Grid.Column="0" 
+                    Background="{StaticResource CardBrush}" 
+                    CornerRadius="6" 
+                    Padding="15" 
+                    Effect="{StaticResource CardShadow}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <TextBlock Text="📝 Datos de la Promoción" 
+                                   FontSize="14" 
+                                   FontWeight="SemiBold" 
+                                   Foreground="{StaticResource PrimaryBrush}" 
+                                   Margin="0,0,0,12"/>
+
+                        <!-- Nombre -->
+                        <TextBlock Text="Nombre *" 
+                                   Foreground="{StaticResource TextSecondaryBrush}" 
+                                   FontSize="11" 
+                                   Margin="0,0,0,4"/>
+                        <TextBox x:Name="txtNombreDescuento" 
+                                 materialDesign:HintAssist.Hint="Ej: Descuento Cumpleaños" 
+                                 Margin="0,0,0,10"
+                                 MaxLength="100"
+                                 TextChanged="Formulario_Changed"/>
+
+                        <!-- Tipo con botón agregar -->
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="4"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                                       Text="Tipo de Descuento *" 
+                                       Foreground="{StaticResource TextSecondaryBrush}" 
+                                       FontSize="11"/>
+
+                            <ComboBox x:Name="cmbTipoDescuento" 
+                                      Grid.Row="2" Grid.Column="0"
+                                      materialDesign:HintAssist.Hint="Seleccione"
+                                      DisplayMemberPath="nombre"
+                                      SelectedValuePath="idTipoDescuento"
+                                      SelectionChanged="Formulario_Changed"/>
+
+                            <Button x:Name="btnAgregarTipo"
+                                    Grid.Row="2" Grid.Column="2"
+                                    Content="+"
+                                    Width="36"
+                                    Height="36"
+                                    FontSize="18"
+                                    FontWeight="Bold"
+                                    ToolTip="Agregar nuevo tipo"
+                                    Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                                    Click="btnAgregarTipo_Click"/>
+                        </Grid>
+
+                        <!-- Monto -->
+                        <TextBlock Text="Monto/Porcentaje *" 
+                                   Foreground="{StaticResource TextSecondaryBrush}" 
+                                   FontSize="11" 
+                                   Margin="0,0,0,4"/>
+                        <TextBox x:Name="txtMontoDescuento" 
+                                 materialDesign:HintAssist.Hint="Ej: 10.00" 
+                                 Margin="0,0,0,10"
+                                 TextChanged="Formulario_Changed"
+                                 PreviewTextInput="NumericDecimal_PreviewTextInput"
+                                 DataObject.Pasting="OnPasteNumericDecimal"/>
+
+                        <!-- Condición -->
+                        <TextBlock Text="Valor Condición *" 
+                                   Foreground="{StaticResource TextSecondaryBrush}" 
+                                   FontSize="11" 
+                                   Margin="0,0,0,4"/>
+                        <TextBox x:Name="txtValorCondicion" 
+                                 materialDesign:HintAssist.Hint="Ej: 5" 
+                                 Margin="0,0,0,10"
+                                 TextChanged="Formulario_Changed"
+                                 PreviewTextInput="NumericDecimal_PreviewTextInput"
+                                 DataObject.Pasting="OnPasteNumericDecimal"/>
+
+                        <!-- Motivo -->
+                        <TextBlock Text="Motivo/Descripción *" 
+                                   Foreground="{StaticResource TextSecondaryBrush}" 
+                                   FontSize="11" 
+                                   Margin="0,0,0,4"/>
+                        <TextBox x:Name="txtMotivo" 
+                                 materialDesign:HintAssist.Hint="Descripción" 
+                                 Margin="0,0,0,10"
+                                 MaxLength="200"
+                                 Height="60"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 VerticalContentAlignment="Top"
+                                 TextChanged="Formulario_Changed"/>
+
+                        <!-- Estado -->
+                        <Border Background="#1A1D24" 
+                                CornerRadius="4" 
+                                Padding="10" 
+                                Margin="0,0,0,12">
+                            <CheckBox x:Name="chkActivo" 
+                                      Content="✅ Promoción activa" 
+                                      IsChecked="True"
+                                      FontSize="12"
+                                      Checked="Formulario_Changed" 
+                                      Unchecked="Formulario_Changed"/>
+                        </Border>
+
+                        <!-- Botones -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button x:Name="btnGuardarActualizar" 
+                                    Grid.Column="0"
+                                    Content="💾 Guardar" 
+                                    Style="{StaticResource SuccessButton}" 
+                                    Height="38"
+                                    FontSize="13"
+                                    Click="btnGuardarActualizar_Click"
+                                    IsEnabled="False"/>
+
+                            <Button x:Name="btnLimpiar" 
+                                    Grid.Column="2"
+                                    Content="🧹 Limpiar" 
+                                    Style="{StaticResource SecondaryButton}" 
+                                    Height="38"
+                                    FontSize="13"
+                                    Click="btnLimpiar_Click"/>
+                        </Grid>
+
+                        <Button x:Name="btnEliminar" 
+                                Content="🗑️ Eliminar" 
+                                Style="{StaticResource DangerButton}" 
+                                Height="38"
+                                FontSize="13"
+                                Margin="0,8,0,0"
+                                Click="btnEliminar_Click"
+                                Visibility="Collapsed"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <!-- TABLA -->
+            <Border Grid.Column="2" 
+                    Background="{StaticResource CardBrush}" 
+                    CornerRadius="6" 
+                    Padding="15" 
+                    Effect="{StaticResource CardShadow}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="📋 Promociones Registradas" 
+                               FontSize="14" 
+                               FontWeight="SemiBold" 
+                               Foreground="{StaticResource PrimaryBrush}" 
+                               Margin="0,0,0,10"/>
+
+                    <DataGrid x:Name="dataGridPromociones"
+                              Grid.Row="1"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              SelectionMode="Single"
+                              SelectionChanged="dataGridPromociones_SelectionChanged"
+                              Background="Transparent"
+                              Foreground="{StaticResource TextPrimaryBrush}"
+                              RowBackground="#1E2128"
+                              AlternatingRowBackground="#252830"
+                              HeadersVisibility="Column"
+                              GridLinesVisibility="None"
+                              BorderThickness="0"
+                              RowHeight="40"
+                              FontSize="12">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding idPromocion}" Width="50"/>
+                            <DataGridTextColumn Header="Nombre" Binding="{Binding nombreDescuento}" Width="160"/>
+                            <DataGridTextColumn Header="Tipo" Binding="{Binding idTipoDescuentoNavigation.nombre}" Width="110"/>
+                            <DataGridTextColumn Header="Monto" Binding="{Binding montoDescuento, StringFormat='{}{0:N2}'}" Width="80"/>
+                            <DataGridTextColumn Header="Condición" Binding="{Binding valorCondicion, StringFormat='{}{0:N2}'}" Width="85"/>
+                            <DataGridCheckBoxColumn Header="Activo" Binding="{Binding activo}" Width="65"/>
+                            <DataGridTextColumn Header="Motivo" Binding="{Binding motivo}" Width="*" MinWidth="120"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- POPUP PARA AGREGAR TIPO -->
+        <Border x:Name="popupAgregarTipo"
+                Grid.RowSpan="2"
+                Background="#CC000000"
+                Visibility="Collapsed">
+            <Border Background="{StaticResource CardBrush}"
+                    Width="400"
+                    CornerRadius="8"
+                    Padding="20"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+                <StackPanel>
+                    <TextBlock Text="➕ Agregar Tipo de Descuento" 
+                               FontSize="16" 
+                               FontWeight="Bold"
+                               Foreground="{StaticResource PrimaryBrush}"
+                               Margin="0,0,0,20"/>
+
+                    <TextBlock Text="Nombre del Tipo *" 
+                               Foreground="{StaticResource TextSecondaryBrush}" 
+                               FontSize="12" 
+                               Margin="0,0,0,6"/>
+                    <TextBox x:Name="txtNuevoTipo" 
+                             materialDesign:HintAssist.Hint="Ej: Descuento Especial"
+                             MaxLength="50"
+                             Margin="0,0,0,20"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="0"
+                                Content="✔️ Guardar"
+                                Style="{StaticResource SuccessButton}"
+                                Height="40"
+                                Click="btnGuardarTipo_Click"/>
+
+                        <Button Grid.Column="2"
+                                Content="✖️ Cancelar"
+                                Style="{StaticResource SecondaryButton}"
+                                Height="40"
+                                Click="btnCancelarTipo_Click"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Border>
     </Grid>
 </UserControl>

@@ -120,6 +120,9 @@ namespace ProyectoSauna
                     case "Inventario":
                         ContenidoPrincipal.Content = new UserControlInventario();
                         break;
+                    case "Servicios":
+                        ContenidoPrincipal.Content = new UserControlServicios();
+                        break;
                     case "Egresos":
                         ContenidoPrincipal.Content = new UserControlEgresos();
                         break;

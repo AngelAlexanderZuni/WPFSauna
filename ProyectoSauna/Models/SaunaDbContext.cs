@@ -40,7 +40,7 @@ public partial class SaunaDbContext : DbContext
 
     public virtual DbSet<Producto> Producto { get; set; }
 
-    public virtual DbSet<ProgramaFidelizacion> ProgramaFidelizacion { get; set; }
+
 
     public virtual DbSet<Rol> Rol { get; set; }
 
@@ -58,9 +58,19 @@ public partial class SaunaDbContext : DbContext
 
     public virtual DbSet<CategoriaServicio> CategoriaServicio { get; set; }
 
+    public virtual DbSet<Promociones> Promociones { get; set; }
+
+    public virtual DbSet<TipoDescuento> TipoDescuento { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        // La configuración se realiza en App.xaml.cs mediante DatabaseConfig
+        if (!optionsBuilder.IsConfigured)
+        {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=LAPTOP-2BE5D2EQ\\SQL2019;Database=ProyectoSauna1;Trusted_Connection=true;TrustServerCertificate=true;");
+            optionsBuilder.UseSqlServer("Server=.;Database=ProyectoSauna;Trusted_Connection=true;TrustServerCertificate=true;");
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -101,11 +111,6 @@ public partial class SaunaDbContext : DbContext
             entity.Property(e => e.nombre).HasMaxLength(80);
             entity.Property(e => e.numero_documento).HasMaxLength(20);
             entity.Property(e => e.telefono).HasMaxLength(30);
-
-            entity.HasOne(d => d.idProgramaNavigation).WithMany(p => p.Cliente)
-                .HasForeignKey(d => d.idPrograma)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Cliente_ProgramaFidelizacion");
         });
 
         modelBuilder.Entity<Comprobante>(entity =>
@@ -172,7 +177,7 @@ public partial class SaunaDbContext : DbContext
             entity.HasKey(e => e.idDetEgreso);
 
             entity.Property(e => e.comprobanteRuta)
-                .HasMaxLength(80)
+                .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.concepto).HasMaxLength(200);
             entity.Property(e => e.monto).HasColumnType("decimal(12, 2)");
@@ -292,14 +297,6 @@ public partial class SaunaDbContext : DbContext
                 .HasConstraintName("FK_Producto_CategoriaProducto");
         });
 
-        modelBuilder.Entity<ProgramaFidelizacion>(entity =>
-        {
-            entity.HasKey(e => e.idPrograma);
-
-            entity.Property(e => e.montoDescuentoCumpleanos).HasColumnType("decimal(12, 2)");
-            entity.Property(e => e.porcentajeDescuento).HasColumnType("decimal(5, 2)");
-        });
-
         modelBuilder.Entity<Servicio>(entity =>
         {
             entity.HasKey(e => e.idServicio);
@@ -335,6 +332,31 @@ public partial class SaunaDbContext : DbContext
         {
             entity.HasKey(e => e.idCategoriaServicio);
             entity.Property(e => e.nombre).HasMaxLength(80);
+        });
+
+        modelBuilder.Entity<Promociones>(entity =>
+        {
+            entity.HasKey(e => e.idPromocion);
+
+            entity.Property(e => e.nombreDescuento).HasMaxLength(100);
+            entity.Property(e => e.montoDescuento).HasColumnType("decimal(12, 2)");
+            entity.Property(e => e.valorCondicion); // INT en la base de datos
+            entity.Property(e => e.motivo).HasMaxLength(200);
+
+            entity.HasOne(d => d.idTipoDescuentoNavigation)
+                .WithMany(p => p.Promociones)
+                .HasForeignKey(d => d.idTipoDescuento)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Promociones_TipoDescuento");
+        });
+
+        modelBuilder.Entity<TipoDescuento>(entity =>
+        {
+            entity.HasKey(e => e.idTipoDescuento);
+
+            entity.HasIndex(e => e.nombre, "UQ_TipoDescuento_nombre").IsUnique();
+
+            entity.Property(e => e.nombre).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Rol>(entity =>

@@ -47,6 +47,10 @@ namespace ProyectoSauna
                         services.AddScoped<CategoriaProductoRepository>();
                         services.AddScoped<ITipoMovimientoRepository, TipoMovimientoRepository>();
                         services.AddScoped<IMovimientoInventarioRepository, MovimientoInventarioRepository>();
+                        services.AddScoped<IPromocionesRepository, PromocionesRepository>();
+                        services.AddScoped<ITipoDescuentoRepository, TipoDescuentoRepository>();
+                        services.AddScoped<IServicioRepository, ServicioRepository>();
+                        services.AddScoped<CategoriaServicioRepository>();
 
                     })
                     .Build();

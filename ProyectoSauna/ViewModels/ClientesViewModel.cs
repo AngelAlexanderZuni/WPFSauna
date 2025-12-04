@@ -1,11 +1,10 @@
-﻿using ProyectoSauna.Commands;
+﻿// ViewModels/ClientesViewModel.cs - COMPLETAMENTE CORREGIDO
+using ProyectoSauna.Commands;
 using ProyectoSauna.Models.DTOs;
 using ProyectoSauna.Services.Interfaces;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 
@@ -15,7 +14,6 @@ namespace ProyectoSauna.ViewModels
     {
         private readonly IClienteService _clienteService;
 
-        // Propiedades observables
         private ObservableCollection<ClienteDTO> _clientes = new();
         public ObservableCollection<ClienteDTO> Clientes
         {
@@ -38,7 +36,6 @@ namespace ProyectoSauna.ViewModels
             }
         }
 
-        // Propiedades del formulario
         private int _idCliente;
         public int IdCliente
         {
@@ -132,7 +129,6 @@ namespace ProyectoSauna.ViewModels
 
         public string TextoBotonGuardar => ModoEdicion ? "Actualizar" : "Registrar";
 
-        // Comandos
         public ICommand GuardarClienteCommand { get; }
         public ICommand BuscarClienteCommand { get; }
         public ICommand LimpiarFormularioCommand { get; }
@@ -144,16 +140,11 @@ namespace ProyectoSauna.ViewModels
         {
             _clienteService = clienteService;
 
-            // Inicializar comandos
-            GuardarClienteCommand = new AsyncRelayCommand(async _ => await GuardarClienteAsync());
-            BuscarClienteCommand = new AsyncRelayCommand(async _ => await BuscarClienteAsync());
-            LimpiarFormularioCommand = new RelayCommand(() => LimpiarFormulario());
-            CancelarEdicionCommand = new RelayCommand(() => CancelarEdicion());
-            MostrarTodosCommand = new AsyncRelayCommand(async _ => await CargarTodosLosClientesAsync());
-            DesactivarClienteCommand = new AsyncRelayCommand(async _ => await DesactivarClienteAsync());
+            GuardarClienteCommand = new AsyncRelayCommand(_ => GuardarClienteAsync());
+            BuscarClienteCommand = new AsyncRelayCommand(_ => BuscarClienteAsync());
+            MostrarTodosCommand = new AsyncRelayCommand(_ => CargarTodosLosClientesAsync());
+            DesactivarClienteCommand = new AsyncRelayCommand(_ => DesactivarClienteAsync());
 
-
-            // Cargar datos iniciales (solo activos)
             _ = CargarTodosLosClientesAsync();
         }
 
@@ -175,61 +166,53 @@ namespace ProyectoSauna.ViewModels
                     telefono = Telefono,
                     correo = Correo,
                     direccion = Direccion,
-                    fechaNacimiento = FechaNacimiento.HasValue ? DateOnly.FromDateTime(FechaNacimiento.Value) : null
+                    fechaNacimiento = FechaNacimiento
                 };
 
                 if (ModoEdicion)
                 {
-                    // Actualizar cliente existente
                     var resultado = await _clienteService.ActualizarClienteAsync(clienteDto);
 
                     if (resultado.exito)
                     {
-                        // Ô£à Limpiar b├║squeda y recargar lista completa
                         TextoBusqueda = string.Empty;
                         await CargarTodosLosClientesAsync();
                         LimpiarFormulario();
-                        MensajeEstado = "Ô£à Cliente actualizado correctamente";
-
-                        // Mensaje breve (opcional)
+                        MensajeEstado = "✅ Cliente actualizado correctamente";
                         MessageBox.Show($"Cliente '{clienteDto.nombre} {clienteDto.apellidos}' actualizado correctamente.",
-                            "Ô£à ├ëxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                            "✅ Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     else
                     {
-                        MessageBox.Show(resultado.mensaje, "ÔØî Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        MensajeEstado = "ÔØî Error al actualizar cliente";
+                        MessageBox.Show(resultado.mensaje, "❌ Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MensajeEstado = "❌ Error al actualizar cliente";
                     }
                 }
                 else
                 {
-                    // Crear nuevo cliente
                     var resultado = await _clienteService.CrearClienteAsync(clienteDto);
 
                     if (resultado.exito)
                     {
-                        // Ô£à Limpiar b├║squeda y recargar lista completa
                         TextoBusqueda = string.Empty;
                         await CargarTodosLosClientesAsync();
                         LimpiarFormulario();
-                        MensajeEstado = $"Ô£à Cliente registrado correctamente. Total: {Clientes.Count} activos";
-
-                        // Mensaje breve (opcional)
+                        MensajeEstado = $"✅ Cliente registrado correctamente. Total: {Clientes.Count} activos";
                         MessageBox.Show($"Cliente '{clienteDto.nombre} {clienteDto.apellidos}' registrado correctamente.",
-                            "Ô£à ├ëxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                            "✅ Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     else
                     {
-                        MessageBox.Show(resultado.mensaje, "ÔØî Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        MensajeEstado = "ÔØî Error al registrar cliente";
+                        MessageBox.Show(resultado.mensaje, "❌ Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        MensajeEstado = "❌ Error al registrar cliente";
                     }
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error inesperado: {ex.Message}\n\nPor favor, contacte al administrador del sistema.",
-                    "ÔØî Error Cr├¡tico", MessageBoxButton.OK, MessageBoxImage.Error);
-                MensajeEstado = "Error cr├¡tico";
+                    "❌ Error Crítico", MessageBoxButton.OK, MessageBoxImage.Error);
+                MensajeEstado = "Error crítico";
             }
             finally
             {
@@ -252,7 +235,6 @@ namespace ProyectoSauna.ViewModels
                     return;
                 }
 
-                // Ô£à Crear un NUEVO servicio con contexto fresco para evitar cache
                 using var context = new ProyectoSauna.Models.SaunaDbContext();
                 var repo = new ProyectoSauna.Repositories.ClienteRepository(context);
                 var servicio = new ProyectoSauna.Services.ClienteService(repo);
@@ -260,7 +242,6 @@ namespace ProyectoSauna.ViewModels
                 if (TipoBusqueda == "DNI")
                 {
                     var cliente = await servicio.GetClienteByDNIAsync(TextoBusqueda.Trim());
-                    // Ô£à Solo mostrar si el cliente est├í activo
                     if (cliente != null && cliente.activo)
                     {
                         Clientes = new ObservableCollection<ClienteDTO> { cliente };
@@ -269,22 +250,20 @@ namespace ProyectoSauna.ViewModels
                     else
                     {
                         Clientes = new ObservableCollection<ClienteDTO>();
-                        MessageBox.Show("No se encontr├│ ning├║n cliente activo con ese DNI.", "Ôä╣´©Å Sin resultados",
+                        MessageBox.Show("No se encontró ningún cliente activo con ese DNI.", "ℹ️ Sin resultados",
                             MessageBoxButton.OK, MessageBoxImage.Information);
                         MensajeEstado = "Sin resultados";
                     }
                 }
-                else // B├║squeda por nombre
+                else
                 {
                     var clientesEncontrados = await servicio.BuscarClientesPorNombreAsync(TextoBusqueda.Trim());
-                    // Ô£à Filtrar solo clientes activos
                     var clientesActivos = clientesEncontrados.Where(c => c.activo).ToList();
-
                     Clientes = new ObservableCollection<ClienteDTO>(clientesActivos);
 
                     if (clientesActivos.Count == 0)
                     {
-                        MessageBox.Show("No se encontraron clientes activos con ese nombre.", "Ôä╣´©Å Sin resultados",
+                        MessageBox.Show("No se encontraron clientes activos con ese nombre.", "ℹ️ Sin resultados",
                             MessageBoxButton.OK, MessageBoxImage.Information);
                         MensajeEstado = "Sin resultados";
                     }
@@ -297,8 +276,8 @@ namespace ProyectoSauna.ViewModels
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al buscar cliente: {ex.Message}\n\nPor favor, intente nuevamente.",
-                    "ÔØî Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                MensajeEstado = "Error en b├║squeda";
+                    "❌ Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MensajeEstado = "Error en búsqueda";
             }
             finally
             {
@@ -313,25 +292,18 @@ namespace ProyectoSauna.ViewModels
                 IsLoading = true;
                 MensajeEstado = "Cargando clientes...";
 
-                // Ô£à Crear un NUEVO servicio con contexto fresco para evitar cache
                 using var context = new ProyectoSauna.Models.SaunaDbContext();
                 var repo = new ProyectoSauna.Repositories.ClienteRepository(context);
                 var servicio = new ProyectoSauna.Services.ClienteService(repo);
 
-                // Ô£à Cargar datos FRESCOS desde la BD
                 var clientes = await servicio.GetClientesActivosAsync();
-
-                // Crear nueva instancia para forzar actualizaci├│n de UI
-                Clientes = new ObservableCollection<ClienteDTO>(
-                    clientes.OrderByDescending(c => c.fechaRegistro)
-                );
-
+                Clientes = new ObservableCollection<ClienteDTO>(clientes.OrderByDescending(c => c.fechaRegistro));
                 MensajeEstado = $"{Clientes.Count} cliente(s) activo(s)";
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al cargar clientes: {ex.Message}\n\nVerifique la conexi├│n a la base de datos.",
-                    "ÔØî Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Error al cargar clientes: {ex.Message}\n\nVerifique la conexión a la base de datos.",
+                    "❌ Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 MensajeEstado = "Error al cargar datos";
             }
             finally
@@ -349,9 +321,7 @@ namespace ProyectoSauna.ViewModels
             Telefono = cliente.telefono ?? string.Empty;
             Correo = cliente.correo ?? string.Empty;
             Direccion = cliente.direccion ?? string.Empty;
-            FechaNacimiento = cliente.fechaNacimiento.HasValue
-                ? cliente.fechaNacimiento.Value.ToDateTime(TimeOnly.MinValue)
-                : null;
+            FechaNacimiento = cliente.fechaNacimiento;
             ModoEdicion = true;
         }
 
@@ -369,30 +339,24 @@ namespace ProyectoSauna.ViewModels
             ClienteSeleccionado = null;
         }
 
-        private void CancelarEdicion()
-        {
-            LimpiarFormulario();
-        }
-
         private async System.Threading.Tasks.Task DesactivarClienteAsync()
         {
             if (ClienteSeleccionado == null)
             {
                 MessageBox.Show("Por favor, seleccione un cliente de la lista para desactivar.",
-                    "Ôä╣´©Å Informaci├│n", MessageBoxButton.OK, MessageBoxImage.Information);
+                    "ℹ️ Información", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
-            // Confirmar desactivaci├│n
             var resultado = MessageBox.Show(
-                $"┬┐Est├í seguro que desea desactivar al cliente '{ClienteSeleccionado.NombreCompleto}'?\n\n" +
-                $"ÔÜá´©Å IMPORTANTE:\n" +
-                $"ÔÇó El cliente NO se eliminar├í de la base de datos\n" +
-                $"ÔÇó Se mantendr├í todo su historial de compras\n" +
-                $"ÔÇó Solo se marcar├í como inactivo\n" +
-                $"ÔÇó Puede reactivarlo en cualquier momento\n\n" +
-                $"┬┐Desea continuar?",
-                "ÔÜá´©Å Confirmar Desactivaci├│n",
+                $"¿Está seguro que desea desactivar al cliente '{ClienteSeleccionado.NombreCompleto}'?\n\n" +
+                $"⚠️ IMPORTANTE:\n" +
+                $"• El cliente NO se eliminará de la base de datos\n" +
+                $"• Se mantendrá todo su historial de compras\n" +
+                $"• Solo se marcará como inactivo\n" +
+                $"• Puede reactivarlo en cualquier momento\n\n" +
+                $"¿Desea continuar?",
+                "⚠️ Confirmar Desactivación",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Warning
             );
@@ -411,38 +375,25 @@ namespace ProyectoSauna.ViewModels
 
                 if (respuesta.exito)
                 {
-                    // Guardar nombre antes de limpiar
                     var nombreCliente = ClienteSeleccionado.NombreCompleto;
-
-                    // Ô£à Limpiar b├║squeda y recargar lista completa
                     TextoBusqueda = string.Empty;
                     await CargarTodosLosClientesAsync();
                     LimpiarFormulario();
-                    MensajeEstado = "Ô£à Cliente desactivado correctamente";
-
-                    // Mensaje breve (opcional)
-                    MessageBox.Show(
-                        $"Cliente '{nombreCliente}' desactivado correctamente.\nSu historial se mantiene intacto.",
-                        "Ô£à Cliente Desactivado",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Information
-                    );
+                    MensajeEstado = "✅ Cliente desactivado correctamente";
+                    MessageBox.Show($"Cliente '{nombreCliente}' desactivado correctamente.\nSu historial se mantiene intacto.",
+                        "✅ Cliente Desactivado", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                 {
-                    MessageBox.Show(respuesta.mensaje, "ÔØî Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    MensajeEstado = "ÔØî Error al desactivar cliente";
+                    MessageBox.Show(respuesta.mensaje, "❌ Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MensajeEstado = "❌ Error al desactivar cliente";
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    $"Error inesperado al desactivar el cliente:\n{ex.Message}\n\nPor favor, contacte al administrador del sistema.",
-                    "ÔØî Error Cr├¡tico",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error
-                );
-                MensajeEstado = "Error cr├¡tico al desactivar";
+                MessageBox.Show($"Error inesperado al desactivar el cliente:\n{ex.Message}\n\nPor favor, contacte al administrador del sistema.",
+                    "❌ Error Crítico", MessageBoxButton.OK, MessageBoxImage.Error);
+                MensajeEstado = "Error crítico al desactivar";
             }
             finally
             {

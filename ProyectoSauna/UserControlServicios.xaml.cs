@@ -16,15 +16,9 @@ namespace ProyectoSauna
     {
         private readonly IServicioRepository _servicioRepo;
         private readonly CategoriaServicioRepository _categoriaRepo;
-        private readonly IDetalleServicioRepository _detalleRepo;
-        private readonly ICuentaRepository _cuentaRepo;
 
         private List<Servicio> _servicios = new();
         private List<CategoriaServicio> _categorias = new();
-        private List<Cuenta> _cuentas = new();
-        private DetalleServicio? _detalleEnEdicion = null;
-        private List<DetalleServicio> _detallesAll = new();
-        private List<DetalleServicio> _detallesFiltered = new();
 
         public UserControlServicios()
         {
@@ -32,8 +26,6 @@ namespace ProyectoSauna
 
             _servicioRepo = App.AppHost!.Services.GetRequiredService<IServicioRepository>();
             _categoriaRepo = App.AppHost!.Services.GetRequiredService<CategoriaServicioRepository>();
-            _detalleRepo = App.AppHost!.Services.GetRequiredService<IDetalleServicioRepository>();
-            _cuentaRepo = App.AppHost!.Services.GetRequiredService<ICuentaRepository>();
 
             Loaded += async (_, __) => await InicializarAsync();
         }
@@ -49,8 +41,6 @@ namespace ProyectoSauna
             cbFiltroCategoria.SelectedIndex = 0;
 
             await CargarServiciosAsync();
-            await CargarCuentasAsync();
-            await CargarHistorialGeneralAsync();
             chkActivo.IsChecked = true;
             UpdateGuardarActualizarEnabled();
         }
@@ -61,15 +51,7 @@ namespace ProyectoSauna
             dataGridServicios.ItemsSource = _servicios;
         }
 
-        private async Task CargarCuentasAsync()
-        {
-            var selectedId = cbCuenta.SelectedValue as int?;
-            _cuentas = await _cuentaRepo.GetCuentasPendientesAsync();
-            cbCuenta.ItemsSource = _cuentas;
-            cbCuenta.SelectedValuePath = "idCuenta";
-            if (selectedId.HasValue && _cuentas.Any(c => c.idCuenta == selectedId.Value))
-                cbCuenta.SelectedValue = selectedId.Value;
-        }
+
 
         private void AplicarFiltrosServicios()
         {
@@ -109,12 +91,17 @@ namespace ProyectoSauna
                 }
                 else
                 {
-                    // Evitar duplicados por nombre
-                    if (_servicios.Any(x => (x.nombre ?? "").Equals(nombre, StringComparison.OrdinalIgnoreCase)))
+                    // Validar duplicados de forma más estricta
+                    var servicioExistente = _servicios.FirstOrDefault(x => 
+                        !string.IsNullOrWhiteSpace(x.nombre) && 
+                        string.Equals(x.nombre.Trim(), nombre.Trim(), StringComparison.OrdinalIgnoreCase));
+                        
+                    if (servicioExistente != null)
                     {
-                        MessageBox.Show("Ya existe un servicio con ese nombre.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show($"Ya existe un servicio con el nombre '{servicioExistente.nombre}'.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
                         return;
                     }
+                    
                     if (cbCategoria.SelectedValue == null)
                     {
                         MessageBox.Show("Seleccione una categoría.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -144,9 +131,28 @@ namespace ProyectoSauna
 
         private static string SanitizeName(string? input)
         {
-            var s = (input ?? "").Trim();
+            if (string.IsNullOrWhiteSpace(input)) return string.Empty;
+            
+            var s = input.Trim();
+            
+            // Eliminar espacios múltiples
             while (s.Contains("  ")) s = s.Replace("  ", " ");
-            return s;
+            
+            // Eliminar espacios al inicio y final de cada línea
+            s = string.Join(" ", s.Split(' ', StringSplitOptions.RemoveEmptyEntries));
+            
+            // Convertir a formato título (primera letra de cada palabra en mayúscula)
+            var words = s.Split(' ');
+            for (int i = 0; i < words.Length; i++)
+            {
+                if (words[i].Length > 0)
+                {
+                    words[i] = char.ToUpperInvariant(words[i][0]) + 
+                              (words[i].Length > 1 ? words[i][1..].ToLowerInvariant() : "");
+                }
+            }
+            
+            return string.Join(" ", words);
         }
 
         private bool ValidateNombre(string nombre)
@@ -156,49 +162,102 @@ namespace ProyectoSauna
                 MessageBox.Show("El nombre es obligatorio.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
+            
             if (nombre.Length < 3 || nombre.Length > 100)
             {
                 MessageBox.Show("El nombre debe tener entre 3 y 100 caracteres.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
+            
             if (!nombre.Any(char.IsLetter))
             {
-                MessageBox.Show("El nombre debe contener letras.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("El nombre debe contener al menos una letra.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
+            
+            // Validar que no tenga solo espacios o caracteres especiales
+            if (nombre.All(c => char.IsWhiteSpace(c) || char.IsPunctuation(c) || char.IsSymbol(c)))
+            {
+                MessageBox.Show("El nombre debe contener texto válido, no solo espacios o símbolos.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            
+            // Validar que no contenga caracteres especiales peligrosos
+            var caracteresProhibidos = new[] { '<', '>', '"', '\'', '&', '%', '#', '@', '!', '$', '^', '*', '(', ')', '[', ']', '{', '}', '|', '\\', '/', '?' };
+            if (nombre.Any(c => caracteresProhibidos.Contains(c)))
+            {
+                MessageBox.Show("El nombre contiene caracteres no permitidos. Use solo letras, números, espacios, puntos, comas y guiones.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            
             return true;
         }
 
         private bool ValidatePrecio(string? texto, out decimal precio)
         {
             precio = 0m;
-            if (!decimal.TryParse(texto, NumberStyles.Any, CultureInfo.InvariantCulture, out precio))
+            
+            if (string.IsNullOrWhiteSpace(texto))
             {
-                MessageBox.Show("Precio inválido.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("El precio es obligatorio.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
-            if (precio <= 0 || precio > 10000)
+            
+            // Limpiar el texto de caracteres no numéricos excepto punto y coma
+            var textoLimpio = new string(texto.Where(c => char.IsDigit(c) || c == '.' || c == ',').ToArray());
+            
+            if (!decimal.TryParse(textoLimpio, NumberStyles.Any, CultureInfo.InvariantCulture, out precio))
             {
-                MessageBox.Show("El precio debe ser mayor a 0 y razonable.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("El formato del precio no es válido. Use números decimales (ej: 50.00).", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
+            
+            if (precio <= 0)
+            {
+                MessageBox.Show("El precio debe ser mayor a 0.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            
+            if (precio > 10000)
+            {
+                MessageBox.Show("El precio no puede ser mayor a S/ 10,000.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            
+            // Limitar a 2 decimales
+            precio = Math.Round(precio, 2);
+            
             return true;
         }
 
         private bool ValidateDuracion(string? texto, out int? duracion)
         {
             duracion = null;
+            
+            // La duración es opcional
             if (string.IsNullOrWhiteSpace(texto)) return true;
-            if (!int.TryParse(texto, NumberStyles.Any, CultureInfo.InvariantCulture, out var d))
+            
+            // Limpiar texto de caracteres no numéricos
+            var textoLimpio = new string(texto.Where(char.IsDigit).ToArray());
+            
+            if (string.IsNullOrWhiteSpace(textoLimpio))
             {
-                MessageBox.Show("Duración inválida.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Si especifica duración, debe ser un número válido.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
-            if (d < 0 || d > 600)
+            
+            if (!int.TryParse(textoLimpio, out var d))
             {
-                MessageBox.Show("La duración debe estar entre 0 y 600 minutos.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("La duración debe ser un número entero.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
+            
+            if (d < 1 || d > 600)
+            {
+                MessageBox.Show("La duración debe estar entre 1 y 600 minutos.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            
             duracion = d;
             return true;
         }
@@ -259,37 +318,17 @@ namespace ProyectoSauna
                 chkActivo.IsChecked = s.activo;
                 cbCategoria.SelectedValue = s.idCategoriaServicio;
                 
-                // Actualizar el título del servicio seleccionado
-                txtServicioSeleccionado.Text = $"→ {s.nombre}";
-                
-                _ = CargarDetallesPorServicioAsync(s.idServicio);
-                LimpiarDetalleFormulario();
                 ActualizarBotonServicio();
                 UpdateGuardarActualizarEnabled();
             }
             else
             {
-                txtServicioSeleccionado.Text = "";
-                // Mostrar historial general al no tener servicio seleccionado
-                dataGridDetalles.ItemsSource = _detallesAll;
-                _detallesFiltered = new List<DetalleServicio>(_detallesAll);
                 ActualizarBotonServicio();
                 UpdateGuardarActualizarEnabled();
             }
         }
 
-        private async Task CargarDetallesPorServicioAsync(int idServicio)
-        {
-            _detallesFiltered = (await _detalleRepo.GetByServicioAsync(idServicio)).ToList();
-            dataGridDetalles.ItemsSource = _detallesFiltered;
-        }
 
-        private async Task CargarHistorialGeneralAsync()
-        {
-            _detallesAll = (await _detalleRepo.GetAllWithIncludesAsync()).ToList();
-            _detallesFiltered = new List<DetalleServicio>(_detallesAll);
-            dataGridDetalles.ItemsSource = _detallesFiltered;
-        }
 
         private async void btnBuscar_Click(object sender, RoutedEventArgs e)
         {
@@ -313,114 +352,7 @@ namespace ProyectoSauna
             dataGridServicios.ItemsSource = datos.ToList();
         }
 
-        private void RecalcularSubtotal(object sender, TextChangedEventArgs e)
-        {
-            if (decimal.TryParse(txtCantidad.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var c) &&
-                decimal.TryParse(txtPrecioUnitario.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var u))
-                txtSubtotal.Text = (c * u).ToString("0.00", CultureInfo.InvariantCulture);
-            else
-                txtSubtotal.Text = "0.00";
-        }
 
-        private async void btnActualizarDetalle_Click(object sender, RoutedEventArgs e)
-        {
-            if (_detalleEnEdicion == null)
-            {
-                MessageBox.Show("Seleccione un detalle para actualizar.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-            
-            try
-            {
-                if (cbCuenta.SelectedValue is int idCuenta)
-                    _detalleEnEdicion.idCuenta = idCuenta;
-                
-                if (!int.TryParse(txtCantidad.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var cantidad) || cantidad <= 0)
-                {
-                    MessageBox.Show("Ingrese una cantidad válida.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-                
-                if (!decimal.TryParse(txtPrecioUnitario.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var unit) || unit <= 0)
-                {
-                    MessageBox.Show("Ingrese un precio unitario válido.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
-                }
-                
-                _detalleEnEdicion.cantidad = cantidad;
-                _detalleEnEdicion.precioUnitario = unit;
-                _detalleEnEdicion.subtotal = unit * cantidad;
-
-                await _detalleRepo.UpdateAsync(_detalleEnEdicion);
-                
-                // Refrescar listas
-                await CargarHistorialGeneralAsync();
-                if (dataGridServicios.SelectedItem is Servicio s)
-                    await CargarDetallesPorServicioAsync(s.idServicio);
-                
-                LimpiarDetalleFormulario();
-                MessageBox.Show("Detalle actualizado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al actualizar: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private async void btnEliminarDetalle_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataGridDetalles.SelectedItem is not DetalleServicio d)
-            {
-                MessageBox.Show("Seleccione un detalle para eliminar.", "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-            
-            if (MessageBox.Show("¿Está seguro de eliminar este detalle?", "Confirmar", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
-                return;
-            
-            try
-            {
-                await _detalleRepo.DeleteAsync(d.idDetalleServicio);
-                
-                // Refrescar listas
-                await CargarHistorialGeneralAsync();
-                if (dataGridServicios.SelectedItem is Servicio s)
-                    await CargarDetallesPorServicioAsync(s.idServicio);
-                
-                LimpiarDetalleFormulario();
-                MessageBox.Show("Detalle eliminado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error al eliminar: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
-
-        private void dataGridDetalles_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (dataGridDetalles.SelectedItem is DetalleServicio d)
-            {
-                _detalleEnEdicion = d;
-                cbCuenta.SelectedValue = d.idCuenta;
-                txtCantidad.Text = d.cantidad.ToString(CultureInfo.InvariantCulture);
-                txtPrecioUnitario.Text = d.precioUnitario.ToString(CultureInfo.InvariantCulture);
-                txtSubtotal.Text = d.subtotal.ToString("0.00", CultureInfo.InvariantCulture);
-            }
-        }
-
-        private void btnLimpiarDetalle_Click(object sender, RoutedEventArgs e)
-        {
-            LimpiarDetalleFormulario();
-        }
-
-        private void LimpiarDetalleFormulario()
-        {
-            _detalleEnEdicion = null;
-            txtCantidad.Clear();
-            txtPrecioUnitario.Clear();
-            txtSubtotal.Text = "0.00";
-            dataGridDetalles.UnselectAll();
-        }
 
         private void btnLimpiar_Click(object sender, RoutedEventArgs e)
         {
@@ -435,9 +367,6 @@ namespace ProyectoSauna
             cbCategoria.SelectedIndex = -1;
             chkActivo.IsChecked = true;
             dataGridServicios.UnselectAll();
-            txtServicioSeleccionado.Text = "";
-            _detallesFiltered.Clear();
-            dataGridDetalles.ItemsSource = _detallesAll;
             ActualizarBotonServicio();
             UpdateGuardarActualizarEnabled();
         }
@@ -449,18 +378,6 @@ namespace ProyectoSauna
             btnGuardarActualizar.Style = (Style)FindResource(editando ? "PrimaryButton" : "SuccessButton");
         }
 
-        private void btnBuscarDetalle_Click(object sender, RoutedEventArgs e)
-        {
-            // Sin filtros adicionales: mantiene la lista actual
-            dataGridDetalles.ItemsSource = (dataGridServicios.SelectedItem is Servicio) ? _detallesFiltered : _detallesAll;
-        }
 
-        private async void btnTodosDetalle_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataGridServicios.SelectedItem is Servicio s)
-                await CargarDetallesPorServicioAsync(s.idServicio);
-            else
-                dataGridDetalles.ItemsSource = _detallesAll;
-        }
     }
 }
