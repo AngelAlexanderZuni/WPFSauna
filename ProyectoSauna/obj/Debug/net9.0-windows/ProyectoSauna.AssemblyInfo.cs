@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ProyectoSauna")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+50a389dc003314a9f835e200fd99143616ac8ce1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f847c40867d31f8fc03035381b251b73d2b3983c")]
 [assembly: System.Reflection.AssemblyProductAttribute("ProyectoSauna")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ProyectoSauna")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

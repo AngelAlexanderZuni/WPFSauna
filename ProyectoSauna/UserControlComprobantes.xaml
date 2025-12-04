@@ -1,0 +1,211 @@
+<UserControl x:Class="ProyectoSauna.UserControlComprobantes"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             Background="#14161C">
+    
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Encabezado -->
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="FileDocumentOutline" Width="36" Height="36" Foreground="#4CC9F0"/>
+                <TextBlock Text="Pagos y Comprobantes" FontSize="22" FontWeight="SemiBold" Foreground="White" Margin="10,0,0,0"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
+                    <TextBlock Text="ID Cuenta:" Foreground="#9CA3AF" Margin="0,0,8,0"/>
+                    <TextBox Width="120" Style="{StaticResource MaterialDesignOutlinedTextBox}" 
+                             Text="{Binding IdCuenta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Content="Cargar" Style="{StaticResource MaterialDesignRaisedButton}" 
+                            Background="#4CC9F0" Margin="8,0,0,0" Command="{Binding CargarDatosCuentaCommand}"/>
+                </StackPanel>
+                <Button Content="Nuevo Comprobante" Style="{StaticResource MaterialDesignRaisedButton}" 
+                        Background="#10B981" Command="{Binding NuevoComprobanteCommand}"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Contenido Principal -->
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="Auto" MinHeight="10"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Información del Cliente -->
+            <materialDesign:Card Grid.Row="0" Background="#1E2128" Padding="16" Margin="0,0,0,12">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Cliente" Foreground="#9CA3AF" FontSize="12"/>
+                        <TextBlock Text="{Binding NombreCliente}" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
+                        <TextBlock Text="{Binding DocumentoCliente}" Foreground="#9CA3AF" FontSize="12"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="Total Cuenta" Foreground="#9CA3AF" FontSize="12"/>
+                        <TextBlock Text="{Binding TotalCuenta, StringFormat=S/. {0:N2}}" Foreground="#4CC9F0" FontSize="16" FontWeight="Bold"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Total Pagado" Foreground="#9CA3AF" FontSize="12"/>
+                        <TextBlock Text="{Binding TotalPagado, StringFormat=S/. {0:N2}}" Foreground="#10B981" FontSize="16" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding SaldoPendiente, StringFormat='Saldo: S/. {0:N2}'}" Foreground="#F59E0B" FontSize="12"/>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:Card>
+
+            <!-- Pagos -->
+            <materialDesign:Card Grid.Row="1" Background="#1E2128" Padding="16" Margin="0,0,0,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Listado de Pagos" Foreground="White" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding Pagos}" AutoGenerateColumns="False" CanUserAddRows="False"
+                              Background="#1E2128" Foreground="White" RowBackground="#252830" AlternatingRowBackground="#2A2D37" 
+                              GridLinesVisibility="None" BorderThickness="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="#" Binding="{Binding idPago}" Width="50"/>
+                            <DataGridTextColumn Header="Fecha/Hora" Binding="{Binding fechaHora, StringFormat=dd/MM/yyyy HH:mm}" Width="140"/>
+                            <DataGridTextColumn Header="Método" Binding="{Binding metodoPagoNombre}" Width="*"/>
+                            <DataGridTextColumn Header="Nro Ref" Binding="{Binding numeroReferencia}" Width="140"/>
+                            <DataGridTextColumn Header="Monto" Binding="{Binding monto, StringFormat=S/. {0:N2}}" Width="100">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                                        <Setter Property="Foreground" Value="#10B981"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </materialDesign:Card>
+
+            <!-- Comprobantes Emitidos -->
+            <materialDesign:Card Grid.Row="3" Background="#1E2128" Padding="16">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Comprobantes Emitidos" Foreground="White" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding Comprobantes}" AutoGenerateColumns="False" CanUserAddRows="False"
+                              Background="#1E2128" Foreground="White" RowBackground="#252830" AlternatingRowBackground="#2A2D37" 
+                              GridLinesVisibility="None" BorderThickness="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding idComprobante}" Width="50"/>
+                            <DataGridTextColumn Header="Fecha" Binding="{Binding fechaEmision, StringFormat=dd/MM/yyyy}" Width="100"/>
+                            <DataGridTextColumn Header="Tipo" Binding="{Binding TipoComprobanteNombre}" Width="*"/>
+                            <DataGridTextColumn Header="Serie" Binding="{Binding serie}" Width="70"/>
+                            <DataGridTextColumn Header="Número" Binding="{Binding numero}" Width="120"/>
+                            <DataGridTextColumn Header="Total" Binding="{Binding total, StringFormat=S/. {0:N2}}" Width="100">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                                        <Setter Property="Foreground" Value="#4CC9F0"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </materialDesign:Card>
+        </Grid>
+
+        <!-- Diálogo de Nuevo Comprobante -->
+        <materialDesign:DialogHost IsOpen="{Binding IsDialogComprobanteOpen}">
+            <materialDesign:DialogHost.DialogContent>
+                <Grid Width="500" Background="#1E2128" Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                        <materialDesign:PackIcon Kind="FileDocumentPlus" Width="24" Height="24" Foreground="#4CC9F0"/>
+                        <TextBlock Text="Generar Comprobante" Margin="8,0,0,0" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Margin="0,0,0,16">
+                        <TextBlock Text="Tipo de Comprobante *" Foreground="#9CA3AF" FontSize="12" Margin="0,0,0,5"/>
+                        <ComboBox ItemsSource="{Binding TiposComprobante}" 
+                                  SelectedItem="{Binding SelectedTipoComprobante}"
+                                  DisplayMemberPath="nombre"
+                                  Style="{StaticResource MaterialDesignOutlinedComboBox}" 
+                                  Margin="0,0,0,12"/>
+
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Serie" Foreground="#9CA3AF" FontSize="12" Margin="0,0,0,5"/>
+                                <TextBox Text="{Binding Serie}" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="Número" Foreground="#9CA3AF" FontSize="12" Margin="0,0,0,5"/>
+                                <TextBox Text="{Binding Numero}" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <TextBlock Text="Fecha de Emisión" Foreground="#9CA3AF" FontSize="12" Margin="0,0,0,5"/>
+                        <DatePicker SelectedDate="{Binding FechaEmision}" Style="{StaticResource MaterialDesignOutlinedDatePicker}" Margin="0,0,0,12"/>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="10"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="Subtotal" Foreground="#9CA3AF" FontSize="12" Margin="0,0,0,5"/>
+                                <TextBox Text="{Binding Subtotal, StringFormat=N2}" IsReadOnly="True" 
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Text="IGV (18%)" Foreground="#9CA3AF" FontSize="12" Margin="0,0,0,5"/>
+                                <TextBox Text="{Binding Igv, StringFormat=N2}" IsReadOnly="True" 
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="4">
+                                <TextBlock Text="Total" Foreground="#9CA3AF" FontSize="12" Margin="0,0,0,5"/>
+                                <TextBox Text="{Binding Total, StringFormat=N2}" IsReadOnly="True" 
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="Cancelar" Style="{StaticResource MaterialDesignOutlinedButton}" 
+                                BorderBrush="#9CA3AF" Foreground="#9CA3AF" Margin="0,0,10,0" 
+                                Command="{Binding CancelarComprobanteCommand}"/>
+                        <Button Content="Generar" Style="{StaticResource MaterialDesignRaisedButton}" 
+                                Background="#10B981" Command="{Binding GuardarComprobanteCommand}"/>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
+    </Grid>
+</UserControl>
