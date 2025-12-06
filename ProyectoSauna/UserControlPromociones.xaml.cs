@@ -280,11 +280,22 @@ namespace ProyectoSauna
         {
             if (btnGuardarActualizar == null) return;
 
-            var nombreOk = !string.IsNullOrWhiteSpace(txtNombreDescuento?.Text);
+            // ✅ VALIDACIONES MEJORADAS EN TIEMPO REAL
+            var nombre = txtNombreDescuento?.Text?.Trim() ?? string.Empty;
+            var nombreOk = !string.IsNullOrWhiteSpace(nombre) && nombre.Length >= 3 && nombre.Length <= 100;
+            
             var tipoOk = cmbTipoDescuento?.SelectedValue != null;
-            var montoOk = decimal.TryParse(txtMontoDescuento?.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out var m) && m >= 0;
-            var condicionOk = int.TryParse(txtValorCondicion?.Text, out var c) && c >= 0;
-            var motivoOk = !string.IsNullOrWhiteSpace(txtMotivo?.Text);
+            
+            var montoTexto = txtMontoDescuento?.Text?.Trim() ?? string.Empty;
+            var montoOk = !string.IsNullOrWhiteSpace(montoTexto) && 
+                         decimal.TryParse(montoTexto, NumberStyles.Any, CultureInfo.InvariantCulture, out var m) && m > 0;
+            
+            var condicionTexto = txtValorCondicion?.Text?.Trim() ?? string.Empty;
+            var condicionOk = !string.IsNullOrWhiteSpace(condicionTexto) && 
+                             int.TryParse(condicionTexto, out var c) && c > 0;
+            
+            var motivo = txtMotivo?.Text?.Trim() ?? string.Empty;
+            var motivoOk = !string.IsNullOrWhiteSpace(motivo) && motivo.Length >= 5 && motivo.Length <= 200;
 
             btnGuardarActualizar.IsEnabled = nombreOk && tipoOk && montoOk && condicionOk && motivoOk;
         }
@@ -310,6 +321,30 @@ namespace ProyectoSauna
             }
         }
 
+        // 🔢 VALIDACIÓN PARA NÚMEROS ENTEROS (CONDICIÓN)
+        private void NumericInteger_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            var box = sender as TextBox;
+            var proposed = (box?.Text ?? string.Empty) + e.Text;
+            
+            // Solo permitir dígitos (números enteros positivos)
+            e.Handled = !int.TryParse(proposed, out var result) || result < 0;
+        }
+
+        private void OnPasteNumericInteger(object sender, DataObjectPastingEventArgs e)
+        {
+            if (e.DataObject.GetDataPresent(DataFormats.Text))
+            {
+                var text = e.DataObject.GetData(DataFormats.Text) as string;
+                if (!int.TryParse(text ?? string.Empty, out var result) || result < 0)
+                    e.CancelCommand();
+            }
+            else
+            {
+                e.CancelCommand();
+            }
+        }
+
         private bool ValidateInputs(out string nombreDescuento, out int idTipo, out decimal monto, out int valorCondicion, out string motivo, out bool activo)
         {
             nombreDescuento = string.Empty;
@@ -319,40 +354,93 @@ namespace ProyectoSauna
             motivo = string.Empty;
             activo = chkActivo.IsChecked == true;
 
+            // ✅ VALIDACIÓN NOMBRE (OBLIGATORIO + LONGITUD MÍNIMA)
             nombreDescuento = txtNombreDescuento.Text.Trim();
             if (string.IsNullOrWhiteSpace(nombreDescuento))
             {
-                MessageBox.Show("El nombre de la promoción es obligatorio.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("❌ El nombre de la promoción es obligatorio.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtNombreDescuento.Focus();
+                return false;
+            }
+            if (nombreDescuento.Length < 3)
+            {
+                MessageBox.Show("❌ El nombre debe tener al menos 3 caracteres.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtNombreDescuento.Focus();
+                return false;
+            }
+            if (nombreDescuento.Length > 100)
+            {
+                MessageBox.Show("❌ El nombre no puede exceder 100 caracteres.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
                 txtNombreDescuento.Focus();
                 return false;
             }
 
+            // ✅ VALIDACIÓN TIPO (OBLIGATORIO)
             if (cmbTipoDescuento.SelectedValue == null)
             {
-                MessageBox.Show("Debe seleccionar un tipo de descuento.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("❌ Debe seleccionar un tipo de descuento.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
                 cmbTipoDescuento.Focus();
                 return false;
             }
             idTipo = (int)cmbTipoDescuento.SelectedValue;
 
-            if (!decimal.TryParse(txtMontoDescuento.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out monto) || monto < 0)
+            // ✅ VALIDACIÓN MONTO (OBLIGATORIO + POSITIVO)
+            if (string.IsNullOrWhiteSpace(txtMontoDescuento.Text))
             {
-                MessageBox.Show("El monto de descuento debe ser un valor positivo.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("❌ El monto de descuento es obligatorio.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtMontoDescuento.Focus();
+                return false;
+            }
+            if (!decimal.TryParse(txtMontoDescuento.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out monto))
+            {
+                MessageBox.Show("❌ El monto debe ser un número válido.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtMontoDescuento.Focus();
+                return false;
+            }
+            if (monto <= 0)
+            {
+                MessageBox.Show("❌ El monto debe ser mayor que 0.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
                 txtMontoDescuento.Focus();
                 return false;
             }
 
-            if (!int.TryParse(txtValorCondicion.Text, out valorCondicion) || valorCondicion < 0)
+            // ✅ VALIDACIÓN CONDICIÓN (OBLIGATORIO + ENTERO POSITIVO)
+            if (string.IsNullOrWhiteSpace(txtValorCondicion.Text))
             {
-                MessageBox.Show("El valor de condición debe ser un número entero positivo.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("❌ El valor de condición es obligatorio.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtValorCondicion.Focus();
+                return false;
+            }
+            if (!int.TryParse(txtValorCondicion.Text, out valorCondicion))
+            {
+                MessageBox.Show("❌ El valor de condición debe ser un número entero.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtValorCondicion.Focus();
+                return false;
+            }
+            if (valorCondicion <= 0)
+            {
+                MessageBox.Show("❌ El valor de condición debe ser mayor que 0.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
                 txtValorCondicion.Focus();
                 return false;
             }
 
+            // ✅ VALIDACIÓN MOTIVO (OBLIGATORIO + LONGITUD MÍNIMA)
             motivo = txtMotivo.Text.Trim();
             if (string.IsNullOrWhiteSpace(motivo))
             {
-                MessageBox.Show("El motivo/descripción es obligatorio.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("❌ El motivo/descripción es obligatorio.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtMotivo.Focus();
+                return false;
+            }
+            if (motivo.Length < 5)
+            {
+                MessageBox.Show("❌ El motivo debe tener al menos 5 caracteres.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtMotivo.Focus();
+                return false;
+            }
+            if (motivo.Length > 200)
+            {
+                MessageBox.Show("❌ El motivo no puede exceder 200 caracteres.", "Validación", MessageBoxButton.OK, MessageBoxImage.Warning);
                 txtMotivo.Focus();
                 return false;
             }

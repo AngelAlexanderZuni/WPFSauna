@@ -3,24 +3,198 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="White">
-        <Border Background="#F0F0F0" CornerRadius="10" Margin="20" Padding="20">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="🔧" FontSize="48" HorizontalAlignment="Center" Margin="0,0,0,20" Foreground="#FFA500"/>
-                <TextBlock Text="Módulo de Pagos y Comprobantes" 
-                          FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10" Foreground="#333"/>
-                <TextBlock Text="Temporalmente Deshabilitado" 
-                          FontSize="16" HorizontalAlignment="Center" Margin="0,0,0,20" Foreground="#666"/>
-                <TextBlock Text="El código completo de dev_Norma2 está listo para activar" 
-                          FontSize="14" HorizontalAlignment="Center" Margin="0,0,0,10" Foreground="#888"/>
-                <TextBlock Text="Incluye funcionalidad completa de pagos, métodos de pago y comprobantes" 
-                          FontSize="14" HorizontalAlignment="Center" Margin="0,0,0,20" Foreground="#888"/>
-                <Button Content="Contactar Desarrollador" 
-                       Padding="15,8" Background="#007ACC" Foreground="White" BorderThickness="0" 
-                       FontWeight="SemiBold" Cursor="Hand"/>
-            </StackPanel>
+             d:DesignHeight="700" d:DesignWidth="1200"
+             Background="#0F1115">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header del Módulo -->
+        <Border Grid.Row="0" Background="#1A1D24" CornerRadius="8" Padding="20,15" Margin="0,0,0,20">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="CreditCard" Width="28" Height="28" Foreground="#4CC9F0" VerticalAlignment="Center"/>
+                    <TextBlock Text="Módulo de Pagos y Comprobantes" FontSize="20" FontWeight="Bold" Foreground="White" Margin="15,0,0,0" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <Border Grid.Column="2" Background="#FF6B3518" BorderBrush="#FF6B35" BorderThickness="1" CornerRadius="5" Padding="12,6">
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse Width="8" Height="8" Fill="#FF6B35" VerticalAlignment="Center"/>
+                        <TextBlock Text="EN DESARROLLO" FontSize="11" FontWeight="Bold" Foreground="#FF6B35" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
         </Border>
+
+        <!-- Contenido Principal -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Panel Izquierdo - Información de Cuenta -->
+            <Border Grid.Column="0" Background="#1A1D24" CornerRadius="8" Margin="0,0,10,0" Padding="25">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Título del Panel -->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+                        <materialDesign:PackIcon Kind="Receipt" Width="24" Height="24" Foreground="#22C55E" VerticalAlignment="Center"/>
+                        <TextBlock Text="Información de la Cuenta" FontSize="18" FontWeight="SemiBold" Foreground="White" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Datos del Cliente -->
+                    <Border Grid.Row="1" Background="#22272E" CornerRadius="8" Padding="20" Margin="0,0,0,20">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- ID Cuenta -->
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="ID Cuenta:" FontWeight="SemiBold" Foreground="#9CA3AF" Margin="0,5"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" x:Name="TxtIdCuenta" Text="-" Foreground="White" FontWeight="Medium" Margin="0,5"/>
+
+                            <!-- Cliente -->
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Cliente:" FontWeight="SemiBold" Foreground="#9CA3AF" Margin="0,5"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" x:Name="TxtNombreCliente" Text="-" Foreground="White" FontWeight="Medium" Margin="0,5"/>
+
+                            <!-- Documento -->
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Documento:" FontWeight="SemiBold" Foreground="#9CA3AF" Margin="0,5"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" x:Name="TxtDocumentoCliente" Text="-" Foreground="White" FontWeight="Medium" Margin="0,5"/>
+
+                            <!-- Descuento -->
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Descuento:" FontWeight="SemiBold" Foreground="#9CA3AF" Margin="0,5"/>
+                            <TextBlock Grid.Row="3" Grid.Column="1" x:Name="TxtDescuentoAplicado" Text="-" Foreground="#FF6B35" FontWeight="Bold" Margin="0,5"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Total a Pagar -->
+                    <Border Grid.Row="3" Background="#22C55E18" BorderBrush="#22C55E" BorderThickness="2" CornerRadius="8" Padding="20">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:PackIcon Grid.Column="0" Kind="CashMultiple" Width="32" Height="32" Foreground="#22C55E" VerticalAlignment="Center"/>
+                            <StackPanel Grid.Column="1" Margin="15,0,0,0" VerticalAlignment="Center">
+                                <TextBlock Text="Total a Pagar" FontSize="14" Foreground="#9CA3AF" FontWeight="Medium"/>
+                                <TextBlock x:Name="TxtTotalCuenta" Text="-" FontSize="24" FontWeight="Bold" Foreground="#22C55E"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- Panel Derecho - Maqueta de Métodos de Pago -->
+            <Border Grid.Column="1" Background="#1A1D24" CornerRadius="8" Margin="10,0,0,0" Padding="25">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Título del Panel -->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+                        <materialDesign:PackIcon Kind="Payment" Width="24" Height="24" Foreground="#4CC9F0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Métodos de Pago" FontSize="18" FontWeight="SemiBold" Foreground="White" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Métodos de Pago (Maqueta) -->
+                    <StackPanel Grid.Row="1" Margin="0,0,0,20">
+                        <!-- Efectivo -->
+                        <Border Background="#22272E" CornerRadius="6" Padding="15" Margin="0,0,0,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <materialDesign:PackIcon Grid.Column="0" Kind="Cash" Width="20" Height="20" Foreground="#22C55E" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="Efectivo" FontSize="14" Foreground="White" FontWeight="Medium" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                                <RadioButton Grid.Column="2" Style="{StaticResource MaterialDesignRadioButton}" BorderBrush="#4CC9F0" IsChecked="True"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Tarjeta -->
+                        <Border Background="#22272E" CornerRadius="6" Padding="15" Margin="0,0,0,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <materialDesign:PackIcon Grid.Column="0" Kind="CreditCard" Width="20" Height="20" Foreground="#4CC9F0" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="Tarjeta de Crédito/Débito" FontSize="14" Foreground="White" FontWeight="Medium" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                                <RadioButton Grid.Column="2" Style="{StaticResource MaterialDesignRadioButton}" BorderBrush="#4CC9F0"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Transferencia -->
+                        <Border Background="#22272E" CornerRadius="6" Padding="15" Margin="0,0,0,10">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <materialDesign:PackIcon Grid.Column="0" Kind="Bank" Width="20" Height="20" Foreground="#7C3AED" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="Transferencia Bancaria" FontSize="14" Foreground="White" FontWeight="Medium" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                                <RadioButton Grid.Column="2" Style="{StaticResource MaterialDesignRadioButton}" BorderBrush="#4CC9F0"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Botones de Acción -->
+                    <StackPanel Grid.Row="2">
+                        <Button Style="{StaticResource MaterialDesignRaisedButton}" 
+                               Background="#22C55E" Foreground="White" 
+                               Height="45" FontWeight="Bold" FontSize="14"
+                               Margin="0,0,0,10">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Check" Width="20" Height="20" VerticalAlignment="Center"/>
+                                <TextBlock Text="PROCESAR PAGO" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Button Style="{StaticResource MaterialDesignOutlinedButton}" 
+                               BorderBrush="#6B7280" Foreground="#6B7280" 
+                               Height="40" FontWeight="Medium">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="ArrowLeft" Width="18" Height="18" VerticalAlignment="Center"/>
+                                <TextBlock Text="Volver a Cuentas" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
     </Grid>
 </UserControl>

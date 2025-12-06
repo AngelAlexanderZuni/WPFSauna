@@ -21,12 +21,20 @@ namespace ProyectoSauna.Repositories
 
         public async Task<Cliente?> GetByIdAsync(int idCliente)
         {
-            return await _context.Cliente.FirstOrDefaultAsync(c => c.idCliente == idCliente);
+            // 🔄 FORZAR RECARGA DESDE BD (sin caché de Entity Framework)
+            var cliente = await _context.Cliente
+                .AsNoTracking() // No usar caché de EF
+                .FirstOrDefaultAsync(c => c.idCliente == idCliente);
+                
+            return cliente;
         }
 
         public async Task<Cliente?> GetByDNIAsync(string dni)
         {
-            return await _context.Cliente.FirstOrDefaultAsync(c => c.numero_documento == dni);
+            // 🔄 FORZAR RECARGA DESDE BD (sin caché de Entity Framework)
+            return await _context.Cliente
+                .AsNoTracking() // No usar caché de EF
+                .FirstOrDefaultAsync(c => c.numero_documento == dni);
         }
 
         public async Task<Cliente?> ObtenerPorDocumentoAsync(string numeroDocumento)

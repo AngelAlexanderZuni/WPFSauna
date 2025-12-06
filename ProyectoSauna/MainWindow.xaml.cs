@@ -140,6 +140,65 @@ namespace ProyectoSauna
             }
         }
 
+        // 🔧 MÉTODO PÚBLICO PARA NAVEGACIÓN PROGRAMÁTICA
+        public void CambiarAModulo(string nombreModulo)
+        {
+            try
+            {
+                TituloModulo.Text = $"Panel de Control - {nombreModulo}";
+                PantallaBienvenida.Visibility = Visibility.Collapsed;
+
+                // Carga del módulo correspondiente
+                switch (nombreModulo)
+                {
+                    case "Cuentas y Consumos":
+                        ContenidoPrincipal.Content = new UserControlCuentas();
+                        break;
+                    case "Consumo":
+                        MessageBox.Show("Módulo de Consumos en desarrollo.\nSe implementará junto con Cuentas.", "En Desarrollo", MessageBoxButton.OK, MessageBoxImage.Information);
+                        break;
+                    case "Pagos y Comprobantes":
+                        ContenidoPrincipal.Content = new UserControlPago();
+                        break;
+                    case "Clientes":
+                        ContenidoPrincipal.Content = new UserControlClientes();
+                        break;
+                    case "Reportes y Estadísticas":
+                        ContenidoPrincipal.Content = new UserControlReporte();
+                        break;
+                    case "Caja y Flujo de Caja":
+                        ContenidoPrincipal.Content = new UserControlCaja();
+                        break;
+                    case "Inventario":
+                        ContenidoPrincipal.Content = new UserControlInventario();
+                        break;
+                    case "Servicios":
+                        ContenidoPrincipal.Content = new UserControlServicios();
+                        break;
+                    case "Egresos":
+                        ContenidoPrincipal.Content = new UserControlEgresos();
+                        break;
+                    case "Promociones":
+                        ContenidoPrincipal.Content = new UserControlPromociones();
+                        break;
+                    case "Usuarios":
+                        ContenidoPrincipal.Content = new UserControlUsuarios();
+                        break;
+                    default:
+                        ContenidoPrincipal.Content = null;
+                        PantallaBienvenida.Visibility = Visibility.Visible;
+                        break;
+                }
+                
+                System.Diagnostics.Debug.WriteLine($"✅ Módulo cambiado exitosamente a: {nombreModulo}");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ ERROR al cambiar módulo a {nombreModulo}: {ex.Message}");
+                throw;
+            }
+        }
+
         private void BtnCerrarSesion_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("¿Deseas cerrar sesión y volver al login?", "Confirmar cierre de sesión",

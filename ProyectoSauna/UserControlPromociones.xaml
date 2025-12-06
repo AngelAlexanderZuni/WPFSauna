@@ -161,8 +161,8 @@
                                  materialDesign:HintAssist.Hint="Ej: 5" 
                                  Margin="0,0,0,10"
                                  TextChanged="Formulario_Changed"
-                                 PreviewTextInput="NumericDecimal_PreviewTextInput"
-                                 DataObject.Pasting="OnPasteNumericDecimal"/>
+                                 PreviewTextInput="NumericInteger_PreviewTextInput"
+                                 DataObject.Pasting="OnPasteNumericInteger"/>
 
                         <!-- Motivo -->
                         <TextBlock Text="Motivo/Descripción *" 
@@ -270,7 +270,7 @@
                             <DataGridTextColumn Header="Nombre" Binding="{Binding nombreDescuento}" Width="160"/>
                             <DataGridTextColumn Header="Tipo" Binding="{Binding idTipoDescuentoNavigation.nombre}" Width="110"/>
                             <DataGridTextColumn Header="Monto" Binding="{Binding montoDescuento, StringFormat='{}{0:N2}'}" Width="80"/>
-                            <DataGridTextColumn Header="Condición" Binding="{Binding valorCondicion, StringFormat='{}{0:N2}'}" Width="85"/>
+                            <DataGridTextColumn Header="Condición" Binding="{Binding valorCondicion}" Width="85"/>
                             <DataGridCheckBoxColumn Header="Activo" Binding="{Binding activo}" Width="65"/>
                             <DataGridTextColumn Header="Motivo" Binding="{Binding motivo}" Width="*" MinWidth="120"/>
                         </DataGrid.Columns>

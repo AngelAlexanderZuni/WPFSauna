@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ProyectoSauna.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b3ced3c4e4e5127ff7bd1cc12f3181ed1f41fd10")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d8ee679d15c77cdd43adf0c3a48345e2561aeac9")]
 [assembly: System.Reflection.AssemblyProductAttribute("ProyectoSauna.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ProyectoSauna.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -37,18 +37,31 @@ namespace ProyectoSauna.Services
 
             var promocionesActivas = (await _promocionesRepo.ObtenerActivasAsync()).ToList();
             var descuentosAplicables = new List<DetalleDescuento>();
-            decimal totalDescuento = 0;
 
+            // 🎯 EVALUAR TODAS LAS PROMOCIONES DISPONIBLES
             foreach (var promocion in promocionesActivas)
             {
                 var descuento = await EvaluarPromocionAsync(promocion, idCliente, montoBase);
                 if (descuento != null && descuento.MontoDescuento > 0)
                 {
                     descuentosAplicables.Add(descuento);
-                    totalDescuento += descuento.MontoDescuento;
+                    // 🐛 DEBUG: Mostrar qué promociones están aplicándose
+                    System.Diagnostics.Debug.WriteLine($"🎁 Promoción aplicada: {descuento.NombrePromocion} - Tipo: {descuento.TipoDescuento} - Monto: S/. {descuento.MontoDescuento:N2}");
                 }
             }
 
+            // ✅ APLICAR SOLO UN DESCUENTO (el de mayor monto si hay varios)
+            DetalleDescuento? mejorDescuento = null;
+            if (descuentosAplicables.Any())
+            {
+                // Como las promociones por visitas ahora son exactas, 
+                // solo puede haber máximo una promoción por visitas aplicable
+                mejorDescuento = descuentosAplicables.OrderByDescending(d => d.MontoDescuento).First();
+                System.Diagnostics.Debug.WriteLine($"🏆 Descuento final seleccionado: {mejorDescuento.NombrePromocion} - S/. {mejorDescuento.MontoDescuento:N2}");
+            }
+
+            var totalDescuento = mejorDescuento?.MontoDescuento ?? 0;
+            var descuentosFinales = mejorDescuento != null ? new List<DetalleDescuento> { mejorDescuento } : new List<DetalleDescuento>();
             var montoFinal = Math.Max(0, montoBase - totalDescuento);
 
             return new ResultadoDescuento
@@ -56,7 +69,7 @@ namespace ProyectoSauna.Services
                 MontoBase = montoBase,
                 TotalDescuento = totalDescuento,
                 MontoFinal = montoFinal,
-                DescuentosAplicados = descuentosAplicables
+                DescuentosAplicados = descuentosFinales
             };
         }
 
@@ -65,12 +78,27 @@ namespace ProyectoSauna.Services
         /// </summary>
         private async Task<DetalleDescuento?> EvaluarPromocionAsync(Promociones promocion, int idCliente, decimal montoBase)
         {
+            // 🛡️ VALIDACIONES DE PROMOCIÓN
+            if (promocion == null || !promocion.activo)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Promoción inválida o inactiva: {promocion?.nombreDescuento ?? "null"}");
+                return null;
+            }
+
             if (promocion.idTipoDescuentoNavigation == null)
             {
+                System.Diagnostics.Debug.WriteLine($"❌ Promoción sin tipo de descuento: {promocion.nombreDescuento}");
+                return null;
+            }
+
+            if (promocion.montoDescuento <= 0)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Promoción con monto inválido: {promocion.nombreDescuento} - Monto: {promocion.montoDescuento}");
                 return null;
             }
 
             var tipoDescuento = promocion.idTipoDescuentoNavigation.nombre.ToLower().Trim();
+            System.Diagnostics.Debug.WriteLine($"✅ Evaluando promoción válida: {promocion.nombreDescuento} - Tipo: {tipoDescuento}");
 
             return tipoDescuento switch
             {
@@ -153,7 +181,7 @@ namespace ProyectoSauna.Services
         }
 
         /// <summary>
-        /// Evalúa descuento por número de visitas del cliente
+        /// Evalúa descuento por número de visitas del cliente (COINCIDENCIA EXACTA)
         /// </summary>
         private async Task<DetalleDescuento?> EvaluarDescuentoVisitasAsync(Promociones promocion, int idCliente, decimal montoBase)
         {
@@ -163,21 +191,28 @@ namespace ProyectoSauna.Services
 
             var visitasTotales = cliente.visitasTotales;
 
-            if (visitasTotales >= promocion.valorCondicion)
+            // 🎯 COINCIDENCIA EXACTA: Las visitas del cliente deben ser IGUALES a la condición de la promoción
+            if (visitasTotales == promocion.valorCondicion)
             {
-                var descuento = montoBase * (promocion.montoDescuento / 100);
+                // 💰 DESCUENTO FIJO POR VISITAS EXACTAS
+                var descuentoFijo = promocion.montoDescuento;
+                
+                // 🐛 DEBUG: Verificar coincidencia exacta
+                System.Diagnostics.Debug.WriteLine($"✅ COINCIDENCIA EXACTA: {visitasTotales} visitas == {promocion.valorCondicion} requeridas = S/. {descuentoFijo:N2}");
 
                 return new DetalleDescuento
                 {
                     IdPromocion = promocion.idPromocion,
                     NombrePromocion = promocion.nombreDescuento,
                     TipoDescuento = "Visitas",
-                    MontoDescuento = Math.Round(descuento, 2),
-                    Descripcion = $"{visitasTotales} visitas: {promocion.montoDescuento:N2}% de descuento",
+                    MontoDescuento = Math.Round(descuentoFijo, 2),
+                    Descripcion = $"Exactamente {visitasTotales} visitas: S/ {promocion.montoDescuento:N2} de descuento",
                     Motivo = promocion.motivo
                 };
             }
 
+            // 🐛 DEBUG: No coincide exactamente
+            System.Diagnostics.Debug.WriteLine($"❌ NO COINCIDE: {visitasTotales} visitas != {promocion.valorCondicion} requeridas");
             return null;
         }
 
@@ -194,6 +229,7 @@ namespace ProyectoSauna.Services
         /// </summary>
         public async Task<InfoDescuentosCliente> ObtenerInfoDescuentosClienteAsync(int idCliente)
         {
+            // 🔄 OBTENER DATOS FRESCOS DEL CLIENTE DESDE BD
             var cliente = await _clienteRepo.GetByIdAsync(idCliente);
             if (cliente == null)
             {
@@ -204,12 +240,21 @@ namespace ProyectoSauna.Services
                 };
             }
 
+            // 🐛 DEBUG: Verificar datos del cliente obtenidos
+            System.Diagnostics.Debug.WriteLine($"🔍 Cliente obtenido desde BD - ID: {cliente.idCliente}, Visitas: {cliente.visitasTotales}");
+
             var promocionesActivas = (await _promocionesRepo.ObtenerActivasAsync()).ToList();
             var descuentosDisponibles = new List<string>();
+
+            // 🐛 DEBUG: Verificar promociones activas
+            System.Diagnostics.Debug.WriteLine($"🎁 Promociones activas encontradas: {promocionesActivas.Count}");
 
             foreach (var promo in promocionesActivas)
             {
                 var tipoDescuento = promo.idTipoDescuentoNavigation?.nombre.ToLower().Trim() ?? "";
+                
+                // 🐛 DEBUG: Evaluar cada promoción
+                System.Diagnostics.Debug.WriteLine($"🔍 Evaluando promoción: {promo.nombreDescuento} - Tipo: {tipoDescuento} - Condición: {promo.valorCondicion}");
 
                 switch (tipoDescuento)
                 {
@@ -224,14 +269,21 @@ namespace ProyectoSauna.Services
                             if (diasDiferencia <= promo.valorCondicion)
                             {
                                 descuentosDisponibles.Add($"🎂 {promo.nombreDescuento}: S/ {promo.montoDescuento:N2}");
+                                System.Diagnostics.Debug.WriteLine($"✅ Promoción cumpleaños aplicada: {promo.nombreDescuento}");
                             }
                         }
                         break;
 
                     case "visitas" or "fidelidad":
-                        if (cliente.visitasTotales >= promo.valorCondicion)
+                        System.Diagnostics.Debug.WriteLine($"🔍 Comparando visitas: {cliente.visitasTotales} == {promo.valorCondicion}?");
+                        if (cliente.visitasTotales == promo.valorCondicion) // 🎯 COINCIDENCIA EXACTA
                         {
-                            descuentosDisponibles.Add($"⭐ {promo.nombreDescuento}: {promo.montoDescuento:N2}%");
+                            descuentosDisponibles.Add($"⭐ {promo.nombreDescuento}: S/ {promo.montoDescuento:N2}");
+                            System.Diagnostics.Debug.WriteLine($"✅ Promoción por visitas aplicada: {promo.nombreDescuento}");
+                        }
+                        else
+                        {
+                            System.Diagnostics.Debug.WriteLine($"❌ No aplica promoción por visitas: {cliente.visitasTotales} != {promo.valorCondicion}");
                         }
                         break;
 

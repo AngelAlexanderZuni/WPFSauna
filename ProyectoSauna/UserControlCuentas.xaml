@@ -14,6 +14,9 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="CaretBrush" Value="#4CC9F0"/>
             <Setter Property="BorderBrush" Value="#374151"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="MinHeight" Value="36"/>
         </Style>
 
         <Storyboard x:Key="ExpandDevolucion">
@@ -173,11 +176,11 @@
                             <TextBox x:Name="TxtDni" 
                                      Text="{Binding DniBusqueda, UpdateSourceTrigger=PropertyChanged}" 
                                      materialDesign:HintAssist.Hint="8 dígitos"
-                                     Padding="10"
+                                     Padding="12,8"
                                      MaxLength="8"
                                      FontSize="13"
                                      Height="36"
-                                     Margin="0,0,0,8"
+                                     Margin="0,0,0,12"
                                      PreviewTextInput="TextBox_NumerosSoloPreviewTextInput"/>
 
                             <Button Command="{Binding BuscarClienteCommand}"
@@ -204,6 +207,52 @@
                                 <StackPanel>
                                     <TextBlock Text="✓ ENCONTRADO" FontWeight="Bold" Foreground="#4CC9F0" FontSize="10" Margin="0,0,0,5"/>
                                     <TextBlock Text="{Binding NombreClienteBuscado}" FontSize="12" Foreground="White" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- 🎁 PANEL DE PROMOCIONES DISPONIBLES -->
+                            <Border Background="#22C55E12" 
+                                    BorderBrush="#22C55E"
+                                    BorderThickness="1"
+                                    CornerRadius="5" 
+                                    Padding="10" 
+                                    Margin="0,0,0,10"
+                                    Visibility="{Binding InfoDescuentos.TieneDescuentos, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                                        <materialDesign:PackIcon Kind="Gift" Width="14" Height="14" Foreground="#22C55E" VerticalAlignment="Center"/>
+                                        <TextBlock Text="PROMOCIONES DISPONIBLES" FontWeight="Bold" Foreground="#22C55E" FontSize="10" Margin="5,0,0,0"/>
+                                    </StackPanel>
+                                    
+                                    <TextBlock Text="{Binding InfoDescuentos.Mensaje}" 
+                                               FontSize="11" 
+                                               Foreground="#CBD5E1" 
+                                               TextWrapping="Wrap"
+                                               Margin="0,0,0,5"/>
+                                    
+                                    <ItemsControl ItemsSource="{Binding InfoDescuentos.DescuentosDisponibles}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal" Margin="0,2">
+                                                    <materialDesign:PackIcon Kind="CheckCircle" 
+                                                                           Width="12" Height="12" 
+                                                                           Foreground="#22C55E" 
+                                                                           VerticalAlignment="Center"/>
+                                                    <TextBlock Text="{Binding}" 
+                                                               Foreground="#22C55E" 
+                                                               Margin="5,0" 
+                                                               FontSize="10"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    
+                                    <TextBlock Text="💰 Se aplicarán automáticamente al procesar el pago" 
+                                               FontStyle="Italic" 
+                                               FontSize="9" 
+                                               Foreground="#9CA3AF"
+                                               Margin="0,5,0,0"
+                                               TextWrapping="Wrap"/>
                                 </StackPanel>
                             </Border>
 
@@ -260,11 +309,17 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
                             <Grid Grid.Row="0" Margin="0,0,0,10">
-                                <TextBlock Text="Cuentas Pendientes" FontSize="14" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center"/>
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Text="Cuentas Pendientes" FontSize="14" FontWeight="SemiBold" Foreground="White" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding CuentasPendientes.Count, StringFormat=' ({0})'}" 
+                                               FontSize="12" FontWeight="Normal" Foreground="#9CA3AF" VerticalAlignment="Center"/>
+                                </StackPanel>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                     <Button Command="{Binding AbrirModificarClienteCommand}"
                                             Style="{StaticResource MaterialDesignIconButton}"
@@ -275,7 +330,7 @@
                                     </Button>
                                     <Button Command="{Binding EliminarCuentaCommand}"
                                             Style="{StaticResource MaterialDesignIconButton}"
-                                            ToolTip="Eliminar"
+                                            ToolTip="Eliminar Cuenta"
                                             Width="30" Height="30"
                                             Margin="0,0,5,0">
                                         <materialDesign:PackIcon Kind="Delete" Width="16" Height="16" Foreground="#EF4444"/>
@@ -289,7 +344,41 @@
                                 </StackPanel>
                             </Grid>
 
-                            <DataGrid Grid.Row="1"
+                            <!-- 🔍 FILTRO DE BÚSQUEDA DE CUENTAS -->
+                            <Grid Grid.Row="1" Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBox Grid.Column="0"
+                                         Text="{Binding FiltroCuentas, UpdateSourceTrigger=PropertyChanged}"
+                                         materialDesign:HintAssist.Hint="Buscar por nombre, DNI o ID de cuenta..."
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                         FontSize="13"
+                                         Height="36"
+                                         Padding="12,8"
+                                         Foreground="White"
+                                         CaretBrush="#4CC9F0"
+                                         BorderBrush="#374151"
+                                         Margin="0,0,8,0">
+                                    <TextBox.Resources>
+                                        <Style TargetType="materialDesign:SmartHint" BasedOn="{StaticResource {x:Type materialDesign:SmartHint}}">
+                                            <Setter Property="Foreground" Value="#6B7280"/>
+                                        </Style>
+                                    </TextBox.Resources>
+                                </TextBox>
+                                
+                                <Button Grid.Column="1"
+                                        Command="{Binding LimpiarFiltroCommand}"
+                                        Style="{StaticResource MaterialDesignIconButton}"
+                                        ToolTip="Limpiar filtro"
+                                        Width="36" Height="36">
+                                    <materialDesign:PackIcon Kind="FilterRemove" Width="16" Height="16" Foreground="#9CA3AF"/>
+                                </Button>
+                            </Grid>
+
+                            <DataGrid Grid.Row="2"
                                       ItemsSource="{Binding CuentasPendientes}"
                                       SelectedItem="{Binding CuentaSeleccionada}"
                                       AutoGenerateColumns="False"
@@ -488,9 +577,9 @@
                                              x:Name="TxtBuscarProducto"
                                              Text="{Binding BusquedaProducto, UpdateSourceTrigger=PropertyChanged}"
                                              materialDesign:HintAssist.Hint="🔍 Buscar..."
-                                             Padding="10" 
-                                             FontSize="12" 
-                                             Height="34"
+                                             Padding="12,8" 
+                                             FontSize="13" 
+                                             Height="36"
                                              Margin="0,0,0,10"/>
 
                                     <Border Grid.Row="1" Background="#14161C" CornerRadius="5" BorderBrush="#374151" BorderThickness="1">
@@ -629,9 +718,9 @@
                                              x:Name="TxtBuscarServicio"
                                              Text="{Binding BusquedaServicio, UpdateSourceTrigger=PropertyChanged}"
                                              materialDesign:HintAssist.Hint="🔍 Buscar..."
-                                             Padding="10" 
-                                             FontSize="12" 
-                                             Height="34"
+                                             Padding="12,8" 
+                                             FontSize="13" 
+                                             Height="36"
                                              Margin="0,0,0,10"/>
 
                                     <Border Grid.Row="1" Background="#14161C" CornerRadius="5" BorderBrush="#374151" BorderThickness="1">
@@ -988,6 +1077,12 @@
                                     <Grid Margin="0,0,0,10">
                                         <TextBlock Text="Servicios:" FontSize="11" Foreground="#9CA3AF"/>
                                         <TextBlock Text="{Binding TotalServicios, StringFormat=S/. {0:0.00}}" FontSize="11" Foreground="#22C55E" FontWeight="SemiBold" HorizontalAlignment="Right"/>
+                                    </Grid>
+
+                                    <!-- 🎁 MOSTRAR DESCUENTO APLICADO -->
+                                    <Grid Margin="0,0,0,10" Visibility="{Binding CuentaSeleccionada.descuento, Converter={StaticResource GreaterThanZeroConverter}}">
+                                        <TextBlock Text="Descuento:" FontSize="11" Foreground="#F59E0B"/>
+                                        <TextBlock Text="{Binding CuentaSeleccionada.descuento, StringFormat=-S/. {0:0.00}}" FontSize="11" Foreground="#F59E0B" FontWeight="SemiBold" HorizontalAlignment="Right"/>
                                     </Grid>
 
                                     <Border Height="1.5" Background="#374151" Margin="0,5" CornerRadius="0.5"/>

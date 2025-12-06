@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using ProyectoSauna.Models;
 using ProyectoSauna.Models.Entities;
 using ProyectoSauna.Repositories;
@@ -25,6 +26,7 @@ namespace ProyectoSauna.ViewModels
         private readonly IDetalleServicioRepository _detalleServicioRepository;
         private readonly IMovimientoInventarioRepository _movimientoInventarioRepository;
         private readonly ITipoMovimientoRepository _tipoMovimientoRepository;
+        private readonly Services.DescuentoService _descuentoService;
         private DispatcherTimer _timer;
         private DispatcherTimer _searchTimerProductos;
         private DispatcherTimer _searchTimerServicios;
@@ -40,6 +42,11 @@ namespace ProyectoSauna.ViewModels
             _detalleServicioRepository = new DetalleServicioRepository(context);
             _movimientoInventarioRepository = new MovimientoInventarioRepository(context);
             _tipoMovimientoRepository = new TipoMovimientoRepository(context);
+            
+            // Inicializar DescuentoService
+            var promocionesRepo = App.AppHost!.Services.GetRequiredService<IPromocionesRepository>();
+            var clienteRepo = App.AppHost!.Services.GetRequiredService<IClienteRepository>();
+            _descuentoService = new Services.DescuentoService(promocionesRepo, clienteRepo);
 
             CuentasPendientes = new ObservableCollection<CuentaPendiente>();
             ProductosDisponibles = new ObservableCollection<Producto>();
@@ -50,7 +57,19 @@ namespace ProyectoSauna.ViewModels
             BuscarClienteCommand = new RelayCommand(async () => await BuscarClienteAsync());
             CrearCuentaCommand = new RelayCommand(async () => await CrearCuentaAsync());
             LimpiarBusquedaCommand = new RelayCommand(async () => await LimpiarBusquedaAsync());
-            CerrarCuentaCommand = new RelayCommand(async () => await NavegarAPagosAsync());
+            CerrarCuentaCommand = new RelayCommand(async () => 
+            {
+                try
+                {
+                    await NavegarAPagosAsync();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"❌ ERROR en CerrarCuentaCommand: {ex.Message}");
+                    MessageBox.Show($"Error al ejecutar comando de pago: {ex.Message}", 
+                        "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            });
 
             EliminarCuentaCommand = new RelayCommand(async () => await EliminarCuentaAsync());
             AbrirModificarClienteCommand = new RelayCommand(AbrirPanelModificarCliente);
@@ -70,6 +89,9 @@ namespace ProyectoSauna.ViewModels
 
             // ✅ NUEVO COMANDO PARA LIMPIAR CUENTA ACTIVA
             LimpiarCuentaActivaCommand = new RelayCommand(async () => await LimpiarCuentaActiva());
+
+            // 🔍 NUEVO COMANDO PARA LIMPIAR FILTRO
+            LimpiarFiltroCommand = new RelayCommand(() => { LimpiarFiltroCuentas(); return Task.CompletedTask; });
 
             _ = CargarCuentasPendientesAsync();
             _ = CargarProductosAsync();
@@ -190,6 +212,34 @@ namespace ProyectoSauna.ViewModels
         {
             get => _nombreClienteBuscado;
             set { _nombreClienteBuscado = value; OnPropertyChanged(); }
+        }
+
+        // 🎁 NUEVAS PROPIEDADES PARA PROMOCIONES
+        private Services.InfoDescuentosCliente _infoDescuentos = new();
+        public Services.InfoDescuentosCliente InfoDescuentos
+        {
+            get => _infoDescuentos;
+            set { _infoDescuentos = value; OnPropertyChanged(); }
+        }
+
+        // 🔍 NUEVAS PROPIEDADES PARA FILTRO DE CUENTAS
+        private string _filtroCuentas = string.Empty;
+        public string FiltroCuentas
+        {
+            get => _filtroCuentas;
+            set 
+            { 
+                _filtroCuentas = value; 
+                OnPropertyChanged(); 
+                FiltrarCuentasPendientes();
+            }
+        }
+
+        private ObservableCollection<CuentaPendiente> _todasLasCuentas = new();
+        public ObservableCollection<CuentaPendiente> TodasLasCuentas
+        {
+            get => _todasLasCuentas;
+            set { _todasLasCuentas = value; OnPropertyChanged(); }
         }
 
         private int _idClienteEncontrado;
@@ -357,6 +407,7 @@ namespace ProyectoSauna.ViewModels
                 await Application.Current.Dispatcher.InvokeAsync(() =>
                 {
                     CuentasPendientes.Clear();
+                    TodasLasCuentas.Clear(); // 🔍 LIMPIAR TAMBIÉN LA LISTA COMPLETA
 
                     foreach (var cuenta in cuentasBD)
                     {
@@ -375,6 +426,7 @@ namespace ProyectoSauna.ViewModels
 
                         cuentaPendiente.ActualizarTiempo();
                         CuentasPendientes.Add(cuentaPendiente);
+                        TodasLasCuentas.Add(cuentaPendiente); // 🔍 AGREGAR TAMBIÉN A LA LISTA COMPLETA
                     }
 
                     // ✅ RESTAURAR SELECCIÓN VISUAL Y LÓGICA
@@ -551,6 +603,9 @@ namespace ProyectoSauna.ViewModels
                             NombreClienteBuscado = $"{cliente.nombre} {cliente.apellidos}";
                             ClienteEncontrado = true;
 
+                            // 🎁 CARGAR INFORMACIÓN DE PROMOCIONES
+                            _ = CargarInfoPromocionesAsync(cliente.idCliente);
+
                             MessageBox.Show(
                                 $"✅ Cliente encontrado:\n\n" +
                                 $"Nombre: {cliente.nombre} {cliente.apellidos}\n" +
@@ -633,19 +688,24 @@ namespace ProyectoSauna.ViewModels
                 return;
             }
 
+            // 🚫 VALIDACIÓN ESTRICTA: NO PERMITIR MÚLTIPLES CUENTAS PENDIENTES
             var cuentaExistente = CuentasPendientes.FirstOrDefault(c =>
                 c.DocumentoCliente == DniBusqueda && c.EstadoCuenta == "Pendiente");
 
             if (cuentaExistente != null)
             {
-                var resultado = MessageBox.Show(
-                    $"El cliente '{NombreClienteBuscado}' ya tiene una cuenta pendiente (ID: {cuentaExistente.idCuenta}).\n\n¿Desea crear una nueva cuenta de todas formas?",
-                    "Cuenta Existente",
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Question);
-
-                if (resultado != MessageBoxResult.Yes)
-                    return;
+                MessageBox.Show(
+                    $"❌ OPERACIÓN NO PERMITIDA\n\n" +
+                    $"El cliente '{NombreClienteBuscado}' ya tiene una cuenta pendiente.\n\n" +
+                    $"📋 Detalles de la cuenta existente:\n" +
+                    $"• ID Cuenta: {cuentaExistente.idCuenta}\n" +
+                    $"• Fecha: {cuentaExistente.FechaHoraIngreso:dd/MM/yyyy HH:mm}\n" +
+                    $"• Total: S/ {cuentaExistente.total:N2}\n\n" +
+                    $"💡 Debe cerrar o cancelar la cuenta existente antes de crear una nueva.",
+                    "Cuenta Pendiente Detectada",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
             }
 
             try
@@ -707,38 +767,165 @@ namespace ProyectoSauna.ViewModels
             ClienteEncontrado = false;
             NombreClienteBuscado = string.Empty;
             IdClienteEncontrado = 0;
+            
+            // 🎁 LIMPIAR INFORMACIÓN DE PROMOCIONES
+            InfoDescuentos = new Services.InfoDescuentosCliente
+            {
+                TieneDescuentos = false,
+                Mensaje = "Busque un cliente para ver promociones disponibles"
+            };
+            
             return Task.CompletedTask;
+        }
+
+        // 🎁 NUEVO MÉTODO: Cargar información de promociones del cliente
+        private async Task CargarInfoPromocionesAsync(int idCliente)
+        {
+            try
+            {
+                // 🔄 FORZAR RECARGA DE DATOS DEL CLIENTE DESDE BD
+                System.Diagnostics.Debug.WriteLine($"🔄 Recargando datos de promociones para cliente ID: {idCliente}");
+                
+                InfoDescuentos = await _descuentoService.ObtenerInfoDescuentosClienteAsync(idCliente);
+                
+                // 🐛 DEBUG: Verificar datos cargados
+                System.Diagnostics.Debug.WriteLine($"✅ Promociones cargadas - Cliente: {InfoDescuentos.NombreCliente}, Visitas: {InfoDescuentos.VisitasTotales}, Descuentos: {InfoDescuentos.TieneDescuentos}");
+                
+                if (InfoDescuentos.TieneDescuentos)
+                {
+                    foreach (var descuento in InfoDescuentos.DescuentosDisponibles)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"   💰 {descuento}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Error al cargar promociones: {ex.Message}");
+                InfoDescuentos = new Services.InfoDescuentosCliente
+                {
+                    TieneDescuentos = false,
+                    Mensaje = $"Error al cargar promociones: {ex.Message}"
+                };
+            }
+        }
+
+        // 🔍 NUEVO MÉTODO: Filtrar cuentas pendientes
+        private void FiltrarCuentasPendientes()
+        {
+            if (string.IsNullOrWhiteSpace(FiltroCuentas))
+            {
+                // Si no hay filtro, mostrar todas
+                CuentasPendientes.Clear();
+                foreach (var cuenta in TodasLasCuentas)
+                {
+                    CuentasPendientes.Add(cuenta);
+                }
+            }
+            else
+            {
+                // Aplicar filtro
+                var filtro = FiltroCuentas.ToLower().Trim();
+                var cuentasFiltradas = TodasLasCuentas.Where(c =>
+                    c.NombreCliente.ToLower().Contains(filtro) ||
+                    c.DocumentoCliente.Contains(filtro) ||
+                    c.idCuenta.ToString().Contains(filtro)
+                ).ToList();
+
+                CuentasPendientes.Clear();
+                foreach (var cuenta in cuentasFiltradas)
+                {
+                    CuentasPendientes.Add(cuenta);
+                }
+            }
+        }
+
+        // 🔍 NUEVO MÉTODO: Limpiar filtro
+        private void LimpiarFiltroCuentas()
+        {
+            FiltroCuentas = string.Empty;
         }
 
         private Task NavegarAPagosAsync()
         {
-            if (CuentaSeleccionada == null)
+            try
             {
-                MessageBox.Show("Debe seleccionar una cuenta para proceder al pago.",
-                    "Información",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-                return Task.CompletedTask;
-            }
-
-            // Pasar datos de la cuenta seleccionada al módulo de pagos
-            Application.Current.Properties["IdCuenta"] = CuentaSeleccionada.idCuenta;
-            Application.Current.Properties["NombreCliente"] = CuentaSeleccionada.NombreCliente;
-            Application.Current.Properties["DocumentoCliente"] = CuentaSeleccionada.DocumentoCliente;
-            Application.Current.Properties["TotalCuenta"] = CuentaSeleccionada.total;
-
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                var mainWindow = Application.Current.MainWindow as MainWindow;
-                if (mainWindow != null)
+                if (CuentaSeleccionada == null)
                 {
-                    mainWindow.ContenidoPrincipal.Content = new UserControlPago();
-                    mainWindow.TituloModulo.Text = "Panel de Control - Pagos y Comprobantes";
-                    mainWindow.PantallaBienvenida.Visibility = Visibility.Collapsed;
+                    MessageBox.Show("Debe seleccionar una cuenta para proceder al pago.",
+                        "Información",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Information);
+                    return Task.CompletedTask;
                 }
-            });
 
+                // 🐛 DEBUG: Verificar datos antes de pasar a pagos
+                System.Diagnostics.Debug.WriteLine($"🔍 NAVEGANDO A PAGOS - Datos de cuenta:");
+                System.Diagnostics.Debug.WriteLine($"   ID Cuenta: {CuentaSeleccionada.idCuenta}");
+                System.Diagnostics.Debug.WriteLine($"   Cliente: {CuentaSeleccionada.NombreCliente}");
+                System.Diagnostics.Debug.WriteLine($"   Total con descuentos: S/ {CuentaSeleccionada.total:N2}");
+                System.Diagnostics.Debug.WriteLine($"   Descuento aplicado: S/ {CuentaSeleccionada.descuento:N2}");
+
+                // Pasar datos de la cuenta seleccionada al módulo de pagos
+                Application.Current.Properties["IdCuenta"] = CuentaSeleccionada.idCuenta;
+                Application.Current.Properties["NombreCliente"] = CuentaSeleccionada.NombreCliente;
+                Application.Current.Properties["DocumentoCliente"] = CuentaSeleccionada.DocumentoCliente;
+                Application.Current.Properties["TotalCuenta"] = CuentaSeleccionada.total; // ✅ TOTAL YA INCLUYE DESCUENTOS
+                Application.Current.Properties["DescuentoAplicado"] = CuentaSeleccionada.descuento; // ➕ INFORMACIÓN ADICIONAL
+
+                // 🔧 NAVEGACIÓN DIRECTA AL MÓDULO DE PAGOS
+                if (Application.Current.Dispatcher.CheckAccess())
+                {
+                    // Ya estamos en el hilo UI
+                    CambiarAModuloPagosDirecto();
+                }
+                else
+                {
+                    // Necesitamos cambiar al hilo UI
+                    Application.Current.Dispatcher.Invoke(CambiarAModuloPagosDirecto);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ ERROR general en NavegarAPagosAsync: {ex.Message}");
+                MessageBox.Show($"Error al procesar la navegación: {ex.Message}", 
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            
             return Task.CompletedTask;
+        }
+
+        private void CambiarAModuloPagosDirecto()
+        {
+            try
+            {
+                System.Diagnostics.Debug.WriteLine("🔄 Intentando cambiar directamente al módulo de pagos...");
+                
+                // 🔧 BUSCAR EN TODAS LAS VENTANAS ABIERTAS
+                foreach (Window window in Application.Current.Windows)
+                {
+                    if (window is MainWindow mainWin)
+                    {
+                        System.Diagnostics.Debug.WriteLine("✅ MainWindow encontrada, ejecutando navegación...");
+                        
+                        // Simular el cambio usando la misma lógica que el sidebar
+                        mainWin.TituloModulo.Text = "Panel de Control - Pagos y Comprobantes";
+                        mainWin.PantallaBienvenida.Visibility = Visibility.Collapsed;
+                        mainWin.ContenidoPrincipal.Content = new UserControlPago();
+                        
+                        System.Diagnostics.Debug.WriteLine("✅ Navegación completada exitosamente");
+                        return;
+                    }
+                }
+                
+                System.Diagnostics.Debug.WriteLine("❌ ERROR: No se encontró MainWindow");
+                throw new InvalidOperationException("No se pudo encontrar la ventana principal");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ ERROR en CambiarAModuloPagosDirecto: {ex.Message}");
+                throw; // Re-lanzar para que sea capturado por el método padre
+            }
         }
 
         private void ActualizarTiempos()
@@ -1141,8 +1328,7 @@ namespace ProyectoSauna.ViewModels
                 await CargarConsumosDeCuentaAsync(idCuentaActual);
                 await CargarProductosAsync();
 
-                // ✅ ACTUALIZAR SOLO EL TOTAL EN LA LISTA (sin recargar todo)
-                await ActualizarTotalEnListaAsync(idCuentaActual);
+                // ✅ Solo actualizar totales, no recargar lista completa para preservar selección
 
                 InventoryEventService.NotifyStockChanged();
 
@@ -1212,8 +1398,7 @@ namespace ProyectoSauna.ViewModels
 
                 await CargarConsumosDeCuentaAsync(idCuentaActual);
 
-                // ✅ ACTUALIZAR SOLO EL TOTAL EN LA LISTA (sin recargar todo)
-                await ActualizarTotalEnListaAsync(idCuentaActual);
+                // ✅ Solo actualizar totales, no recargar lista completa para preservar selección
 
                 CantidadServicio = 1;
                 ServicioSeleccionado = null;
@@ -1562,6 +1747,7 @@ namespace ProyectoSauna.ViewModels
                 return;
             }
 
+            // ✅ El total ya incluye el descuento calculado automáticamente
             TotalCuenta = CuentaSeleccionada.precioEntrada - CuentaSeleccionada.descuento + TotalProductos + TotalServicios;
         }
 
@@ -1585,16 +1771,49 @@ namespace ProyectoSauna.ViewModels
                     .SumAsync(ds => (decimal?)ds.subtotal) ?? 0;
 
                 decimal subtotalConsumos = totalProductos + totalServicios;
+                decimal montoBase = subtotalConsumos; // Subtotal de consumos para calcular descuento
 
                 var cuenta = await context.Cuenta.FindAsync(idCuenta);
 
                 if (cuenta != null)
                 {
+                    // 🎁 CALCULAR DESCUENTOS AUTOMÁTICAMENTE
+                    decimal descuentoCalculado = 0;
+                    if (montoBase > 0 && cuenta.idCliente > 0)
+                    {
+                        try
+                        {
+                            var resultadoDescuento = await _descuentoService.CalcularDescuentosDisponiblesAsync(cuenta.idCliente, montoBase);
+                            descuentoCalculado = resultadoDescuento.TotalDescuento;
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"Error al calcular descuentos: {ex.Message}");
+                        }
+                    }
+
                     cuenta.subtotalConsumos = subtotalConsumos;
+                    cuenta.descuento = descuentoCalculado; // ✅ Actualizar descuento automáticamente
                     cuenta.total = cuenta.precioEntrada + subtotalConsumos - cuenta.descuento;
 
                     context.Entry(cuenta).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     await context.SaveChangesAsync();
+
+                    // 🔄 ACTUALIZAR CUENTA SELECCIONADA EN TIEMPO REAL
+                    if (CuentaSeleccionada != null && CuentaSeleccionada.idCuenta == idCuenta)
+                    {
+                        await Application.Current.Dispatcher.InvokeAsync(() =>
+                        {
+                            CuentaSeleccionada.descuento = descuentoCalculado;
+                            CuentaSeleccionada.total = cuenta.total;
+                            CalcularTotalCuenta(); // 🎯 FORZAR RECÁLCULO DE TOTAL PARA UI
+                        });
+                    }
+
+                    // 🔄 ACTUALIZAR LISTA DE CUENTAS PENDIENTES EN TIEMPO REAL
+                    await ActualizarTotalEnListaAsync(idCuenta);
+                    
+                    // ✅ NO RECARGAR LISTA COMPLETA PARA PRESERVAR SELECCIÓN
                 }
             }
             catch (Exception ex)
@@ -1618,11 +1837,20 @@ namespace ProyectoSauna.ViewModels
                 {
                     await Application.Current.Dispatcher.InvokeAsync(() =>
                     {
+                        // 🔄 ACTUALIZAR EN LA LISTA
                         var cuentaEnLista = CuentasPendientes.FirstOrDefault(c => c.idCuenta == idCuenta);
                         if (cuentaEnLista != null)
                         {
                             cuentaEnLista.total = cuentaDB.total;
                             cuentaEnLista.descuento = cuentaDB.descuento;
+                        }
+
+                        // 🎯 ACTUALIZAR CUENTA SELECCIONADA SI ES LA MISMA
+                        if (CuentaSeleccionada != null && CuentaSeleccionada.idCuenta == idCuenta)
+                        {
+                            CuentaSeleccionada.total = cuentaDB.total;
+                            CuentaSeleccionada.descuento = cuentaDB.descuento;
+                            System.Diagnostics.Debug.WriteLine($"🎯 Cuenta seleccionada actualizada: #{CuentaSeleccionada.idCuenta} - Total: S/. {CuentaSeleccionada.total:N2}");
                         }
                     });
                 }
@@ -1630,6 +1858,28 @@ namespace ProyectoSauna.ViewModels
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Error al actualizar total en lista: {ex.Message}");
+            }
+        }
+        /// <summary>
+        /// Recarga la lista de cuentas pendientes manteniendo la cuenta seleccionada actualmente
+        /// </summary>
+        private async Task CargarCuentasPendientesPreservandoSeleccionAsync()
+        {
+            // 💾 GUARDAR SELECCIÓN ACTUAL
+            var cuentaSeleccionadaId = CuentaSeleccionada?.idCuenta;
+            
+            // 🔄 RECARGAR LISTA
+            await CargarCuentasPendientesAsync();
+            
+            // 🎯 RESTAURAR SELECCIÓN SI EXISTÍA
+            if (cuentaSeleccionadaId.HasValue && CuentasPendientes != null)
+            {
+                var cuentaARestaurar = CuentasPendientes.FirstOrDefault(c => c.idCuenta == cuentaSeleccionadaId.Value);
+                if (cuentaARestaurar != null)
+                {
+                    CuentaSeleccionada = cuentaARestaurar;
+                    System.Diagnostics.Debug.WriteLine($"🎯 Selección restaurada: Cuenta #{cuentaARestaurar.idCuenta} - {cuentaARestaurar.NombreCliente}");
+                }
             }
         }
         #endregion
@@ -1652,6 +1902,7 @@ namespace ProyectoSauna.ViewModels
         public ICommand DevolverProductoCommand { get; }
         public ICommand SeleccionarCuentaCommand { get; }
         public ICommand LimpiarCuentaActivaCommand { get; } // ✅ NUEVO
+        public ICommand LimpiarFiltroCommand { get; } // 🔍 NUEVO COMANDO FILTRO
         #endregion
 
         #region INotifyPropertyChanged
