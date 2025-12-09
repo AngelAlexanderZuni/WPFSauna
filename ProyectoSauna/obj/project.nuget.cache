@@ -114,7 +114,7 @@
     {
       "code": "NU1701",
       "level": "Warning",
-      "message": "Package 'LiveChartsCore.SkiaSharpView.WPF 2.0.0-rc6.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net9.0-windows7.0'. This package may not be fully compatible with your project.",
+      "message": "El paquete \"LiveChartsCore.SkiaSharpView.WPF 2.0.0-rc6.1\" se restauró con \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\" en lugar de la plataforma de destino del proyecto \"net9.0-windows7.0\". Puede que el paquete no sea totalmente compatible con el proyecto.",
       "projectPath": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\ProyectoSauna.csproj",
       "warningLevel": 1,
       "filePath": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\ProyectoSauna.csproj",
@@ -126,7 +126,7 @@
     {
       "code": "NU1701",
       "level": "Warning",
-      "message": "Package 'OpenTK 3.3.1' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net9.0-windows7.0'. This package may not be fully compatible with your project.",
+      "message": "El paquete \"OpenTK 3.3.1\" se restauró con \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\" en lugar de la plataforma de destino del proyecto \"net9.0-windows7.0\". Puede que el paquete no sea totalmente compatible con el proyecto.",
       "projectPath": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\ProyectoSauna.csproj",
       "warningLevel": 1,
       "filePath": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\ProyectoSauna.csproj",
@@ -138,7 +138,7 @@
     {
       "code": "NU1701",
       "level": "Warning",
-      "message": "Package 'OpenTK.GLWpfControl 3.3.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net9.0-windows7.0'. This package may not be fully compatible with your project.",
+      "message": "El paquete \"OpenTK.GLWpfControl 3.3.0\" se restauró con \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\" en lugar de la plataforma de destino del proyecto \"net9.0-windows7.0\". Puede que el paquete no sea totalmente compatible con el proyecto.",
       "projectPath": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\ProyectoSauna.csproj",
       "warningLevel": 1,
       "filePath": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\ProyectoSauna.csproj",
@@ -150,7 +150,7 @@
     {
       "code": "NU1701",
       "level": "Warning",
-      "message": "Package 'SkiaSharp.Views.WPF 3.119.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net9.0-windows7.0'. This package may not be fully compatible with your project.",
+      "message": "El paquete \"SkiaSharp.Views.WPF 3.119.0\" se restauró con \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1\" en lugar de la plataforma de destino del proyecto \"net9.0-windows7.0\". Puede que el paquete no sea totalmente compatible con el proyecto.",
       "projectPath": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\ProyectoSauna.csproj",
       "warningLevel": 1,
       "filePath": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\ProyectoSauna.csproj",

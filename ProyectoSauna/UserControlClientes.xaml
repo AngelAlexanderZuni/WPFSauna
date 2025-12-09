@@ -30,6 +30,12 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background" Value="Transparent"/>
         </Style>
+
+        <!-- Estilo para celdas centradas del DataGrid -->
+        <Style x:Key="CenteredCellStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
     </UserControl.Resources>
     
     <Grid Margin="15">
@@ -54,12 +60,18 @@
                     <TextBlock Text="Administracion de clientes activos del sistema" FontSize="11" Foreground="#6B7280" Margin="0,2,0,0"/>
                 </StackPanel>
                 
-                <!-- Contador de clientes -->
+                <!-- Contador de clientes dinámico -->
                 <Border Grid.Column="2" Background="#4CC9F022" CornerRadius="6" Padding="12,6">
                     <StackPanel Orientation="Horizontal">
                         <materialDesign:PackIcon Kind="AccountMultiple" Width="16" Height="16" Foreground="#4CC9F0" VerticalAlignment="Center"/>
-                        <TextBlock Text="{Binding Clientes.Count, StringFormat='{}{0} activos'}" 
-                                   Foreground="#4CC9F0" FontSize="12" FontWeight="Medium" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                        <TextBlock Foreground="#4CC9F0" FontSize="12" FontWeight="Medium" Margin="6,0,0,0" VerticalAlignment="Center">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} {1}">
+                                    <Binding Path="ClientesActuales.Count"/>
+                                    <Binding Path="TituloLista"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
                     </StackPanel>
                 </Border>
             </Grid>
@@ -226,22 +238,6 @@
                             </Button>
                         </StackPanel>
 
-                        <!-- Botón Desactivar (solo visible si hay cliente seleccionado) -->
-                        <Button Command="{Binding DesactivarClienteCommand}"
-                                Style="{StaticResource MaterialDesignOutlinedButton}"
-                                BorderBrush="#EF4444"
-                                Foreground="#EF4444"
-                                Height="38"
-                                FontWeight="Medium"
-                                FontSize="13"
-                                Margin="0,12,0,0"
-                                Visibility="{Binding ClienteSeleccionado, Converter={StaticResource NullToVisibilityConverter}}">
-                            <StackPanel Orientation="Horizontal">
-                                <materialDesign:PackIcon Kind="AccountOff" Width="16" Height="16" VerticalAlignment="Center"/>
-                                <TextBlock Text="Desactivar Cliente" Margin="6,0,0,0" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </Button>
-
                         <TextBlock Text="* Campos obligatorios" 
                                    Foreground="#6B7280" 
                                    FontSize="10" 
@@ -285,22 +281,31 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
 
-                            <!-- RadioButtons compactos -->
-                            <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0,0,12,0" VerticalAlignment="Center">
-                                <RadioButton Content="DNI" 
-                                             IsChecked="{Binding TipoBusqueda, Converter={StaticResource StringEqualsConverter}, ConverterParameter=DNI, Mode=TwoWay}"
-                                             Foreground="#9CA3AF" 
-                                             FontSize="12"
-                                             Margin="0,0,12,0"
-                                             Style="{StaticResource MaterialDesignRadioButton}"/>
-                                <RadioButton Content="Nombre" 
-                                             IsChecked="{Binding TipoBusqueda, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Nombre, Mode=TwoWay}"
-                                             Foreground="#9CA3AF"
-                                             FontSize="12"
-                                             Style="{StaticResource MaterialDesignRadioButton}"/>
-                            </StackPanel>
+                        <!-- RadioButtons y Checkbox compactos -->
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0,0,12,0" VerticalAlignment="Center">
+                            <RadioButton Content="DNI" 
+                                         IsChecked="{Binding TipoBusqueda, Converter={StaticResource StringEqualsConverter}, ConverterParameter=DNI, Mode=TwoWay}"
+                                         Foreground="#9CA3AF" 
+                                         FontSize="12"
+                                         Margin="0,0,12,0"
+                                         Style="{StaticResource MaterialDesignRadioButton}"/>
+                            <RadioButton Content="Nombre" 
+                                         IsChecked="{Binding TipoBusqueda, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Nombre, Mode=TwoWay}"
+                                         Foreground="#9CA3AF"
+                                         FontSize="12"
+                                         Margin="0,0,16,0"
+                                         Style="{StaticResource MaterialDesignRadioButton}"/>
+                            
+                            <!-- Checkbox de inactivos junto a los RadioButtons -->
+                            <CheckBox IsChecked="{Binding MostrarInactivos}"
+                                      Content="Inactivos"
+                                      Foreground="#F59E0B"
+                                      FontWeight="Medium"
+                                      FontSize="12"
+                                      Style="{StaticResource MaterialDesignCheckBox}"/>
+                        </StackPanel>
 
-                            <!-- Barra de Bosqueda -->
+                        <!-- Barra de Bosqueda -->
                             <TextBox Grid.Column="1"
                                      Text="{Binding TextoBusqueda, UpdateSourceTrigger=PropertyChanged}"
                                      materialDesign:HintAssist.Hint="Buscar..."
@@ -344,11 +349,13 @@
                                 </StackPanel>
                             </Button>
                         </Grid>
+
+
                     </Grid>
 
-                    <!-- DataGrid Mejorado -->
+                    <!-- DataGrid Unificado y Simplificado -->
                     <Border Grid.Row="1" BorderBrush="#2D3748" BorderThickness="1" CornerRadius="6">
-                        <DataGrid ItemsSource="{Binding Clientes}"
+                        <DataGrid ItemsSource="{Binding ClientesActuales}"
                                   SelectedItem="{Binding ClienteSeleccionado}"
                                   AutoGenerateColumns="False"
                                   CanUserAddRows="False"
@@ -365,89 +372,96 @@
                                   HeadersVisibility="Column"
                                   FontSize="12"
                                   RowHeight="40">
-                            
-                            <DataGrid.ColumnHeaderStyle>
-                                <Style TargetType="DataGridColumnHeader">
-                                    <Setter Property="Background" Value="#252830"/>
-                                    <Setter Property="Foreground" Value="#9CA3AF"/>
-                                    <Setter Property="FontWeight" Value="SemiBold"/>
-                                    <Setter Property="FontSize" Value="11"/>
-                                    <Setter Property="Padding" Value="12,8"/>
-                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
-                                    <Setter Property="BorderBrush" Value="#2D3748"/>
-                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                                </Style>
-                            </DataGrid.ColumnHeaderStyle>
+                        
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Background" Value="#252830"/>
+                                <Setter Property="Foreground" Value="#9CA3AF"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                <Setter Property="FontSize" Value="11"/>
+                                <Setter Property="Padding" Value="12,8"/>
+                                <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                <Setter Property="BorderBrush" Value="#2D3748"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
 
-                            <DataGrid.CellStyle>
-                                <Style TargetType="DataGridCell">
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                    <Setter Property="Padding" Value="12,0"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="DataGridCell">
-                                                <Border Background="{TemplateBinding Background}" 
-                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                        Padding="{TemplateBinding Padding}">
-                                                    <ContentPresenter VerticalAlignment="Center"/>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="Background" Value="#4CC9F022"/>
-                                            <Setter Property="Foreground" Value="White"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </DataGrid.CellStyle>
-                            
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="DNI" Binding="{Binding numero_documento}" Width="85">
-                                    <DataGridTextColumn.ElementStyle>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="FontWeight" Value="Medium"/>
-                                            <Setter Property="Foreground" Value="#4CC9F0"/>
-                                        </Style>
-                                    </DataGridTextColumn.ElementStyle>
-                                </DataGridTextColumn>
-                                <DataGridTextColumn Header="Nombre Completo" Binding="{Binding NombreCompleto}" Width="*" MinWidth="180"/>
-                                <DataGridTextColumn Header="Teléfono" Binding="{Binding telefono}" Width="100"/>
-                                <DataGridTextColumn Header="Correo" Binding="{Binding correo}" Width="200"/>
-                                <DataGridTextColumn Header="Visitas" Binding="{Binding visitasTotales}" Width="60">
-                                    <DataGridTextColumn.ElementStyle>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="HorizontalAlignment" Value="Center"/>
-                                            <Setter Property="FontWeight" Value="SemiBold"/>
-                                        </Style>
-                                    </DataGridTextColumn.ElementStyle>
-                                </DataGridTextColumn>
-                                <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="70">
-                                    <DataGridTextColumn.ElementStyle>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="HorizontalAlignment" Value="Center"/>
-                                            <Setter Property="FontWeight" Value="Medium"/>
-                                            <Setter Property="Foreground" Value="#10B981"/>
-                                        </Style>
-                                    </DataGridTextColumn.ElementStyle>
-                                </DataGridTextColumn>
-                            </DataGrid.Columns>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Padding" Value="12,0"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="DataGridCell">
+                                            <Border Background="{TemplateBinding Background}" 
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="#4CC9F022"/>
+                                        <Setter Property="Foreground" Value="White"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.CellStyle>
+                        
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="DNI" Binding="{Binding numero_documento}" Width="85">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="FontWeight" Value="Medium"/>
+                                        <Setter Property="Foreground" Value="#4CC9F0"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Nombre Completo" Binding="{Binding NombreCompleto}" Width="*" MinWidth="180"/>
+                            <DataGridTextColumn Header="Teléfono" Binding="{Binding telefono}" Width="100"/>
+                            <DataGridTextColumn Header="Correo" Binding="{Binding correo}" Width="200"/>
+                            <DataGridTextColumn Header="Visitas" Binding="{Binding visitasTotales}" Width="60">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="FontWeight" Value="SemiBold"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Estado" Width="70">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                                        <Setter Property="FontWeight" Value="Medium"/>
+                                        <Setter Property="Text" Value="Activo"/>
+                                        <Setter Property="Foreground" Value="#10B981"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding activo}" Value="False">
+                                                <Setter Property="Text" Value="Inactivo"/>
+                                                <Setter Property="Foreground" Value="#EF4444"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
 
-                            <DataGrid.RowStyle>
-                                <Style TargetType="DataGridRow">
-                                    <Setter Property="Cursor" Value="Hand"/>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#2D3748"/>
-                                        </Trigger>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="Background" Value="#4CC9F022"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </DataGrid.RowStyle>
-                        </DataGrid>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="Cursor" Value="Hand"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#2D3748"/>
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="#4CC9F022"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>
+                    </DataGrid>
                     </Border>
                 </Grid>
             </Border>
@@ -459,6 +473,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 
@@ -477,13 +492,61 @@
                            TextTrimming="CharacterEllipsis"
                            Margin="12,0,0,0"/>
                 
+                <!-- Botón de Activar/Desactivar Cliente -->
+                <Button Grid.Column="2"
+                        Command="{Binding ToggleActivarClienteCommand}"
+                        FontSize="11"
+                        FontWeight="Medium"
+                        Height="28"
+                        Padding="8,0"
+                        Margin="0,0,12,0"
+                        Visibility="{Binding ClienteSeleccionado, Converter={StaticResource NullToVisibilityConverter}}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignOutlinedButton}">
+                            <Setter Property="BorderBrush" Value="#EF4444"/>
+                            <Setter Property="Foreground" Value="#EF4444"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ClienteSeleccionado.activo}" Value="False">
+                                    <Setter Property="BorderBrush" Value="#10B981"/>
+                                    <Setter Property="Foreground" Value="#10B981"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Width="12" Height="12" VerticalAlignment="Center">
+                            <materialDesign:PackIcon.Style>
+                                <Style TargetType="materialDesign:PackIcon">
+                                    <Setter Property="Kind" Value="AccountOff"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ClienteSeleccionado.activo}" Value="False">
+                                            <Setter Property="Kind" Value="AccountCheck"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </materialDesign:PackIcon.Style>
+                        </materialDesign:PackIcon>
+                        <TextBlock Margin="4,0,0,0" VerticalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="Desactivar"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ClienteSeleccionado.activo}" Value="False">
+                                            <Setter Property="Text" Value="Activar"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </Button>
+                
                 <!-- Timestamp -->
-                <TextBlock Grid.Column="2" 
+                <TextBlock Grid.Column="3" 
                            Text="{Binding Source={x:Static system:DateTime.Now}, StringFormat='Actualizado: {0:HH:mm:ss}'}" 
                            Foreground="#6B7280" 
                            FontSize="10" 
-                           VerticalAlignment="Center"
-                           Margin="12,0,0,0"/>
+                           VerticalAlignment="Center"/>
             </Grid>
         </Border>
     </Grid>

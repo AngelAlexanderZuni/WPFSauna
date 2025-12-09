@@ -27,33 +27,66 @@ namespace ProyectoSauna.ViewModels
         private readonly IMovimientoInventarioRepository _movimientoInventarioRepository;
         private readonly ITipoMovimientoRepository _tipoMovimientoRepository;
         private readonly Services.DescuentoService _descuentoService;
+        
+        // 🛡️ SERVICIOS DE SEGURIDAD Y CONCURRENCIA
+        private readonly Services.CuentaValidacionService _validacionService;
+        private readonly Services.ConcurrencyService? _concurrencyService;
+        private readonly Services.CuentaUnicaService _cuentaUnicaService;
+        private readonly Services.InventoryEventService _inventoryEventService;
+        private readonly SaunaDbContext _sharedContext;
+        
+        // 🔄 CONTROL DE ACTUALIZACIÓN INTELIGENTE
+        private bool _actualizacionHabilitada = true;
+        private bool _hayPendienteActualizacion = false;
+        
         private DispatcherTimer _timer;
         private DispatcherTimer _searchTimerProductos;
         private DispatcherTimer _searchTimerServicios;
+        private DispatcherTimer _actualizacionTimer; // 🔄 Timer para actualizaciones inteligentes
 
         public CuentasViewModel()
         {
             _cuentaRepository = new CuentaRepository();
 
-            using var context = new SaunaDbContext();
-            _productoRepository = new ProductoRepository(context);
-            _servicioRepository = new ServicioRepository(context);
-            _detalleConsumoRepository = new DetalleConsumoRepository(context);
-            _detalleServicioRepository = new DetalleServicioRepository(context);
-            _movimientoInventarioRepository = new MovimientoInventarioRepository(context);
-            _tipoMovimientoRepository = new TipoMovimientoRepository(context);
+            _sharedContext = new SaunaDbContext();
+            _productoRepository = new ProductoRepository(_sharedContext);
+            _servicioRepository = new ServicioRepository(_sharedContext);
+            _detalleConsumoRepository = new DetalleConsumoRepository(_sharedContext);
+            _detalleServicioRepository = new DetalleServicioRepository(_sharedContext);
+            _movimientoInventarioRepository = new MovimientoInventarioRepository(_sharedContext);
+            _tipoMovimientoRepository = new TipoMovimientoRepository(_sharedContext);
+            
+            // 🛡️ INICIALIZAR SERVICIOS DE SEGURIDAD
+            _validacionService = new Services.CuentaValidacionService();
+            _concurrencyService = new Services.ConcurrencyService(_sharedContext);
+            _cuentaUnicaService = new Services.CuentaUnicaService();
             
             // Inicializar DescuentoService
-            var promocionesRepo = App.AppHost!.Services.GetRequiredService<IPromocionesRepository>();
-            var clienteRepo = App.AppHost!.Services.GetRequiredService<IClienteRepository>();
-            _descuentoService = new Services.DescuentoService(promocionesRepo, clienteRepo);
+            try
+            {
+                var promocionesRepo = App.AppHost?.Services.GetRequiredService<IPromocionesRepository>();
+                var clienteRepo = App.AppHost?.Services.GetRequiredService<IClienteRepository>();
+                if (promocionesRepo != null && clienteRepo != null)
+                {
+                    _descuentoService = new Services.DescuentoService(promocionesRepo, clienteRepo);
+                }
+                else
+                {
+                    // Fallback si no se pueden obtener los servicios
+                    _descuentoService = null!;
+                }
+            }
+            catch
+            {
+                _descuentoService = null!;
+            }
 
             CuentasPendientes = new ObservableCollection<CuentaPendiente>();
             ProductosDisponibles = new ObservableCollection<Producto>();
             ServiciosDisponibles = new ObservableCollection<Servicio>();
             ConsumosCuentaActual = new ObservableCollection<ConsumoItem>();
 
-            ActualizarListaCommand = new RelayCommand(async () => await CargarCuentasPendientesAsync());
+            ActualizarListaCommand = new RelayCommand(async () => await ActualizarListaCuentasAsync());
             BuscarClienteCommand = new RelayCommand(async () => await BuscarClienteAsync());
             CrearCuentaCommand = new RelayCommand(async () => await CrearCuentaAsync());
             LimpiarBusquedaCommand = new RelayCommand(async () => await LimpiarBusquedaAsync());
@@ -93,6 +126,10 @@ namespace ProyectoSauna.ViewModels
             // 🔍 NUEVO COMANDO PARA LIMPIAR FILTRO
             LimpiarFiltroCommand = new RelayCommand(() => { LimpiarFiltroCuentas(); return Task.CompletedTask; });
 
+            // 🔄 SUSCRIPCIÓN A EVENTOS DE SINCRONIZACIÓN ENTRE VENTANAS
+            _inventoryEventService = InventoryEventService.Instance;
+            _inventoryEventService.StockChanged += OnStockChanged_SincronizarCuentas;
+
             _ = CargarCuentasPendientesAsync();
             _ = CargarProductosAsync();
             _ = CargarServiciosAsync();
@@ -114,6 +151,11 @@ namespace ProyectoSauna.ViewModels
                 _searchTimerServicios.Stop();
                 await BuscarServiciosAsync();
             };
+
+            // 🔄 CONFIGURAR TIMER DE ACTUALIZACIÓN INTELIGENTE
+            _actualizacionTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(10) };
+            _actualizacionTimer.Tick += async (s, e) => await VerificarActualizacionPendiente();
+            _actualizacionTimer.Start();
         }
 
         #region Propiedades
@@ -491,12 +533,16 @@ namespace ProyectoSauna.ViewModels
             // Marcar la seleccionada
             cuenta.IsSelected = true;
             CuentaSeleccionada = cuenta;
+            
+            // ⏸️ PAUSAR ACTUALIZACIONES AUTOMÁTICAS AL SELECCIONAR CUENTA
+            PausarActualizaciones();
+            System.Diagnostics.Debug.WriteLine($"🎯 Cuenta seleccionada: {cuenta.NombreCliente} (ID: {cuenta.idCuenta})");
 
             return Task.CompletedTask;
         }
 
         // ✅ NUEVO MÉTODO: Limpiar cuenta activa
-        private Task LimpiarCuentaActiva()
+        private async Task LimpiarCuentaActiva()
         {
             var resultado = MessageBox.Show(
                 "¿Desea dejar de trabajar con esta cuenta?\n\n" +
@@ -516,9 +562,11 @@ namespace ProyectoSauna.ViewModels
                 CuentaSeleccionada = null;
                 ProyectoSauna.Models.SesionActual.CuentaSeleccionadaId = 0;
                 ConsumosCuentaActual.Clear();
+                
+                // ▶️ REACTIVAR ACTUALIZACIONES AUTOMÁTICAS AL LIMPIAR SELECCIÓN
+                await ReactivarActualizacionesAsync();
+                System.Diagnostics.Debug.WriteLine("🧙 Cuenta deseleccionada - Actualizaciones reactivadas");
             }
-
-            return Task.CompletedTask;
         }
 
         private async Task EnsureCuentaSeleccionadaAsync()
@@ -688,65 +736,80 @@ namespace ProyectoSauna.ViewModels
                 return;
             }
 
-            // 🚫 VALIDACIÓN ESTRICTA: NO PERMITIR MÚLTIPLES CUENTAS PENDIENTES
-            var cuentaExistente = CuentasPendientes.FirstOrDefault(c =>
-                c.DocumentoCliente == DniBusqueda && c.EstadoCuenta == "Pendiente");
-
-            if (cuentaExistente != null)
-            {
-                MessageBox.Show(
-                    $"❌ OPERACIÓN NO PERMITIDA\n\n" +
-                    $"El cliente '{NombreClienteBuscado}' ya tiene una cuenta pendiente.\n\n" +
-                    $"📋 Detalles de la cuenta existente:\n" +
-                    $"• ID Cuenta: {cuentaExistente.idCuenta}\n" +
-                    $"• Fecha: {cuentaExistente.FechaHoraIngreso:dd/MM/yyyy HH:mm}\n" +
-                    $"• Total: S/ {cuentaExistente.total:N2}\n\n" +
-                    $"💡 Debe cerrar o cancelar la cuenta existente antes de crear una nueva.",
-                    "Cuenta Pendiente Detectada",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
-                return;
-            }
-
             try
             {
                 EstaCargando = true;
 
-                var nuevaCuenta = new Cuenta
+                // 🛡️ VALIDACIÓN AVANZADA: PREVENIR CUENTAS SIMULTÁNEAS
+                var validacionUnica = await _cuentaUnicaService.ValidarCreacionCuentaAsync(IdClienteEncontrado);
+                if (!validacionUnica.puedeCrear)
                 {
-                    idCliente = IdClienteEncontrado,
-                    fechaHoraCreacion = DateTime.Now,
-                    precioEntrada = 0.00m,
-                    descuento = 0.00m,
-                    total = 0.00m,
-                    saldo = 0.00m,
-                    idEstadoCuenta = 1,
-                    idUsuarioCreador = SesionActual.IdUsuario
-                };
+                    var resultado = MessageBox.Show(
+                        validacionUnica.mensaje + "\n\n¿Desea abrir la cuenta existente en su lugar?",
+                        "Cuenta Existente Detectada",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Question);
 
-                var idNuevaCuenta = await _cuentaRepository.CrearCuentaAsync(nuevaCuenta);
+                    if (resultado == MessageBoxResult.Yes && validacionUnica.idCuentaExistente.HasValue)
+                    {
+                        // Buscar la cuenta existente y seleccionarla
+                        await CargarCuentasPendientesAsync();
+                        var cuentaExistente = CuentasPendientes.FirstOrDefault(c => c.idCuenta == validacionUnica.idCuentaExistente.Value);
+                        if (cuentaExistente != null)
+                        {
+                            await SeleccionarCuentaAsync(cuentaExistente);
+                            MessageBox.Show($"✅ Cuenta #{cuentaExistente.idCuenta} seleccionada correctamente.",
+                                "Cuenta Abierta", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                    }
+                    return;
+                }
 
-                if (idNuevaCuenta > 0)
+                // 🛡️ CREAR CUENTA DE FORMA SEGURA CONTRA CONCURRENCIA
+                var creacionSegura = await _cuentaUnicaService.CrearCuentaSeguraAsync(
+                    IdClienteEncontrado,
+                    15.00m, // Precio entrada por defecto
+                    SesionActual.IdUsuario);
+
+                if (!creacionSegura.exito)
                 {
-                    MessageBox.Show(
-                        $"✅ Cuenta creada exitosamente\n\n" +
-                        $"Cliente: {NombreClienteBuscado}\n" +
-                        $"ID Cuenta: {idNuevaCuenta}\n\n" +
-                        $"Diríjase a la pestaña 'Gestión de Consumos' para agregar servicios.",
-                        "Cuenta Creada",
+                    MessageBox.Show(creacionSegura.mensaje,
+                        "Conflicto de Creación",
                         MessageBoxButton.OK,
-                        MessageBoxImage.Information);
-
+                        MessageBoxImage.Warning);
+                    
+                    // Recargar lista para mostrar la cuenta que otro usuario pudo haber creado
                     await CargarCuentasPendientesAsync();
-                    await LimpiarBusquedaAsync();
+                    return;
                 }
-                else
+
+                MessageBox.Show(creacionSegura.mensaje,
+                    "Cuenta Creada Exitosamente",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+
+                // Recargar lista y seleccionar la cuenta recién creada
+                await CargarCuentasPendientesAsync();
+                if (creacionSegura.idCuentaCreada.HasValue)
                 {
-                    MessageBox.Show("No se pudo crear la cuenta. Intente nuevamente.",
-                        "Error",
-                        MessageBoxButton.OK,
-                        MessageBoxImage.Error);
+                    var cuentaNueva = CuentasPendientes.FirstOrDefault(c => c.idCuenta == creacionSegura.idCuentaCreada.Value);
+                    if (cuentaNueva != null)
+                    {
+                        await SeleccionarCuentaAsync(cuentaNueva);
+                    }
                 }
+
+                await LimpiarBusquedaAsync();
+
+                // 🔄 SINCRONIZAR CON TODAS LAS VENTANAS
+                // Notificar a otras instancias sobre el cambio
+                _inventoryEventService?.OnStockChanged(new StockChangedEventArgs
+                {
+                    ProductoId = 0, // No es producto, es cuenta nueva
+                    NuevoStock = 0,
+                    TipoMovimiento = "CUENTA_CREADA",
+                    IdCuenta = creacionSegura.idCuentaCreada
+                });
             }
             catch (Exception ex)
             {
@@ -1046,20 +1109,41 @@ namespace ProyectoSauna.ViewModels
                 return;
             }
 
-            var resultado = MessageBox.Show(
-                $"⚠️ ¿Está seguro de eliminar la cuenta?\n\n" +
-                $"Cliente: {CuentaSeleccionada.NombreCliente}\n" +
-                $"ID Cuenta: {CuentaSeleccionada.idCuenta}\n\n" +
-                $"Esta acción devolverá el stock de todos los productos consumidos y no se puede deshacer.",
-                "Confirmar Eliminación",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Warning);
-
-            if (resultado != MessageBoxResult.Yes)
-                return;
-
             try
             {
+                // 🛡️ VALIDAR ESTADO DE CUENTA
+                var validacionCuenta = await _validacionService.ValidarCuentaParaModificacionAsync(CuentaSeleccionada.idCuenta);
+                if (!validacionCuenta.esValida)
+                {
+                    MessageBox.Show(validacionCuenta.mensaje, "Cuenta No Modificable",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                // 🛡️ VERIFICAR SI TIENE CONSUMOS Y MOSTRAR INFORMACIÓN
+                var validacionConsumos = await _validacionService.ValidarCuentaTieneConsumosAsync(CuentaSeleccionada.idCuenta);
+                
+                string mensajeConfirmacion = $"⚠️ ¿Está seguro de eliminar la cuenta?\n\n" +
+                                           $"Cliente: {CuentaSeleccionada.NombreCliente}\n" +
+                                           $"ID Cuenta: {CuentaSeleccionada.idCuenta}\n\n";
+                
+                if (validacionConsumos.tieneConsumos)
+                {
+                    mensajeConfirmacion += $"🔍 ATENCIÓN: {validacionConsumos.mensaje}\n\n" +
+                                         $"Al eliminar la cuenta se devolverá automáticamente el stock de todos los productos.\n\n" +
+                                         $"💡 RECOMENDACIÓN: Considere procesar el pago en lugar de eliminar la cuenta.\n\n";
+                }
+
+                mensajeConfirmacion += "Esta acción no se puede deshacer.";
+
+                var resultado = MessageBox.Show(mensajeConfirmacion,
+                    "Confirmar Eliminación",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
+
+                if (resultado != MessageBoxResult.Yes)
+                    return;
+
                 EstaCargando = true;
 
                 using var context = new SaunaDbContext();
@@ -1070,22 +1154,37 @@ namespace ProyectoSauna.ViewModels
 
                 var consumos = await repoConsumo.GetByCuentaAsync(CuentaSeleccionada.idCuenta);
 
+                // 🛡️ DEVOLUCIÓN SEGURA DE STOCK CON TRY-CATCH
                 foreach (var consumo in consumos)
                 {
-                    var producto = await productoRepo.GetByIdAsync(consumo.idProducto);
-                    if (producto != null)
+                    try
                     {
-                        producto.stockActual += consumo.cantidad;
-                        await productoRepo.UpdateAsync(producto);
+                        var producto = await productoRepo.GetByIdAsync(consumo.idProducto);
+                        if (producto != null)
+                        {
+                            var stockAntes = producto.stockActual;
+                            producto.stockActual += consumo.cantidad;
+                            await productoRepo.UpdateAsync(producto);
 
-                        await RegistrarMovimientoAsync(
-                            productoRepo: productoRepo,
-                            movimientoRepo: movimientoRepo,
-                            idProducto: consumo.idProducto,
-                            cantidad: consumo.cantidad,
-                            esEntrada: true,
-                            observacion: $"Devolución - Cuenta #{CuentaSeleccionada.idCuenta} eliminada"
-                        );
+                            await RegistrarMovimientoAsync(
+                                productoRepo: productoRepo,
+                                movimientoRepo: movimientoRepo,
+                                idProducto: consumo.idProducto,
+                                cantidad: consumo.cantidad,
+                                esEntrada: true,
+                                observacion: $"Devolución - Cuenta #{CuentaSeleccionada.idCuenta} eliminada"
+                            );
+                        }
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        MessageBox.Show($"Conflicto al devolver stock del producto {consumo.idProducto}. Se continuará con otros productos.",
+                            "Advertencia de Concurrencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error al devolver stock: {ex.Message}",
+                            "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
 
@@ -1109,12 +1208,26 @@ namespace ProyectoSauna.ViewModels
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
 
+                // 🔄 SINCRONIZAR CON TODAS LAS VENTANAS
+                var cuentaEliminada = CuentaSeleccionada.idCuenta;
                 await CargarCuentasPendientesAsync();
                 await CargarProductosAsync();
+
+                // Notificar eliminación de cuenta a todas las instancias
+                _inventoryEventService?.OnStockChanged(new StockChangedEventArgs
+                {
+                    ProductoId = 0,
+                    NuevoStock = 0,
+                    TipoMovimiento = "CUENTA_ELIMINADA",
+                    IdCuenta = cuentaEliminada
+                });
 
                 InventoryEventService.NotifyStockChanged();
 
                 CuentaSeleccionada = null;
+                
+                // ▶️ REACTIVAR ACTUALIZACIONES AL ELIMINAR CUENTA SELECCIONADA
+                await ReactivarActualizacionesAsync();
             }
             catch (Exception ex)
             {
@@ -1279,6 +1392,25 @@ namespace ProyectoSauna.ViewModels
 
             try
             {
+                // 🛡️ VALIDAR ESTADO DE CUENTA
+                var validacionCuenta = await _validacionService.ValidarCuentaParaModificacionAsync(CuentaSeleccionada.idCuenta);
+                if (!validacionCuenta.esValida)
+                {
+                    MessageBox.Show(validacionCuenta.mensaje, "Cuenta No Modificable",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                // 🛡️ VALIDAR STOCK CON SERVICIO DE VALIDACIÓN
+                var validacionStock = await _validacionService.ValidarStockProductoAsync(
+                    ProductoSeleccionado.idProducto, CantidadProducto);
+                
+                if (!validacionStock.hayStock)
+                {
+                    MessageBox.Show(validacionStock.mensaje, "Stock Insuficiente",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
                 EstaCargando = true;
 
                 using var context = new SaunaDbContext();
@@ -1903,6 +2035,118 @@ namespace ProyectoSauna.ViewModels
         public ICommand SeleccionarCuentaCommand { get; }
         public ICommand LimpiarCuentaActivaCommand { get; } // ✅ NUEVO
         public ICommand LimpiarFiltroCommand { get; } // 🔍 NUEVO COMANDO FILTRO
+        #endregion
+
+        #region Sincronización entre Ventanas
+        
+        /// <summary>
+        /// 🔄 Maneja la sincronización entre ventanas cuando se crean o eliminan cuentas
+        /// INTELIGENTE: No actualiza si hay cuenta seleccionada para evitar perder selección
+        /// </summary>
+        private async void OnStockChanged_SincronizarCuentas(object sender, StockChangedEventArgs e)
+        {
+            try
+            {
+                // Solo sincronizar cuando se trata de eventos de cuentas
+                if (e.TipoMovimiento == "CUENTA_CREADA" || e.TipoMovimiento == "CUENTA_ELIMINADA")
+                {
+                    await Application.Current.Dispatcher.InvokeAsync(async () =>
+                    {
+                        // 🧠 ACTUALIZACIÓN INTELIGENTE
+                        if (!_actualizacionHabilitada || CuentaSeleccionada != null)
+                        {
+                            // Marcar que hay una actualización pendiente
+                            _hayPendienteActualizacion = true;
+                            System.Diagnostics.Debug.WriteLine($"📋 Actualización de lista PAUSADA - Hay cuenta seleccionada: {CuentaSeleccionada?.NombreCliente}");
+                            return;
+                        }
+
+                        // Realizar actualización inmediata
+                        await ActualizarListaCuentasAsync();
+                        
+                        // Si una cuenta fue eliminada y es la que teníamos seleccionada, limpiar selección
+                        if (e.TipoMovimiento == "CUENTA_ELIMINADA" && e.IdCuenta.HasValue)
+                        {
+                            if (CuentaSeleccionada?.idCuenta == e.IdCuenta.Value)
+                            {
+                                await LimpiarCuentaActiva();
+                            }
+                        }
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Error en sincronización de cuentas: {ex.Message}");
+            }
+        }
+        
+        #region Control de Actualización Inteligente
+        
+        /// <summary>
+        /// 🔄 Actualiza la lista de cuentas de manera segura
+        /// </summary>
+        private async Task ActualizarListaCuentasAsync()
+        {
+            try
+            {
+                System.Diagnostics.Debug.WriteLine("🔄 Actualizando lista de cuentas...");
+                await CargarCuentasPendientesAsync();
+                _hayPendienteActualizacion = false;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Error al actualizar lista de cuentas: {ex.Message}");
+            }
+        }
+        
+        /// <summary>
+        /// ⏸️ Pausa las actualizaciones automáticas (cuando se selecciona una cuenta)
+        /// </summary>
+        private void PausarActualizaciones()
+        {
+            _actualizacionHabilitada = false;
+            System.Diagnostics.Debug.WriteLine("⏸️ Actualizaciones de lista PAUSADAS");
+        }
+        
+        /// <summary>
+        /// ▶️ Reactiva las actualizaciones automáticas (cuando no hay cuenta seleccionada)
+        /// </summary>
+        private async Task ReactivarActualizacionesAsync()
+        {
+            _actualizacionHabilitada = true;
+            System.Diagnostics.Debug.WriteLine("▶️ Actualizaciones de lista REACTIVADAS");
+            
+            // Si había una actualización pendiente, ejecutarla ahora
+            if (_hayPendienteActualizacion)
+            {
+                System.Diagnostics.Debug.WriteLine("🗃️ Ejecutando actualización pendiente...");
+                await ActualizarListaCuentasAsync();
+            }
+        }
+        
+        /// <summary>
+        /// 🔍 Verifica periódicamente si hay actualizaciones pendientes cuando no hay cuenta seleccionada
+        /// </summary>
+        private async Task VerificarActualizacionPendiente()
+        {
+            try
+            {
+                // Solo verificar si no hay cuenta seleccionada y las actualizaciones están habilitadas
+                if (CuentaSeleccionada == null && _actualizacionHabilitada && _hayPendienteActualizacion)
+                {
+                    System.Diagnostics.Debug.WriteLine("🔄 Ejecutando actualización pendiente automática...");
+                    await ActualizarListaCuentasAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Error en verificación de actualización pendiente: {ex.Message}");
+            }
+        }
+        
+        #endregion
+
         #endregion
 
         #region INotifyPropertyChanged

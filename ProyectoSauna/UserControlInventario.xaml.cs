@@ -49,14 +49,14 @@ namespace ProyectoSauna
                     await RefrescarDatosAsync();
                 });
             };
-            InventoryEventService.StockChanged += _stockChangedHandler;
+            InventoryEventService.StockChangedLegacy += _stockChangedHandler;
 
             Loaded += async (_, __) => await RefrescarDatosAsync();
 
             Unloaded += (s, e) =>
             {
                 if (_stockChangedHandler != null)
-                    InventoryEventService.StockChanged -= _stockChangedHandler;
+                    InventoryEventService.StockChangedLegacy -= _stockChangedHandler;
             };
         }
 

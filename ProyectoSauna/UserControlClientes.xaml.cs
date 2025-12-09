@@ -2,6 +2,7 @@
 using ProyectoSauna.Repositories;
 using ProyectoSauna.Services;
 using ProyectoSauna.ViewModels;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace ProyectoSauna
@@ -48,7 +49,8 @@ namespace ProyectoSauna
             var clienteService = new ClienteService(clienteRepository);
             
             // Crear ViewModel y asignarlo como DataContext
-            DataContext = new ClientesViewModel(clienteService);
+            var viewModel = new ClientesViewModel(clienteService);
+            DataContext = viewModel;
         }
     }
 }

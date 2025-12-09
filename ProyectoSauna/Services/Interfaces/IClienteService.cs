@@ -7,13 +7,16 @@ namespace ProyectoSauna.Services.Interfaces
     public interface IClienteService
     {
         Task<List<ClienteDTO>> GetAllClientesAsync();
+        Task<List<ClienteDTO>> GetAllAsync(); // Alias para compatibilidad
         Task<ClienteDTO?> GetClienteByIdAsync(int id);
         Task<ClienteDTO?> GetClienteByDNIAsync(string dni);
         Task<List<ClienteDTO>> BuscarClientesPorNombreAsync(string nombre);
         Task<List<ClienteDTO>> GetClientesActivosAsync();
+        Task<List<ClienteDTO>> GetClientesInactivosAsync();
         Task<(bool exito, string mensaje, ClienteDTO? cliente)> CrearClienteAsync(ClienteDTO clienteDto);
         Task<(bool exito, string mensaje)> ActualizarClienteAsync(ClienteDTO clienteDto);
         Task<(bool exito, string mensaje)> DesactivarClienteAsync(int id);
+        Task<(bool exito, string mensaje)> ReactivarClienteAsync(int id);
         Task<bool> ValidarDNIAsync(string dni, int? idClienteExcluir = null);
     }
 }

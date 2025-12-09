@@ -1,9 +1,9 @@
 // Services/ClienteService.cs - COMPLETAMENTE CORREGIDO
 using ProyectoSauna.Models.DTOs;
 using ProyectoSauna.Models.Entities;
+using ProyectoSauna.Models;
 using ProyectoSauna.Repositories.Interfaces;
 using ProyectoSauna.Services.Interfaces;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,18 +16,39 @@ namespace ProyectoSauna.Services
     public class ClienteService : IClienteService
     {
         private readonly IClienteRepository _clienteRepository;
-        private readonly DbContext _context;
+        private readonly ClienteConcurrencyService? _concurrencyService;
+        private readonly ClienteAuditService? _auditService;
+        private readonly bool _useConcurrencyControl;
 
+        // Constructor principal (mantiene compatibilidad)
         public ClienteService(IClienteRepository clienteRepository)
         {
             _clienteRepository = clienteRepository;
-            _context = ((dynamic)_clienteRepository).GetContext();
+            _useConcurrencyControl = false;
+        }
+
+        // Constructor extendido con control de concurrencia (opcional)
+        public ClienteService(IClienteRepository clienteRepository, 
+                             ClienteConcurrencyService concurrencyService, 
+                             ClienteAuditService auditService,
+                             bool useConcurrencyControl = false)
+        {
+            _clienteRepository = clienteRepository;
+            _concurrencyService = concurrencyService;
+            _auditService = auditService;
+            _useConcurrencyControl = useConcurrencyControl;
         }
 
         public async Task<List<ClienteDTO>> GetAllClientesAsync()
         {
             var clientes = await _clienteRepository.GetAllAsync();
             return clientes.Select(MapToDTO).ToList();
+        }
+
+        // Alias para compatibilidad
+        public async Task<List<ClienteDTO>> GetAllAsync()
+        {
+            return await GetAllClientesAsync();
         }
 
         public async Task<ClienteDTO?> GetClienteByIdAsync(int id)
@@ -48,29 +69,69 @@ namespace ProyectoSauna.Services
             return clientes.Select(MapToDTO).ToList();
         }
 
+        public async Task<List<ClienteDTO>> BuscarClientesPorDNIAsync(string dni)
+        {
+            var clientes = await _clienteRepository.BuscarPorDNIAsync(dni);
+            return clientes.Select(MapToDTO).ToList();
+        }
+
         public async Task<List<ClienteDTO>> GetClientesActivosAsync()
         {
             var clientes = await _clienteRepository.GetClientesActivosAsync();
             return clientes.Select(MapToDTO).ToList();
         }
 
+        public async Task<List<ClienteDTO>> GetClientesInactivosAsync()
+        {
+            var clientes = await _clienteRepository.GetClientesInactivosAsync();
+            return clientes.Select(MapToDTO).ToList();
+        }
+
         public async Task<(bool exito, string mensaje, ClienteDTO? cliente)> CrearClienteAsync(ClienteDTO clienteDto)
         {
-            IDbContextTransaction? transaction = null;
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+            var operation = new ClienteOperation
+            {
+                TipoOperacion = "Crear",
+                DNI = clienteDto.numero_documento ?? "",
+                Usuario = ProyectoSauna.Models.SesionActual.EstaLogueado 
+                    ? $"{ProyectoSauna.Models.SesionActual.NombreCompleto} ({ProyectoSauna.Models.SesionActual.Rol})"
+                    : "Sistema"
+            };
+
             try
             {
-                transaction = await _context.Database.BeginTransactionAsync();
+                // Si el control de concurrencia está habilitado, usar el servicio especializado
+                if (_useConcurrencyControl && _concurrencyService != null)
+                {
+                    var result = await _concurrencyService.CrearClienteConcurrenteAsync(clienteDto);
+                    
+                    operation.ClienteId = result.cliente?.idCliente;
+                    operation.Resultado = result.exito ? "Éxito" : "Error";
+                    operation.DetallesError = result.exito ? null : result.mensaje;
+                    operation.DuracionMs = stopwatch.ElapsedMilliseconds;
+                    
+                    await LogOperationAsync(operation);
+                    return result;
+                }
 
+                // Funcionamiento original (sin cambios para mantener compatibilidad)
                 var validacion = ValidarCliente(clienteDto);
                 if (!validacion.valido)
                 {
-                    await transaction.RollbackAsync();
+                    operation.Resultado = "Error";
+                    operation.DetallesError = validacion.mensaje;
+                    operation.DuracionMs = stopwatch.ElapsedMilliseconds;
+                    await LogOperationAsync(operation);
                     return (false, validacion.mensaje, null);
                 }
 
                 if (await _clienteRepository.ExisteDNIAsync(clienteDto.numero_documento))
                 {
-                    await transaction.RollbackAsync();
+                    operation.Resultado = "Conflicto";
+                    operation.DetallesError = "DNI duplicado";
+                    operation.DuracionMs = stopwatch.ElapsedMilliseconds;
+                    await LogOperationAsync(operation);
                     return (false, "Ya existe un cliente con ese número de documento.", null);
                 }
 
@@ -89,109 +150,174 @@ namespace ProyectoSauna.Services
                 };
 
                 await _clienteRepository.AddAsync(cliente);
-                await transaction.CommitAsync();
+
+                operation.ClienteId = cliente.idCliente;
+                operation.Resultado = "Éxito";
+                operation.DuracionMs = stopwatch.ElapsedMilliseconds;
+                await LogOperationAsync(operation);
 
                 return (true, "Cliente registrado exitosamente.", MapToDTO(cliente));
             }
             catch (DbUpdateException dbEx)
             {
-                if (transaction != null)
-                    await transaction.RollbackAsync();
-
+                operation.Resultado = "Error";
+                operation.DetallesError = dbEx.InnerException?.Message ?? dbEx.Message;
+                operation.DuracionMs = stopwatch.ElapsedMilliseconds;
+                await LogOperationAsync(operation);
                 return (false, $"Error al guardar en la base de datos: {dbEx.InnerException?.Message ?? dbEx.Message}", null);
             }
             catch (Exception ex)
             {
-                if (transaction != null)
-                    await transaction.RollbackAsync();
-
+                operation.Resultado = "Error";
+                operation.DetallesError = ex.Message;
+                operation.DuracionMs = stopwatch.ElapsedMilliseconds;
+                await LogOperationAsync(operation);
                 return (false, $"Error inesperado: {ex.Message}", null);
-            }
-            finally
-            {
-                transaction?.Dispose();
             }
         }
 
         public async Task<(bool exito, string mensaje)> ActualizarClienteAsync(ClienteDTO clienteDto)
         {
-            IDbContextTransaction? transaction = null;
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+            var operation = new ClienteOperation
+            {
+                TipoOperacion = "Actualizar",
+                ClienteId = clienteDto.idCliente,
+                DNI = clienteDto.numero_documento ?? "",
+                Usuario = ProyectoSauna.Models.SesionActual.EstaLogueado 
+                    ? $"{ProyectoSauna.Models.SesionActual.NombreCompleto} ({ProyectoSauna.Models.SesionActual.Rol})"
+                    : "Sistema"
+            };
+
             try
             {
-                transaction = await _context.Database.BeginTransactionAsync();
+                // Si el control de concurrencia está habilitado, usar el servicio especializado
+                if (_useConcurrencyControl && _concurrencyService != null)
+                {
+                    var result = await _concurrencyService.ActualizarClienteConcurrenteAsync(clienteDto);
+                    
+                    operation.Resultado = result.exito ? "Éxito" : "Error";
+                    operation.DetallesError = result.exito ? null : result.mensaje;
+                    operation.DuracionMs = stopwatch.ElapsedMilliseconds;
+                    
+                    await LogOperationAsync(operation);
+                    return result;
+                }
 
+                // Funcionamiento original (sin cambios para mantener compatibilidad)
                 var validacion = ValidarCliente(clienteDto);
                 if (!validacion.valido)
                 {
-                    await transaction.RollbackAsync();
+                    operation.Resultado = "Error";
+                    operation.DetallesError = validacion.mensaje;
+                    operation.DuracionMs = stopwatch.ElapsedMilliseconds;
+                    await LogOperationAsync(operation);
                     return (false, validacion.mensaje);
                 }
 
-                var clienteExistente = await _clienteRepository.GetByIdAsync(clienteDto.idCliente);
-                if (clienteExistente == null)
-                {
-                    await transaction.RollbackAsync();
-                    return (false, "Cliente no encontrado.");
-                }
-
+                // Verificar si existe otro cliente con el mismo DNI
                 if (await _clienteRepository.ExisteDNIAsync(clienteDto.numero_documento, clienteDto.idCliente))
                 {
-                    await transaction.RollbackAsync();
+                    operation.Resultado = "Conflicto";
+                    operation.DetallesError = "DNI duplicado en otro cliente";
+                    operation.DuracionMs = stopwatch.ElapsedMilliseconds;
+                    await LogOperationAsync(operation);
                     return (false, "Ya existe otro cliente con ese número de documento.");
                 }
 
-                clienteExistente.nombre = clienteDto.nombre.Trim();
-                clienteExistente.apellidos = clienteDto.apellidos.Trim();
-                clienteExistente.numero_documento = clienteDto.numero_documento.Trim();
-                clienteExistente.telefono = string.IsNullOrWhiteSpace(clienteDto.telefono) ? null : clienteDto.telefono.Trim();
-                clienteExistente.correo = string.IsNullOrWhiteSpace(clienteDto.correo) ? null : clienteDto.correo.Trim().ToLower();
-                clienteExistente.direccion = string.IsNullOrWhiteSpace(clienteDto.direccion) ? null : clienteDto.direccion.Trim();
-                clienteExistente.fechaNacimiento = clienteDto.fechaNacimiento;
-
-                await _clienteRepository.UpdateAsync(clienteExistente);
-                await transaction.CommitAsync();
-
-                return (true, "Cliente actualizado exitosamente.");
+                // Use direct SQL update to avoid tracking issues
+                var updateResult = await _clienteRepository.UpdateClienteDirectAsync(clienteDto);
+                
+                if (updateResult)
+                {
+                    operation.Resultado = "Éxito";
+                    operation.DuracionMs = stopwatch.ElapsedMilliseconds;
+                    await LogOperationAsync(operation);
+                    return (true, "Cliente actualizado exitosamente.");
+                }
+                else
+                {
+                    operation.Resultado = "Error";
+                    operation.DetallesError = "Cliente no encontrado o sin cambios";
+                    operation.DuracionMs = stopwatch.ElapsedMilliseconds;
+                    await LogOperationAsync(operation);
+                    return (false, "No se pudo encontrar el cliente o no se realizaron cambios.");
+                }
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (transaction != null)
-                    await transaction.RollbackAsync();
-
-                return (false, "El cliente fue modificado por otro usuario. Por favor, recargue los datos.");
+                var usuarioActual = ProyectoSauna.Models.SesionActual.EstaLogueado 
+                    ? $"{ProyectoSauna.Models.SesionActual.NombreCompleto} ({ProyectoSauna.Models.SesionActual.Rol})"
+                    : "otro usuario";
+                    
+                operation.Resultado = "Conflicto";
+                operation.DetallesError = $"Concurrencia - modificado por {usuarioActual}";
+                operation.DuracionMs = stopwatch.ElapsedMilliseconds;
+                await LogOperationAsync(operation);
+                
+                // Mensaje simplificado - el bloqueo preventivo debería evitar este escenario
+                return (false, $"El cliente fue modificado por otro usuario. Recargue los datos e intente nuevamente.");
             }
             catch (DbUpdateException dbEx)
             {
-                if (transaction != null)
-                    await transaction.RollbackAsync();
-
+                operation.Resultado = "Error";
+                operation.DetallesError = dbEx.InnerException?.Message ?? dbEx.Message;
+                operation.DuracionMs = stopwatch.ElapsedMilliseconds;
+                await LogOperationAsync(operation);
                 return (false, $"Error al actualizar en la base de datos: {dbEx.InnerException?.Message ?? dbEx.Message}");
             }
             catch (Exception ex)
             {
-                if (transaction != null)
-                    await transaction.RollbackAsync();
-
+                operation.Resultado = "Error";
+                operation.DetallesError = ex.Message;
+                operation.DuracionMs = stopwatch.ElapsedMilliseconds;
+                await LogOperationAsync(operation);
                 return (false, $"Error inesperado: {ex.Message}");
-            }
-            finally
-            {
-                transaction?.Dispose();
             }
         }
 
         public async Task<(bool exito, string mensaje)> DesactivarClienteAsync(int id)
         {
-            var cliente = await _clienteRepository.GetByIdAsync(id);
-            if (cliente == null)
+            try
             {
-                return (false, "Cliente no encontrado.");
+                // Use direct update approach to avoid concurrency issues
+                var result = await _clienteRepository.UpdateActivoStatusAsync(id, false);
+                
+                if (result)
+                {
+                    return (true, "Cliente desactivado exitosamente.");
+                }
+                else
+                {
+                    return (false, "No se pudo encontrar el cliente o ya estaba inactivo.");
+                }
             }
+            catch (Exception ex)
+            {
+                return (false, $"Error al desactivar cliente: {ex.Message}");
+            }
+        }
 
-            cliente.activo = false;
-            await _clienteRepository.UpdateAsync(cliente);
-
-            return (true, "Cliente desactivado exitosamente.");
+        public async Task<(bool exito, string mensaje)> ReactivarClienteAsync(int id)
+        {
+            try
+            {
+                // Use direct update approach to avoid concurrency issues
+                var result = await _clienteRepository.UpdateActivoStatusAsync(id, true);
+                
+                if (result)
+                {
+                    return (true, "Cliente reactivado exitosamente.");
+                }
+                else
+                {
+                    return (false, "No se pudo encontrar el cliente o ya estaba activo.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Error al reactivar cliente: {ex.Message}");
+            }
         }
 
         public async Task<bool> ValidarDNIAsync(string dni, int? idClienteExcluir = null)
@@ -258,6 +384,47 @@ namespace ProyectoSauna.Services
                 visitasTotales = cliente.visitasTotales,
                 activo = cliente.activo
             };
+        }
+
+        /// <summary>
+        /// Registra una operación en el servicio de auditoría si está disponible
+        /// </summary>
+        private async Task LogOperationAsync(ClienteOperation operation)
+        {
+            if (_auditService != null)
+            {
+                await _auditService.LogOperationAsync(operation);
+            }
+        }
+
+        /// <summary>
+        /// Habilita o deshabilita el control de concurrencia en tiempo de ejecución
+        /// Solo disponible si el servicio fue configurado con control de concurrencia
+        /// </summary>
+        public bool CanUseConcurrencyControl => _concurrencyService != null && _auditService != null;
+
+        /// <summary>
+        /// Obtiene estadísticas de concurrencia si el servicio está disponible
+        /// </summary>
+        public ConcurrencyStats? GetConcurrencyStats()
+        {
+            return _concurrencyService?.GetConcurrencyStats();
+        }
+
+        /// <summary>
+        /// Obtiene estadísticas de operaciones si el servicio de auditoría está disponible
+        /// </summary>
+        public OperationStats? GetOperationStats()
+        {
+            return _auditService?.GetOperationStats();
+        }
+
+        /// <summary>
+        /// Detecta problemas potenciales de concurrencia
+        /// </summary>
+        public List<string> DetectConcurrencyIssues()
+        {
+            return _auditService?.DetectPotentialConcurrencyIssues() ?? new List<string>();
         }
     }
 }

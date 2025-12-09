@@ -19,5 +19,6 @@ namespace ProyectoSauna.Models.DTOs
 
         public string NombreCompleto => $"{nombre} {apellidos}";
         public string Estado => activo ? "Activo" : "Inactivo";
+        public string EstadoTexto => activo ? "✅ Activo" : "🚫 Inactivo";
     }
 }

@@ -11,7 +11,7 @@ namespace ProyectoSauna.Tests
         {
             int count = 0;
             void Handler(object? s, System.EventArgs e) { count++; }
-            InventoryEventService.StockChanged += Handler;
+            InventoryEventService.StockChangedLegacy += Handler;
             try
             {
                 InventoryEventService.NotifyStockChanged();

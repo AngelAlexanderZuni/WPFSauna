@@ -73,6 +73,12 @@ public partial class SaunaDbContext : DbContext
             entity.Property(e => e.nombre).HasMaxLength(80);
             entity.Property(e => e.numero_documento).HasMaxLength(20);
             entity.Property(e => e.telefono).HasMaxLength(30);
+            
+            // 🛡️ CONTROL DE CONCURRENCIA - Datos críticos del cliente
+            entity.Property(e => e.numero_documento).IsConcurrencyToken();
+            entity.Property(e => e.nombre).IsConcurrencyToken();
+            entity.Property(e => e.apellidos).IsConcurrencyToken();
+            entity.Property(e => e.fechaRegistro).IsConcurrencyToken();
         });
 
         modelBuilder.Entity<Comprobante>(entity =>
@@ -104,6 +110,12 @@ public partial class SaunaDbContext : DbContext
             entity.Property(e => e.fechaHoraSalida).HasColumnType("datetime");
             entity.Property(e => e.subtotalConsumos).HasColumnType("decimal(12, 2)");
             entity.Property(e => e.total).HasColumnType("decimal(12, 2)");
+            
+            // 🛡️ CONTROL DE CONCURRENCIA - Campos críticos para dinero
+            entity.Property(e => e.total).IsConcurrencyToken();
+            entity.Property(e => e.subtotalConsumos).IsConcurrencyToken();
+            entity.Property(e => e.fechaHoraCreacion).IsConcurrencyToken();
+            
             entity.HasOne(d => d.idClienteNavigation).WithMany(p => p.Cuenta)
                 .HasForeignKey(d => d.idCliente)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -138,6 +150,11 @@ public partial class SaunaDbContext : DbContext
             entity.HasKey(e => e.idDetalle);
             entity.Property(e => e.precioUnitario).HasColumnType("decimal(12, 2)");
             entity.Property(e => e.subtotal).HasColumnType("decimal(12, 2)");
+            
+            // 🛡️ CONTROL DE CONCURRENCIA - Proteger montos y cantidades
+            entity.Property(e => e.subtotal).IsConcurrencyToken();
+            entity.Property(e => e.cantidad).IsConcurrencyToken();
+            
             entity.HasOne(d => d.idCuentaNavigation).WithMany(p => p.DetalleConsumo)
                 .HasForeignKey(d => d.idCuenta)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -209,6 +226,11 @@ public partial class SaunaDbContext : DbContext
             entity.Property(e => e.nombre).HasMaxLength(120);
             entity.Property(e => e.precioCompra).HasColumnType("decimal(12, 2)");
             entity.Property(e => e.precioVenta).HasColumnType("decimal(12, 2)");
+            
+            // 🛡️ CONTROL DE CONCURRENCIA - Stock crítico
+            entity.Property(e => e.stockActual).IsConcurrencyToken();
+            entity.Property(e => e.precioVenta).IsConcurrencyToken();
+            
             entity.HasOne(d => d.idCategoriaProductoNavigation).WithMany(p => p.Producto)
                 .HasForeignKey(d => d.idCategoriaProducto)
                 .OnDelete(DeleteBehavior.ClientSetNull)
