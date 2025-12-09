@@ -371,7 +371,8 @@
                                   SelectionMode="Single"
                                   HeadersVisibility="Column"
                                   FontSize="12"
-                                  RowHeight="40">
+                                  RowHeight="40"
+                                  MouseDown="DataGrid_MouseDown">
                         
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader">
@@ -458,6 +459,13 @@
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter Property="Background" Value="#4CC9F022"/>
                                     </Trigger>
+                                    <DataTrigger Binding="{Binding IsRadioButtonEnabled}" Value="False">
+                                        <Setter Property="Background" Value="#F3F4F6"/>
+                                        <Setter Property="Foreground" Value="#9CA3AF"/>
+                                        <Setter Property="Opacity" Value="0.7"/>
+                                        <Setter Property="Cursor" Value="Help"/>
+                                        <Setter Property="ToolTip" Value="{Binding UsuarioEditor, StringFormat='🔒 Cliente siendo editado por: {0} - Clic para más información'}"/>
+                                    </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </DataGrid.RowStyle>

@@ -380,7 +380,7 @@
 
                             <DataGrid Grid.Row="2"
                                       ItemsSource="{Binding CuentasPendientes}"
-                                      SelectedItem="{Binding CuentaSeleccionada}"
+                                      SelectedItem="{Binding SelectedDataGridItem, Mode=TwoWay}"
                                       AutoGenerateColumns="False"
                                       IsReadOnly="True"
                                       SelectionMode="Single"
@@ -393,7 +393,11 @@
                                       Foreground="White"
                                       FontSize="11"
                                       BorderThickness="0"
-                                      SelectionChanged="DataGrid_SelectionChanged">
+                                      MaxHeight="380"
+                                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                      SelectionChanged="DataGrid_SelectionChanged"
+                                      MouseDown="DataGrid_MouseDown">
                                 <DataGrid.ColumnHeaderStyle>
                                     <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
                                         <Setter Property="Background" Value="#1A1D24"/>
@@ -419,6 +423,12 @@
                                                 <Setter Property="Foreground" Value="#F1F5F9"/>
                                                 <Setter Property="FontWeight" Value="SemiBold"/>
                                             </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsRadioButtonEnabled}" Value="False">
+                                                <Setter Property="Background" Value="#F3F4F6"/>
+                                                <Setter Property="Foreground" Value="#9CA3AF"/>
+                                                <Setter Property="Opacity" Value="0.7"/>
+                                                <Setter Property="ToolTip" Value="{Binding UsuarioEditor, StringFormat='🔒 Cuenta siendo editada por: {0} - Clic para más información'}"/>
+                                            </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </DataGrid.RowStyle>
@@ -427,8 +437,9 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <RadioButton GroupName="CuentaSeleccion" 
-                                                             IsChecked="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                             Command="{Binding DataContext.SeleccionarCuentaCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                             IsChecked="{Binding IsSelected, Mode=OneWay}"
+                                                             IsEnabled="{Binding IsRadioButtonEnabled}"
+                                                             Command="{Binding ParentViewModel.SeleccionarCuentaCommand}" 
                                                              CommandParameter="{Binding}"
                                                              HorizontalAlignment="Center"
                                                              VerticalAlignment="Center">
@@ -454,6 +465,25 @@
                                     <DataGridTextColumn Header="Desc." Binding="{Binding descuento, StringFormat=S/. {0:0.00}}" Width="70"/>
                                     <DataGridTextColumn Header="Total" Binding="{Binding total, StringFormat=S/. {0:0.00}}" Width="80"/>
                                     <DataGridTextColumn Header="Estado" Binding="{Binding EstadoCuenta}" Width="85"/>
+                                    
+                                    <!-- 🔒 NUEVA COLUMNA DE ESTADO DE EDICIÓN -->
+                                    <DataGridTemplateColumn Header="🔒" Width="40">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Border ToolTip="{Binding UsuarioEditor, StringFormat='En uso por: {0}'}"
+                                                        Visibility="{Binding EstaSiendoEditada, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                        Background="#DC2626" 
+                                                        CornerRadius="3" 
+                                                        Padding="4,2" 
+                                                        HorizontalAlignment="Center">
+                                                    <materialDesign:PackIcon Kind="Account" 
+                                                                           Width="12" 
+                                                                           Height="12" 
+                                                                           Foreground="White"/>
+                                                </Border>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>

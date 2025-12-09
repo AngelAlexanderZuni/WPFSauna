@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace ProyectoSauna.ViewModels
 {
@@ -29,6 +30,10 @@ namespace ProyectoSauna.ViewModels
         
         // 🔒 CONTROL DE EDICIÓN SIMULTÁNEA
         private int? _clienteEnEdicionActual = null;
+        
+        // 🚫 CONTROL DE DOBLE EJECUCIÓN
+        private bool _isSettingClienteSeleccionado = false;
+        
         private string _nombreUsuario => ProyectoSauna.Models.SesionActual.EstaLogueado 
             ? $"{ProyectoSauna.Models.SesionActual.NombreCompleto} ({ProyectoSauna.Models.SesionActual.Rol})"
             : Environment.UserName;
@@ -50,46 +55,82 @@ namespace ProyectoSauna.ViewModels
             get => _clienteSeleccionado;
             set
             {
-                // Liberar bloqueo del cliente anterior
-                if (_clienteSeleccionado != null && _clienteEnEdicionActual.HasValue)
-                {
-                    _clienteEnEdicionService.LiberarBloqueoCliente(_clienteEnEdicionActual.Value, _nombreUsuario);
-                    _clienteEnEdicionActual = null;
-                }
-
-                _clienteSeleccionado = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(TextoBotonAccion)); // ← NOTIFICAR CAMBIO DEL TEXTO DEL BOTÓN
+                // 🚫 GUARD: Prevenir doble ejecución
+                if (_isSettingClienteSeleccionado)
+                    return;
                 
-                if (value != null)
+                // 🛡️ VERIFICACIÓN PREVIA: Si es un nuevo cliente, verificar si está disponible
+                if (value != null && value != _clienteSeleccionado)
                 {
-                    // 🔒 SISTEMA DE BLOQUEO DE EDICIÓN SIMULTÁNEA RESTAURADO
-                    // Previene que el mismo cliente sea editado desde múltiples ventanas
-                    var resultado = _clienteEnEdicionService.IntentarBloquearCliente(value.idCliente, _nombreUsuario);
-                    
-                    if (resultado.exito)
+                    var estadoCliente = _clienteEnEdicionService.VerificarClienteEnEdicion(value.idCliente);
+                    if (estadoCliente.enEdicion)
                     {
-                        _clienteEnEdicionActual = value.idCliente;
-                        CargarDatosParaEditar(value);
-                        PausarActualizaciones();
+                        // 🔒 VERIFICAR SI EL USUARIO ACTUAL ES EL QUE ESTÁ EDITANDO
+                        if (estadoCliente.usuarioEditor.Equals(_nombreUsuario, StringComparison.OrdinalIgnoreCase))
+                        {
+                            // ✅ ES EL MISMO USUARIO - PERMITIR SELECCIÓN SIN MENSAJE
+                            System.Diagnostics.Debug.WriteLine($"🔄 Usuario {_nombreUsuario} regresando a su propio cliente {value.idCliente}");
+                        }
+                        else
+                        {
+                            // 🚫 CLIENTE BLOQUEADO POR OTRO USUARIO - SOLO MOSTRAR MENSAJE
+                            var mensaje = $"⚠️ El cliente '{value.NombreCompleto}' ya está siendo editado por {estadoCliente.usuarioEditor}.\n\n" +
+                                          "No puedes seleccionar este cliente mientras esté en edición.";
+                            
+                            MostrarMensajeConcurrenciaSinDuplicados(mensaje);
+                            
+                            // ❌ NO CAMBIAR LA SELECCIÓN - MANTENER LA ACTUAL
+                            return; // Salir sin modificar _clienteSeleccionado
+                        }
+                    }
+                }
+                
+                _isSettingClienteSeleccionado = true;
+                
+                try
+                {
+                    // Liberar bloqueo del cliente anterior
+                    if (_clienteSeleccionado != null && _clienteEnEdicionActual.HasValue)
+                    {
+                        _clienteEnEdicionService.LiberarBloqueoCliente(_clienteEnEdicionActual.Value, _nombreUsuario);
+                        _clienteEnEdicionActual = null;
+                    }
+
+                    _clienteSeleccionado = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(TextoBotonAccion)); // ← NOTIFICAR CAMBIO DEL TEXTO DEL BOTÓN
+                    
+                    if (value != null)
+                    {
+                        // 🔒 SISTEMA DE BLOQUEO DE EDICIÓN SIMULTÁNEA RESTAURADO
+                        // Previene que el mismo cliente sea editado desde múltiples ventanas
+                        var resultado = _clienteEnEdicionService.IntentarBloquearCliente(value.idCliente, _nombreUsuario);
+                        
+                        if (resultado.exito)
+                        {
+                            _clienteEnEdicionActual = value.idCliente;
+                            CargarDatosParaEditar(value);
+                            PausarActualizaciones();
+                        }
+                        else
+                        {
+                            // 🚨 ERROR INESPERADO: El cliente debería estar disponible
+                            System.Diagnostics.Debug.WriteLine($"❌ Error inesperado: Cliente {value.idCliente} no disponible después de verificación previa");
+                            
+                            // Cancelar selección SIN RECURSION
+                            _clienteSeleccionado = null;
+                            OnPropertyChanged(nameof(ClienteSeleccionado));
+                            return;
+                        }
                     }
                     else
                     {
-                        // Mostrar mensaje de concurrencia sin duplicados
-                        var mensajeConcurrencia = $"⚠️ El cliente '{value.NombreCompleto}' ya está siendo editado por {resultado.usuarioEditor}.\n\n" +
-                                                 "Espere a que termine la edición o intente más tarde.";
-                        
-                        MostrarMensajeConcurrenciaSinDuplicados(mensajeConcurrencia);
-                        
-                        // Cancelar selección
-                        _clienteSeleccionado = null;
-                        OnPropertyChanged(nameof(ClienteSeleccionado));
-                        return;
+                        _ = ReactivarActualizacionesAsync();
                     }
                 }
-                else
+                finally
                 {
-                    _ = ReactivarActualizacionesAsync();
+                    _isSettingClienteSeleccionado = false;
                 }
             }
         }
@@ -284,6 +325,11 @@ namespace ProyectoSauna.ViewModels
 
             // 🔄 SUSCRIPCIÓN A EVENTOS DE SINCRONIZACIÓN ENTRE VENTANAS
             _inventoryEventService.StockChanged += OnClienteChanged_SincronizarTablas;
+
+            // 🔒 CONFIGURAR TIMER PARA VERIFICACIÓN DE BLOQUEOS EN TIEMPO REAL
+            _verificacionBloqueoTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
+            _verificacionBloqueoTimer.Tick += (s, e) => VerificarEstadoEdicionClientes();
+            _verificacionBloqueoTimer.Start();
 
             GuardarClienteCommand = new Commands.AsyncRelayCommand(GuardarClienteCommandExecuteAsync);
             BuscarClienteCommand = new Commands.AsyncRelayCommand(BuscarClienteCommandExecuteAsync);
@@ -737,6 +783,24 @@ namespace ProyectoSauna.ViewModels
                     if (clientesActivos != null)
                     {
                         Clientes = new ObservableCollection<ClienteDTO>(clientesActivos.OrderByDescending(c => c.fechaRegistro));
+                        
+                        // 🎯 CONFIGURAR ESTADO DE RADIOBUTTONS SEGÚN BLOQUEO
+                        foreach (var cliente in Clientes)
+                        {
+                            var estadoBloqueo = _clienteEnEdicionService.VerificarClienteEnEdicion(cliente.idCliente);
+                            if (estadoBloqueo.enEdicion && !estadoBloqueo.usuarioEditor.Equals(_nombreUsuario, StringComparison.OrdinalIgnoreCase))
+                            {
+                                // Cliente bloqueado por otro usuario - RadioButton deshabilitado
+                                cliente.IsRadioButtonEnabled = false;
+                                System.Diagnostics.Debug.WriteLine($"🔒 RadioButton deshabilitado para cliente {cliente.idCliente} (editado por {estadoBloqueo.usuarioEditor})");
+                            }
+                            else
+                            {
+                                // Cliente disponible - RadioButton habilitado
+                                cliente.IsRadioButtonEnabled = true;
+                            }
+                        }
+                        
                         MensajeEstado = $"{Clientes.Count} cliente(s) activo(s)";
                     }
                     else
@@ -747,6 +811,9 @@ namespace ProyectoSauna.ViewModels
                 }
                 
                 OnPropertyChanged(nameof(ClientesActuales));
+                
+                // 🔄 ACTIVAR VERIFICACIÓN TRAS CARGAR DATOS
+                VerificarEstadoEdicionClientes();
             }
             catch (Exception ex)
             {
@@ -813,6 +880,12 @@ namespace ProyectoSauna.ViewModels
 
 
 
+        #region 🔄 Sincronización en Tiempo Real
+
+        private readonly DispatcherTimer _verificacionBloqueoTimer;
+
+        #endregion
+
         #region 🔄 Sincronización entre Ventanas
 
         /// <summary>
@@ -871,10 +944,59 @@ namespace ProyectoSauna.ViewModels
                     // Recargar según filtro actual (activos/inactivos)
                     await CargarClientesSegunFiltroAsync();
                 }
+                
+                // 🔒 Verificar bloqueos tras recargar
+                VerificarEstadoEdicionClientes();
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"❌ Error recargando tabla de clientes: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// 🔒 Verifica el estado de edición de todos los clientes para mostrar indicadores visuales
+        /// </summary>
+        private void VerificarEstadoEdicionClientes()
+        {
+            try
+            {
+                if (Clientes == null || !Clientes.Any()) return;
+
+                var usuarioActual = string.IsNullOrEmpty(ProyectoSauna.Models.SesionActual.NombreCompleto) 
+                    ? Environment.UserName ?? "Usuario" 
+                    : ProyectoSauna.Models.SesionActual.NombreCompleto;
+
+                System.Diagnostics.Debug.WriteLine($"🔍 Verificando estado de edición de {Clientes.Count} clientes...");
+
+                foreach (var cliente in Clientes)
+                {
+                    var estadoAnterior = cliente.IsRadioButtonEnabled;
+                    
+                    // 🔍 VERIFICAR ESTADO ACTUAL DEL BLOQUEO usando ClienteEnEdicionService
+                    var estado = _clienteEnEdicionService.VerificarClienteEnEdicion(cliente.idCliente);
+                    
+                    // ✅ Cliente está habilitado SI:
+                    // - No está en edición, O
+                    // - Está en edición por el usuario actual
+                    bool debeEstarHabilitado = !estado.enEdicion || 
+                        (!string.IsNullOrEmpty(estado.usuarioEditor) &&
+                         estado.usuarioEditor.Equals(usuarioActual, StringComparison.OrdinalIgnoreCase));
+                    
+                    // 🔄 ACTUALIZAR ESTADO SI HAY CAMBIO
+                    if (estadoAnterior != debeEstarHabilitado)
+                    {
+                        Application.Current?.Dispatcher.InvokeAsync(() =>
+                        {
+                            cliente.IsRadioButtonEnabled = debeEstarHabilitado;
+                            System.Diagnostics.Debug.WriteLine($"🔄 Cliente {cliente.idCliente} ({cliente.nombre}) RadioButton: {estadoAnterior} → {debeEstarHabilitado} (Editor: {estado.usuarioEditor})");
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Error verificando estado de clientes: {ex.Message}");
             }
         }
 
@@ -1230,7 +1352,16 @@ namespace ProyectoSauna.ViewModels
 
         public void Dispose()
         {
+            // 🧹 LIMPIAR EVENTOS Y TIMERS
+            if (_inventoryEventService != null)
+            {
+                _inventoryEventService.StockChanged -= OnClienteChanged_SincronizarTablas;
+            }
+            
+            _verificacionBloqueoTimer?.Stop();
             _searchTimer?.Dispose();
+            
+            System.Diagnostics.Debug.WriteLine("🧹 ClientesViewModel disposed");
         }
 
         #endregion

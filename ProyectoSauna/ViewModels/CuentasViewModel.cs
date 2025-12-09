@@ -17,7 +17,7 @@ using System.Windows.Threading;
 
 namespace ProyectoSauna.ViewModels
 {
-    public class CuentasViewModel : INotifyPropertyChanged
+    public class CuentasViewModel : INotifyPropertyChanged, IDisposable
     {
         private readonly ICuentaRepository _cuentaRepository;
         private readonly IProductoRepository _productoRepository;
@@ -33,16 +33,23 @@ namespace ProyectoSauna.ViewModels
         private readonly Services.ConcurrencyService? _concurrencyService;
         private readonly Services.CuentaUnicaService _cuentaUnicaService;
         private readonly Services.InventoryEventService _inventoryEventService;
+        private readonly Services.CuentaEnEdicionService _cuentaEnEdicionService; // 🔒 NUEVO SERVICIO
         private readonly SaunaDbContext _sharedContext;
         
         // 🔄 CONTROL DE ACTUALIZACIÓN INTELIGENTE
         private bool _actualizacionHabilitada = true;
         private bool _hayPendienteActualizacion = false;
         
+        // 🔒 CONTROL DE USUARIO ACTUAL PARA EVITAR MENSAJES INNECESARIOS
+        private string _usuarioActual => string.IsNullOrEmpty(ProyectoSauna.Models.SesionActual.NombreCompleto) 
+            ? Environment.UserName ?? "Usuario" 
+            : ProyectoSauna.Models.SesionActual.NombreCompleto;
+        
         private DispatcherTimer _timer;
         private DispatcherTimer _searchTimerProductos;
         private DispatcherTimer _searchTimerServicios;
-        private DispatcherTimer _actualizacionTimer; // 🔄 Timer para actualizaciones inteligentes
+        private DispatcherTimer _actualizacionTimer;
+        private DispatcherTimer _verificacionBloqueoTimer; // 🔒 TIMER PARA VERIFICACIÓN DE BLOQUEOS // 🔄 Timer para actualizaciones inteligentes
 
         public CuentasViewModel()
         {
@@ -60,6 +67,7 @@ namespace ProyectoSauna.ViewModels
             _validacionService = new Services.CuentaValidacionService();
             _concurrencyService = new Services.ConcurrencyService(_sharedContext);
             _cuentaUnicaService = new Services.CuentaUnicaService();
+            _cuentaEnEdicionService = new Services.CuentaEnEdicionService(); // 🔒 INICIALIZAR SERVICIO DE EDICIÓN
             
             // Inicializar DescuentoService
             try
@@ -117,8 +125,9 @@ namespace ProyectoSauna.ViewModels
 
             DevolverProductoCommand = new RelayCommand(async () => await DevolverProductoAsync());
 
-            // ✅ NUEVO COMANDO PARA SELECCIONAR CUENTA
-            SeleccionarCuentaCommand = new RelayCommand<CuentaPendiente>(async (cuenta) => await SeleccionarCuentaAsync(cuenta));
+            // ✅ COMANDO PARA SELECCIONAR CUENTA - PROTEGIDO CONTRA DOBLE EJECUCIÓN
+            SeleccionarCuentaCommand = new Commands.AsyncRelayCommand((object? parameter) => 
+                SeleccionarCuentaAsync(parameter as CuentaPendiente));
 
             // ✅ NUEVO COMANDO PARA LIMPIAR CUENTA ACTIVA
             LimpiarCuentaActivaCommand = new RelayCommand(async () => await LimpiarCuentaActiva());
@@ -129,13 +138,20 @@ namespace ProyectoSauna.ViewModels
             // 🔄 SUSCRIPCIÓN A EVENTOS DE SINCRONIZACIÓN ENTRE VENTANAS
             _inventoryEventService = InventoryEventService.Instance;
             _inventoryEventService.StockChanged += OnStockChanged_SincronizarCuentas;
+            
+            // 🧹 LIMPIAR BLOQUEOS FANTASMA AL INICIALIZAR
+            LimpiarBloqueosFantasma();
 
             _ = CargarCuentasPendientesAsync();
             _ = CargarProductosAsync();
             _ = CargarServiciosAsync();
 
             _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(30) };
-            _timer.Tick += (s, e) => ActualizarTiempos();
+            _timer.Tick += (s, e) => 
+            {
+                ActualizarTiempos();
+                VerificarEstadoEdicionCuentas(); // 🔒 VERIFICAR ESTADO DE EDICIÓN
+            };
             _timer.Start();
 
             _searchTimerProductos = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(300) };
@@ -156,6 +172,11 @@ namespace ProyectoSauna.ViewModels
             _actualizacionTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(10) };
             _actualizacionTimer.Tick += async (s, e) => await VerificarActualizacionPendiente();
             _actualizacionTimer.Start();
+            
+            // 🔒 CONFIGURAR TIMER PARA VERIFICACIÓN DE BLOQUEOS EN TIEMPO REAL
+            _verificacionBloqueoTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
+            _verificacionBloqueoTimer.Tick += (s, e) => VerificarEstadoEdicionCuentas();
+            _verificacionBloqueoTimer.Start();
         }
 
         #region Propiedades
@@ -197,6 +218,49 @@ namespace ProyectoSauna.ViewModels
 
         private CuentaPendiente _cuentaSeleccionada;
         private int? _selectedCuentaId;
+        
+        // 🎯 PROPIEDAD PARA MANEJAR SELECCIÓN DEL DATAGRID
+        private CuentaPendiente _selectedDataGridItem;
+        private bool _isUpdatingDataGridSelection = false;
+        private bool _creandoCuentaNueva = false; // 🆕 FLAG PARA EVITAR VERIFICACION DURANTE CREACION
+        
+        public CuentaPendiente SelectedDataGridItem
+        {
+            get => _selectedDataGridItem;
+            set
+            {
+                // 🛡️ VERIFICACIÓN PREVIA: Si es una cuenta diferente, verificar si está disponible
+                // ⚠️ NO VERIFICAR SI ESTAMOS CREANDO CUENTA NUEVA (evita conflictos)
+                if (value != null && value != CuentaSeleccionada && !_isUpdatingDataGridSelection && !_creandoCuentaNueva)
+                {
+                    var estadoBloqueo = _cuentaEnEdicionService.VerificarCuentaEnEdicion(value.idCuenta);
+                    if (estadoBloqueo.enEdicion && !estadoBloqueo.usuarioEditor.Equals(_usuarioActual, StringComparison.OrdinalIgnoreCase))
+                    {
+                        // 🚫 CUENTA BLOQUEADA POR OTRO USUARIO - SOLO MOSTRAR MENSAJE
+                        var mensaje = $"⚠️ La cuenta '{value.NombreCliente}' ya está siendo editada por {estadoBloqueo.usuarioEditor}.\n\n" +
+                                      "No puedes seleccionar esta cuenta mientras esté en edición.";
+                        
+                        MessageBox.Show(mensaje, "🔒 Cuenta en Edición", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        
+                        return; // NO CAMBIAR LA SELECCIÓN
+                    }
+                }
+                
+                if (_selectedDataGridItem != value && !_isUpdatingDataGridSelection)
+                {
+                    System.Diagnostics.Debug.WriteLine($"🎯 SelectedDataGridItem cambiado a: {value?.idCuenta} - {value?.NombreCliente}");
+                    _selectedDataGridItem = value;
+                    OnPropertyChanged();
+                    
+                    // 🔄 NO DISPARAR SI VIENE DESDE CÓDIGO
+                    if (value != null && !_isUpdatingDataGridSelection)
+                    {
+                        _ = Task.Run(async () => await SeleccionarCuentaAsync(value));
+                    }
+                }
+            }
+        }
+        
         public CuentaPendiente CuentaSeleccionada
         {
             get => _cuentaSeleccionada;
@@ -437,6 +501,29 @@ namespace ProyectoSauna.ViewModels
         #endregion
 
         #region Métodos principales
+        
+        /// <summary>
+        /// 🧹 Limpia bloqueos fantasma que puedan estar activos sin cuentas realmente seleccionadas
+        /// </summary>
+        private void LimpiarBloqueosFantasma()
+        {
+            try
+            {
+                var usuarioActual = string.IsNullOrEmpty(ProyectoSauna.Models.SesionActual.NombreCompleto) 
+                    ? Environment.UserName ?? "Usuario" 
+                    : ProyectoSauna.Models.SesionActual.NombreCompleto;
+                
+                // 🔓 LIBERAR TODOS LOS BLOQUEOS DEL USUARIO ACTUAL AL INICIAR
+                _cuentaEnEdicionService.LiberarTodosBloqueosUsuario(usuarioActual);
+                
+                System.Diagnostics.Debug.WriteLine($"🧹 Bloqueos fantasma limpiados para usuario: {usuarioActual}");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Error limpiando bloqueos fantasma: {ex.Message}");
+            }
+        }
+        
         // ✅ MODIFICADO: Ahora restaura la selección visual correctamente
         private async Task CargarCuentasPendientesAsync()
         {
@@ -463,10 +550,30 @@ namespace ProyectoSauna.ViewModels
                             precioEntrada = cuenta.precioEntrada,
                             descuento = cuenta.descuento,
                             total = cuenta.total,
-                            EstadoCuenta = cuenta.idEstadoCuentaNavigation?.nombre ?? ""
+                            EstadoCuenta = cuenta.idEstadoCuentaNavigation?.nombre ?? "",
+                            ParentViewModel = this // 🔗 ASIGNAR REFERENCIA AL VIEWMODEL PADRE
                         };
 
                         cuentaPendiente.ActualizarTiempo();
+                        
+                        // 🔒 VERIFICAR ESTADO DE EDICIÓN INICIAL Y CONFIGURAR RADIOBUTTON
+                        var estadoEdicion = _cuentaEnEdicionService.VerificarCuentaEnEdicion(cuenta.idCuenta);
+                        cuentaPendiente.EstaSiendoEditada = estadoEdicion.enEdicion;
+                        cuentaPendiente.UsuarioEditor = estadoEdicion.usuarioEditor ?? "";
+                        
+                        // 🎯 CONFIGURAR ESTADO DEL RADIOBUTTON
+                        if (estadoEdicion.enEdicion && !estadoEdicion.usuarioEditor.Equals(_usuarioActual, StringComparison.OrdinalIgnoreCase))
+                        {
+                            // Cuenta bloqueada por otro usuario - RadioButton deshabilitado
+                            cuentaPendiente.IsRadioButtonEnabled = false;
+                            System.Diagnostics.Debug.WriteLine($"🔒 RadioButton deshabilitado para cuenta {cuenta.idCuenta} (editada por {estadoEdicion.usuarioEditor})");
+                        }
+                        else
+                        {
+                            // Cuenta disponible - RadioButton habilitado
+                            cuentaPendiente.IsRadioButtonEnabled = true;
+                        }
+                        
                         CuentasPendientes.Add(cuentaPendiente);
                         TodasLasCuentas.Add(cuentaPendiente); // 🔍 AGREGAR TAMBIÉN A LA LISTA COMPLETA
                     }
@@ -488,17 +595,35 @@ namespace ProyectoSauna.ViewModels
 
                         if (cuentaASeleccionar != null)
                         {
-                            // ✅ DESMARCAR TODAS LAS DEMÁS
-                            foreach (var c in CuentasPendientes)
+                            // 🔒 INTENTAR BLOQUEAR LA CUENTA PARA RESTAURACIÓN
+                            var usuarioActual = string.IsNullOrEmpty(ProyectoSauna.Models.SesionActual.NombreCompleto) 
+                                ? Environment.UserName ?? "Usuario" 
+                                : ProyectoSauna.Models.SesionActual.NombreCompleto;
+                            var bloqueo = _cuentaEnEdicionService.IntentarBloquearCuenta(cuentaASeleccionar.idCuenta, _usuarioActual);
+                            
+                            if (bloqueo.exito)
                             {
-                                c.IsSelected = false;
+                                // ✅ DESMARCAR TODAS LAS DEMÁS
+                                foreach (var c in CuentasPendientes)
+                                {
+                                    c.SetIsSelectedFromCommand(false);
+                                }
+
+                                // ✅ MARCAR COMO SELECCIONADA (para el RadioButton)
+                                cuentaASeleccionar.SetIsSelectedFromCommand(true);
+
+                                // ✅ ASIGNAR AL VIEWMODEL (dispara el PropertyChanged)
+                                CuentaSeleccionada = cuentaASeleccionar;
+                                
+                                System.Diagnostics.Debug.WriteLine($"🎯 Cuenta restaurada y bloqueada: {cuentaASeleccionar.NombreCliente} (ID: {cuentaASeleccionar.idCuenta}) por {usuarioActual}");
                             }
-
-                            // ✅ MARCAR COMO SELECCIONADA (para el RadioButton)
-                            cuentaASeleccionar.IsSelected = true;
-
-                            // ✅ ASIGNAR AL VIEWMODEL (dispara el PropertyChanged)
-                            CuentaSeleccionada = cuentaASeleccionar;
+                            else
+                            {
+                                // Si no se puede bloquear, limpiar la selección previa
+                                ProyectoSauna.Models.SesionActual.CuentaSeleccionadaId = 0;
+                                _selectedCuentaId = null;
+                                System.Diagnostics.Debug.WriteLine($"⚠️ No se pudo restaurar cuenta {cuentaASeleccionar.idCuenta}: {bloqueo.mensaje}");
+                            }
                         }
                     }
                 });
@@ -519,31 +644,176 @@ namespace ProyectoSauna.ViewModels
             }
         }
 
-        // ✅ NUEVO MÉTODO: Seleccionar cuenta desde RadioButton
-        private Task SeleccionarCuentaAsync(CuentaPendiente cuenta)
+        // ✅ MODIFICADO: Seleccionar cuenta desde RadioButton con control de edición simultánea
+        public async Task SeleccionarCuentaAsync(CuentaPendiente cuenta)
         {
-            if (cuenta == null) return Task.CompletedTask;
+            if (cuenta == null) return;
 
-            // Desmarcar todas las demás
-            foreach (var c in CuentasPendientes)
+            try
             {
-                c.IsSelected = false;
+                System.Diagnostics.Debug.WriteLine($"🎯 SeleccionarCuentaAsync llamado para cuenta: {cuenta.idCuenta} - {cuenta.NombreCliente}");
+
+                // 🛡️ VERIFICACIÓN PREVIA: NO PERMITIR SELECCIÓN SI ESTÁ BLOQUEADA
+                var estadoBloqueo = _cuentaEnEdicionService.VerificarCuentaEnEdicion(cuenta.idCuenta);
+                if (estadoBloqueo.enEdicion)
+                {
+                    // 🔒 VERIFICAR SI EL USUARIO ACTUAL ES EL QUE ESTÁ EDITANDO
+                    if (estadoBloqueo.usuarioEditor.Equals(_usuarioActual, StringComparison.OrdinalIgnoreCase))
+                    {
+                        // ✅ ES EL MISMO USUARIO - PERMITIR SELECCIÓN SIN MENSAJE
+                        System.Diagnostics.Debug.WriteLine($"🔄 Usuario {_usuarioActual} regresando a su propia cuenta {cuenta.idCuenta}");
+                    }
+                    else
+                    {
+                        // 🚫 CUENTA BLOQUEADA POR OTRO USUARIO - NO CAMBIAR SELECCIÓN
+                        var mensaje = $"⚠️ La cuenta '{cuenta.NombreCliente}' ya está siendo editada por {estadoBloqueo.usuarioEditor}.\n\n" +
+                                      "No es posible seleccionarla mientras esté en uso.";
+                        
+                        MessageBox.Show(mensaje, "🔒 Cuenta en Edición", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        
+                        // 🔄 RESTAURAR ESTADO DEL RADIOBUTTON Y FILA SIN CAMBIAR SELECCIÓN
+                        await Application.Current.Dispatcher.InvokeAsync(() =>
+                        {
+                            cuenta.SetIsSelectedFromCommand(false); // Desmarcar el RadioButton
+                        });
+                        
+                        return; // ❌ SALIR SIN CAMBIAR LA SELECCIÓN ACTUAL
+                    }
+                }
+
+                // 🔒 VERIFICAR SI LA CUENTA YA ESTÁ SIENDO EDITADA
+                var verificacion = _cuentaEnEdicionService.VerificarCuentaEnEdicion(cuenta.idCuenta);
+                var usuarioActual = string.IsNullOrEmpty(ProyectoSauna.Models.SesionActual.NombreCompleto) 
+                    ? Environment.UserName ?? "Usuario" 
+                    : ProyectoSauna.Models.SesionActual.NombreCompleto;
+                    
+                // ✅ SI YA ESTÁ BLOQUEADA POR EL MISMO USUARIO, PERMITIR SELECCIÓN
+                if (verificacion.enEdicion && verificacion.usuarioEditor.Equals(usuarioActual, StringComparison.OrdinalIgnoreCase))
+                {
+                    System.Diagnostics.Debug.WriteLine($"✅ Cuenta {cuenta.idCuenta} ya está bloqueada por el mismo usuario: {usuarioActual}");
+                    
+                    // 🔓 LIBERAR CUENTA ANTERIORMENTE SELECCIONADA DIFERENTE
+                    if (CuentaSeleccionada != null && CuentaSeleccionada.idCuenta != cuenta.idCuenta)
+                    {
+                        _cuentaEnEdicionService.LiberarBloqueCuenta(CuentaSeleccionada.idCuenta, usuarioActual);
+                        CuentaSeleccionada.SetIsSelectedFromCommand(false);
+                        System.Diagnostics.Debug.WriteLine($"🔓 Liberada cuenta anterior: {CuentaSeleccionada.idCuenta}");
+                    }
+                    
+                    // 📝 DESMARCAR TODAS Y MARCAR LA SELECCIONADA
+                    if (CuentasPendientes != null)
+                    {
+                        foreach (var c in CuentasPendientes)
+                        {
+                            c.SetIsSelectedFromCommand(c.idCuenta == cuenta.idCuenta);
+                        }
+                    }
+                    
+                    CuentaSeleccionada = cuenta;
+                    
+                    // 🔄 SINCRONIZAR CON SELECCIÓN DEL DATAGRID
+                    _isUpdatingDataGridSelection = true;
+                    SelectedDataGridItem = cuenta;
+                    _isUpdatingDataGridSelection = false;
+                    
+                    // ⏸️ PAUSAR ACTUALIZACIONES AUTOMÁTICAS
+                    PausarActualizaciones();
+                    return;
+                }
+                
+                if (verificacion.enEdicion && !verificacion.usuarioEditor.Equals(usuarioActual, StringComparison.OrdinalIgnoreCase))
+                {
+                    var usuario = string.IsNullOrEmpty(verificacion.usuarioEditor) ? "otro usuario" : verificacion.usuarioEditor;
+                    System.Diagnostics.Debug.WriteLine($"❌ Cuenta {cuenta.idCuenta} ya en edición por: {usuario}");
+                    
+                    MessageBox.Show(
+                        $"⚠️ La cuenta de {cuenta.NombreCliente} ya está siendo utilizada por {usuario}.\n\n" +
+                        "No puede acceder a esta cuenta hasta que el otro usuario termine de trabajar con ella.",
+                        "Cuenta en Uso",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
+                    
+                    // 🔄 ASEGURAR QUE EL RADIOBUTTON NO SE MARQUE
+                    cuenta.SetIsSelectedFromCommand(false);
+                    return;
+                }
+
+                        // 🔒 INTENTAR BLOQUEAR LA CUENTA PARA EDICIÓN
+                        var bloqueo = _cuentaEnEdicionService.IntentarBloquearCuenta(cuenta.idCuenta, _usuarioActual);                if (!bloqueo.exito)
+                {
+                    System.Diagnostics.Debug.WriteLine($"❌ No se pudo bloquear cuenta {cuenta.idCuenta}: {bloqueo.mensaje}");
+                    
+                    MessageBox.Show(
+                        $"❌ {bloqueo.mensaje}\n\n" +
+                        "No puede trabajar con esta cuenta en este momento.",
+                        "Cuenta No Disponible",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
+                    
+                    // 🔄 ASEGURAR QUE EL RADIOBUTTON NO SE MARQUE
+                    cuenta.SetIsSelectedFromCommand(false);
+                    return;
+                }
+
+                System.Diagnostics.Debug.WriteLine($"✅ Cuenta {cuenta.idCuenta} bloqueada exitosamente por {usuarioActual}");
+
+                // 🔓 LIBERAR CUENTA ANTERIORMENTE SELECCIONADA
+                if (CuentaSeleccionada != null && CuentaSeleccionada.idCuenta != cuenta.idCuenta)
+                {
+                    _cuentaEnEdicionService.LiberarBloqueCuenta(CuentaSeleccionada.idCuenta, usuarioActual);
+                    System.Diagnostics.Debug.WriteLine($"🔓 Liberada cuenta anterior: {CuentaSeleccionada.idCuenta}");
+                }
+
+                // ✅ SELECCIONAR LA NUEVA CUENTA
+                System.Diagnostics.Debug.WriteLine($"🎯 Marcando cuentas - Total cuentas: {CuentasPendientes?.Count ?? 0}");
+                
+                // Desmarcar todas y marcar solo la seleccionada
+                if (CuentasPendientes != null)
+                {
+                    foreach (var c in CuentasPendientes)
+                    {
+                        bool debeEstarSeleccionada = c.idCuenta == cuenta.idCuenta;
+                        c.SetIsSelectedFromCommand(debeEstarSeleccionada);
+                        System.Diagnostics.Debug.WriteLine($"🔘 Cuenta {c.idCuenta} marcada: {debeEstarSeleccionada}");
+                    }
+                }
+                
+                CuentaSeleccionada = cuenta;
+                
+                // 🔄 SINCRONIZAR CON SELECCIÓN DEL DATAGRID
+                _isUpdatingDataGridSelection = true;
+                SelectedDataGridItem = cuenta;
+                _isUpdatingDataGridSelection = false;
+                
+                // ⏸️ PAUSAR ACTUALIZACIONES AUTOMÁTICAS AL SELECCIONAR CUENTA
+                PausarActualizaciones();
+                
+                // 📡 SINCRONIZACIÓN INMEDIATA: Forzar verificación para que otras ventanas vean el bloqueo
+                System.Diagnostics.Debug.WriteLine($"📡 Forzando sincronización tras bloqueo de cuenta {cuenta.idCuenta}");
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(100); // Pequeña pausa para asegurar que el bloqueo se escribió
+                    Application.Current?.Dispatcher.InvokeAsync(() => 
+                    {
+                        VerificarEstadoEdicionCuentas(forzarActualizacion: true);
+                    });
+                });
+                
+                System.Diagnostics.Debug.WriteLine($"🎯 Cuenta seleccionada y bloqueada: {cuenta.NombreCliente} (ID: {cuenta.idCuenta}) por {usuarioActual}");
             }
-
-            // Marcar la seleccionada
-            cuenta.IsSelected = true;
-            CuentaSeleccionada = cuenta;
-            
-            // ⏸️ PAUSAR ACTUALIZACIONES AUTOMÁTICAS AL SELECCIONAR CUENTA
-            PausarActualizaciones();
-            System.Diagnostics.Debug.WriteLine($"🎯 Cuenta seleccionada: {cuenta.NombreCliente} (ID: {cuenta.idCuenta})");
-
-            return Task.CompletedTask;
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Error al seleccionar cuenta: {ex.Message}");
+                MessageBox.Show($"Error al seleccionar cuenta: {ex.Message}", 
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
-        // ✅ NUEVO MÉTODO: Limpiar cuenta activa
+        // ✅ MODIFICADO: Limpiar cuenta activa con liberación de bloqueo
         private async Task LimpiarCuentaActiva()
         {
+            if (CuentaSeleccionada == null) return;
+
             var resultado = MessageBox.Show(
                 "¿Desea dejar de trabajar con esta cuenta?\n\n" +
                 "Podrá seleccionar otra cuenta después.",
@@ -553,19 +823,37 @@ namespace ProyectoSauna.ViewModels
 
             if (resultado == MessageBoxResult.Yes)
             {
-                // Desmarcar todas
-                foreach (var c in CuentasPendientes)
+                try
                 {
-                    c.IsSelected = false;
-                }
+                    // 🔓 LIBERAR BLOQUEO DE LA CUENTA
+                    var usuarioActual = string.IsNullOrEmpty(ProyectoSauna.Models.SesionActual.NombreCompleto) 
+                        ? Environment.UserName ?? "Usuario" 
+                        : ProyectoSauna.Models.SesionActual.NombreCompleto;
+                    var idCuentaALiberar = CuentaSeleccionada.idCuenta;
+                    _cuentaEnEdicionService.LiberarBloqueCuenta(idCuentaALiberar, usuarioActual);
+                    
+                    System.Diagnostics.Debug.WriteLine($"🔓 Cuenta liberada: {idCuentaALiberar} por {usuarioActual}");
 
-                CuentaSeleccionada = null;
-                ProyectoSauna.Models.SesionActual.CuentaSeleccionadaId = 0;
-                ConsumosCuentaActual.Clear();
-                
-                // ▶️ REACTIVAR ACTUALIZACIONES AUTOMÁTICAS AL LIMPIAR SELECCIÓN
-                await ReactivarActualizacionesAsync();
-                System.Diagnostics.Debug.WriteLine("🧙 Cuenta deseleccionada - Actualizaciones reactivadas");
+                    // Desmarcar todas
+                    foreach (var c in CuentasPendientes)
+                    {
+                        c.SetIsSelectedFromCommand(false);
+                    }
+
+                    CuentaSeleccionada = null;
+                    ProyectoSauna.Models.SesionActual.CuentaSeleccionadaId = 0;
+                    ConsumosCuentaActual.Clear();
+                    
+                    // ▶️ REACTIVAR ACTUALIZACIONES AUTOMÁTICAS AL LIMPIAR SELECCIÓN
+                    await ReactivarActualizacionesAsync();
+                    System.Diagnostics.Debug.WriteLine("🧙 Cuenta deseleccionada y liberada - Actualizaciones reactivadas");
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"❌ Error al liberar bloqueo: {ex.Message}");
+                    MessageBox.Show($"Error al liberar cuenta: {ex.Message}", 
+                        "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -579,13 +867,27 @@ namespace ProyectoSauna.ViewModels
                 var keep = CuentasPendientes?.FirstOrDefault(c => c.idCuenta == idSesion);
                 if (keep != null)
                 {
-                    // ✅ TAMBIÉN MARCAR VISUALMENTE
-                    foreach (var c in CuentasPendientes)
+                    // 🔒 INTENTAR BLOQUEAR LA CUENTA ENCONTRADA
+                    var usuarioActual = _usuarioActual;
+                    var bloqueo = _cuentaEnEdicionService.IntentarBloquearCuenta(keep.idCuenta, usuarioActual);
+                    
+                    if (bloqueo.exito)
                     {
-                        c.IsSelected = false;
+                        // ✅ TAMBIÉN MARCAR VISUALMENTE
+                        foreach (var c in CuentasPendientes)
+                        {
+                            c.SetIsSelectedFromCommand(false);
+                        }
+                        keep.SetIsSelectedFromCommand(true);
+                        CuentaSeleccionada = keep;
+                        System.Diagnostics.Debug.WriteLine($"🔒 Cuenta asegurada y bloqueada: {keep.idCuenta}");
                     }
-                    keep.IsSelected = true;
-                    CuentaSeleccionada = keep;
+                    else
+                    {
+                        // Si no se puede bloquear, limpiar selección
+                        ProyectoSauna.Models.SesionActual.CuentaSeleccionadaId = 0;
+                        System.Diagnostics.Debug.WriteLine($"⚠️ No se pudo asegurar cuenta {keep.idCuenta}: {bloqueo.mensaje}");
+                    }
                     return;
                 }
 
@@ -593,21 +895,36 @@ namespace ProyectoSauna.ViewModels
                 var cuenta = await _cuentaRepository.GetCuentaByIdAsync(idSesion);
                 if (cuenta != null)
                 {
-                    var cuentaPendiente = new CuentaPendiente
+                    // 🔒 INTENTAR BLOQUEAR ANTES DE CREAR LA CUENTA PENDIENTE
+                    var usuarioActual = _usuarioActual;
+                    var bloqueo = _cuentaEnEdicionService.IntentarBloquearCuenta(cuenta.idCuenta, usuarioActual);
+                    
+                    if (bloqueo.exito)
                     {
-                        idCuenta = cuenta.idCuenta,
-                        NombreCliente = $"{cuenta.idClienteNavigation?.nombre} {cuenta.idClienteNavigation?.apellidos}",
-                        DocumentoCliente = cuenta.idClienteNavigation?.numero_documento ?? "",
-                        HoraIngreso = cuenta.fechaHoraCreacion.ToString("HH:mm"),
-                        FechaHoraIngreso = cuenta.fechaHoraCreacion,
-                        precioEntrada = cuenta.precioEntrada,
-                        descuento = cuenta.descuento,
-                        total = cuenta.total,
-                        EstadoCuenta = cuenta.idEstadoCuentaNavigation?.nombre ?? ""
-                    };
-                    cuentaPendiente.ActualizarTiempo();
-                    cuentaPendiente.IsSelected = true;
-                    CuentaSeleccionada = cuentaPendiente;
+                        var cuentaPendiente = new CuentaPendiente
+                        {
+                            idCuenta = cuenta.idCuenta,
+                            NombreCliente = $"{cuenta.idClienteNavigation?.nombre} {cuenta.idClienteNavigation?.apellidos}",
+                            DocumentoCliente = cuenta.idClienteNavigation?.numero_documento ?? "",
+                            HoraIngreso = cuenta.fechaHoraCreacion.ToString("HH:mm"),
+                            FechaHoraIngreso = cuenta.fechaHoraCreacion,
+                            precioEntrada = cuenta.precioEntrada,
+                            descuento = cuenta.descuento,
+                            total = cuenta.total,
+                            EstadoCuenta = cuenta.idEstadoCuentaNavigation?.nombre ?? "",
+                            ParentViewModel = this // 🔗 ASIGNAR REFERENCIA AL VIEWMODEL PADRE
+                        };
+                        cuentaPendiente.ActualizarTiempo();
+                        cuentaPendiente.SetIsSelectedFromCommand(true);
+                        CuentaSeleccionada = cuentaPendiente;
+                        System.Diagnostics.Debug.WriteLine($"🔒 Cuenta desde BD bloqueada: {cuenta.idCuenta}");
+                    }
+                    else
+                    {
+                        // Si no se puede bloquear, limpiar selección
+                        ProyectoSauna.Models.SesionActual.CuentaSeleccionadaId = 0;
+                        System.Diagnostics.Debug.WriteLine($"⚠️ No se pudo bloquear cuenta desde BD {cuenta.idCuenta}: {bloqueo.mensaje}");
+                    }
                 }
             }
         }
@@ -788,6 +1105,16 @@ namespace ProyectoSauna.ViewModels
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
 
+                // 🔓 LIBERAR BLOQUEO DE CUENTA ANTERIOR ANTES DE SELECCIONAR NUEVA
+                if (CuentaSeleccionada != null)
+                {
+                    var usuarioActual = string.IsNullOrEmpty(ProyectoSauna.Models.SesionActual.NombreCompleto) 
+                        ? Environment.UserName ?? "Usuario" 
+                        : ProyectoSauna.Models.SesionActual.NombreCompleto;
+                    _cuentaEnEdicionService.LiberarBloqueCuenta(CuentaSeleccionada.idCuenta, usuarioActual);
+                    System.Diagnostics.Debug.WriteLine($"🔓 Liberado bloqueo de cuenta anterior {CuentaSeleccionada.idCuenta} antes de crear nueva");
+                }
+
                 // Recargar lista y seleccionar la cuenta recién creada
                 await CargarCuentasPendientesAsync();
                 if (creacionSegura.idCuentaCreada.HasValue)
@@ -795,20 +1122,36 @@ namespace ProyectoSauna.ViewModels
                     var cuentaNueva = CuentasPendientes.FirstOrDefault(c => c.idCuenta == creacionSegura.idCuentaCreada.Value);
                     if (cuentaNueva != null)
                     {
-                        await SeleccionarCuentaAsync(cuentaNueva);
+                        // 🆕 ACTIVAR FLAG PARA EVITAR VERIFICACION INNECESARIA
+                        _creandoCuentaNueva = true;
+                        try
+                        {
+                            await SeleccionarCuentaAsync(cuentaNueva);
+                            System.Diagnostics.Debug.WriteLine($"✅ Cuenta nueva {cuentaNueva.idCuenta} seleccionada después de liberar anterior");
+                        }
+                        finally
+                        {
+                            // ✅ DESACTIVAR FLAG DESPUÉS DE LA SELECCIÓN
+                            _creandoCuentaNueva = false;
+                        }
                     }
                 }
 
                 await LimpiarBusquedaAsync();
 
-                // 🔄 SINCRONIZAR CON TODAS LAS VENTANAS
+                // 🔄 SINCRONIZAR CON TODAS LAS VENTANAS (CON DELAY PARA EVITAR AUTO-SINCRONIZACIÓN)
                 // Notificar a otras instancias sobre el cambio
-                _inventoryEventService?.OnStockChanged(new StockChangedEventArgs
+                _ = Task.Run(async () =>
                 {
-                    ProductoId = 0, // No es producto, es cuenta nueva
-                    NuevoStock = 0,
-                    TipoMovimiento = "CUENTA_CREADA",
-                    IdCuenta = creacionSegura.idCuentaCreada
+                    // Pequeño delay para asegurar que la selección se haya completado
+                    await Task.Delay(200);
+                    _inventoryEventService?.OnStockChanged(new StockChangedEventArgs
+                    {
+                        ProductoId = 0, // No es producto, es cuenta nueva
+                        NuevoStock = 0,
+                        TipoMovimiento = "CUENTA_CREADA",
+                        IdCuenta = creacionSegura.idCuentaCreada
+                    });
                 });
             }
             catch (Exception ex)
@@ -995,6 +1338,113 @@ namespace ProyectoSauna.ViewModels
         {
             foreach (var cuenta in CuentasPendientes)
                 cuenta.ActualizarTiempo();
+        }
+
+        /// <summary>
+        /// 🔒 Verifica el estado de edición de todas las cuentas para mostrar indicadores visuales Y sincronizar RadioButtons dinámicamente
+        /// </summary>
+        private void VerificarEstadoEdicionCuentas(bool forzarActualizacion = false)
+        {
+            try
+            {
+                var usuarioActual = _usuarioActual;
+
+                System.Diagnostics.Debug.WriteLine($"🔍 Verificando estado de edición de cuentas... (Forzado: {forzarActualizacion})");
+                
+                if (CuentasPendientes == null) return;
+                
+                // 🎯 SOLO SINCRONIZAR RADIOBUTTONS SI NO HAY CUENTA SELECCIONADA O ES FORZADO
+                bool puedeActualizarSelecciones = forzarActualizacion || CuentaSeleccionada == null;
+                
+                foreach (var cuenta in CuentasPendientes)
+                {
+                    var estadoAnterior = cuenta.EstaSiendoEditada;
+                    var usuarioAnterior = cuenta.UsuarioEditor;
+                    var seleccionAnterior = cuenta.IsSelected;
+                    
+                    // 🔍 VERIFICAR ESTADO ACTUAL DEL BLOQUEO
+                    var estado = _cuentaEnEdicionService.VerificarCuentaEnEdicion(cuenta.idCuenta);
+                    cuenta.EstaSiendoEditada = estado.enEdicion;
+                    cuenta.UsuarioEditor = estado.usuarioEditor ?? "";
+                    
+                    // 🎯 ACTUALIZAR ESTADO DEL RADIOBUTTON SEGÚN BLOQUEO
+                    bool radioButtonDebeEstarHabilitado = !estado.enEdicion || 
+                        (estado.enEdicion && estado.usuarioEditor.Equals(usuarioActual, StringComparison.OrdinalIgnoreCase));
+                    
+                    if (cuenta.IsRadioButtonEnabled != radioButtonDebeEstarHabilitado)
+                    {
+                        cuenta.IsRadioButtonEnabled = radioButtonDebeEstarHabilitado;
+                        System.Diagnostics.Debug.WriteLine($"📱 RadioButton cuenta {cuenta.idCuenta}: {(radioButtonDebeEstarHabilitado ? "HABILITADO" : "DESHABILITADO")}");
+                    }
+                    
+                    // 🎯 SOLO ACTUALIZAR RADIOBUTTONS SI ESTÁ PERMITIDO
+                    if (puedeActualizarSelecciones)
+                    {
+                        // 🎯 SINCRONIZACIÓN DINÁMICA DE RADIOBUTTON CON BLOQUEO
+                        bool debeEstarSeleccionada = estado.enEdicion && 
+                            !string.IsNullOrEmpty(estado.usuarioEditor) &&
+                            estado.usuarioEditor.Equals(usuarioActual, StringComparison.OrdinalIgnoreCase);
+                        
+                        // 🔄 ACTUALIZAR RADIOBUTTON SI HAY CAMBIO EN LA SELECCIÓN
+                        if (seleccionAnterior != debeEstarSeleccionada)
+                        {
+                            System.Diagnostics.Debug.WriteLine($"🔄 Sincronizando RadioButton cuenta {cuenta.idCuenta}: {seleccionAnterior} → {debeEstarSeleccionada} (Usuario: {estado.usuarioEditor})");
+                            
+                            // Actualizar en UI thread
+                            Application.Current?.Dispatcher.InvokeAsync(() =>
+                            {
+                                cuenta.SetIsSelectedFromCommand(debeEstarSeleccionada);
+                                
+                                // 🎯 ACTUALIZAR CUENTA SELECCIONADA Y DATAGRID SOLO SI ES NECESARIO
+                                if (debeEstarSeleccionada)
+                                {
+                                    // ✅ ESTA CUENTA AHORA ESTÁ SELECCIONADA
+                                    if (CuentaSeleccionada?.idCuenta != cuenta.idCuenta)
+                                    {
+                                        CuentaSeleccionada = cuenta;
+                                        _isUpdatingDataGridSelection = true;
+                                        SelectedDataGridItem = cuenta;
+                                        _isUpdatingDataGridSelection = false;
+                                        System.Diagnostics.Debug.WriteLine($"✅ CuentaSeleccionada actualizada dinámicamente: {cuenta.idCuenta}");
+                                    }
+                                }
+                                else if (CuentaSeleccionada?.idCuenta == cuenta.idCuenta)
+                                {
+                                    // ❌ ESTA CUENTA YA NO ESTÁ SELECCIONADA
+                                    CuentaSeleccionada = null;
+                                    _isUpdatingDataGridSelection = true;
+                                    SelectedDataGridItem = null;
+                                    _isUpdatingDataGridSelection = false;
+                                    
+                                    // ▶️ REANUDAR ACTUALIZACIONES AL DESELECCIONAR
+                                    _ = ReactivarActualizacionesAsync();
+                                    System.Diagnostics.Debug.WriteLine($"❌ CuentaSeleccionada liberada dinámicamente: {cuenta.idCuenta}");
+                                }
+                            });
+                        }
+                    }
+                    
+                    // 🔓 DETECTAR LIBERACIÓN DE CUENTA POR OTRO USUARIO (SIEMPRE MOSTRAR)
+                    if (estadoAnterior && !estado.enEdicion && 
+                        !string.IsNullOrEmpty(usuarioAnterior) && 
+                        !usuarioAnterior.Equals(usuarioActual, StringComparison.OrdinalIgnoreCase))
+                    {
+                        System.Diagnostics.Debug.WriteLine($"🔓 Cuenta {cuenta.idCuenta} liberada por {usuarioAnterior}");
+                    }
+                    
+                    // 🔒 DETECTAR NUEVA SELECCIÓN POR OTRO USUARIO (SIEMPRE MOSTRAR)  
+                    if (!estadoAnterior && estado.enEdicion && 
+                        !string.IsNullOrEmpty(estado.usuarioEditor) &&
+                        !estado.usuarioEditor.Equals(usuarioActual, StringComparison.OrdinalIgnoreCase))
+                    {
+                        System.Diagnostics.Debug.WriteLine($"🔒 Cuenta {cuenta.idCuenta} ahora en edición por {estado.usuarioEditor}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Error verificando estado de edición: {ex.Message}");
+            }
         }
         #endregion
 
@@ -2041,34 +2491,49 @@ namespace ProyectoSauna.ViewModels
         
         /// <summary>
         /// 🔄 Maneja la sincronización entre ventanas cuando se crean o eliminan cuentas
-        /// INTELIGENTE: No actualiza si hay cuenta seleccionada para evitar perder selección
+        /// INTELIGENTE: Actualiza lista pero preserva selección actual cuando hay cuenta seleccionada
         /// </summary>
         private async void OnStockChanged_SincronizarCuentas(object sender, StockChangedEventArgs e)
         {
             try
             {
+                // 🚫 NO SINCRONIZAR SI ESTAMOS CREANDO CUENTA NUEVA (evita conflictos)
+                if (_creandoCuentaNueva)
+                {
+                    System.Diagnostics.Debug.WriteLine("⏸️ Sincronización pausada - creando cuenta nueva");
+                    return;
+                }
+                
                 // Solo sincronizar cuando se trata de eventos de cuentas
                 if (e.TipoMovimiento == "CUENTA_CREADA" || e.TipoMovimiento == "CUENTA_ELIMINADA")
                 {
                     await Application.Current.Dispatcher.InvokeAsync(async () =>
                     {
-                        // 🧠 ACTUALIZACIÓN INTELIGENTE
-                        if (!_actualizacionHabilitada || CuentaSeleccionada != null)
+                        System.Diagnostics.Debug.WriteLine($"🔄 Evento recibido: {e.TipoMovimiento} - ID: {e.IdCuenta}");
+                        
+                        // 🆕 NUEVA LÓGICA: Siempre actualizar, pero preservar selección cuando existe
+                        if (CuentaSeleccionada != null)
                         {
-                            // Marcar que hay una actualización pendiente
-                            _hayPendienteActualizacion = true;
-                            System.Diagnostics.Debug.WriteLine($"📋 Actualización de lista PAUSADA - Hay cuenta seleccionada: {CuentaSeleccionada?.NombreCliente}");
-                            return;
+                            // Guardar selección actual para restaurarla después
+                            var cuentaSeleccionadaId = CuentaSeleccionada.idCuenta;
+                            System.Diagnostics.Debug.WriteLine($"💾 Preservando selección de cuenta {cuentaSeleccionadaId} durante actualización");
+                            
+                            // Actualizar lista preservando selección
+                            await ActualizarListaCuentasConSeleccionAsync(cuentaSeleccionadaId);
                         }
-
-                        // Realizar actualización inmediata
-                        await ActualizarListaCuentasAsync();
+                        else
+                        {
+                            // No hay selección, actualización normal
+                            System.Diagnostics.Debug.WriteLine("🔄 Actualizando lista sin selección activa");
+                            await ActualizarListaCuentasAsync();
+                        }
                         
                         // Si una cuenta fue eliminada y es la que teníamos seleccionada, limpiar selección
                         if (e.TipoMovimiento == "CUENTA_ELIMINADA" && e.IdCuenta.HasValue)
                         {
                             if (CuentaSeleccionada?.idCuenta == e.IdCuenta.Value)
                             {
+                                System.Diagnostics.Debug.WriteLine($"🗑️ La cuenta seleccionada ({e.IdCuenta.Value}) fue eliminada, limpiando selección");
                                 await LimpiarCuentaActiva();
                             }
                         }
@@ -2091,12 +2556,102 @@ namespace ProyectoSauna.ViewModels
             try
             {
                 System.Diagnostics.Debug.WriteLine("🔄 Actualizando lista de cuentas...");
+                
+                // 🔄 DESELECCIONAR CUENTAS AL RECARGAR PRIMERO
+                DeseleccionarTodasLasCuentas();
+                
+                // 🔓 LIBERAR BLOQUEOS DE CUENTAS ANTES DE RECARGAR
+                if (CuentaSeleccionada != null)
+                {
+                    LiberarBloqueoCuentaActual();
+                }
+                
+                // 🔄 FORZAR ACTUALIZACIÓN HABILITÁNDOLA TEMPORALMENTE
+                var estadoAnterior = _actualizacionHabilitada;
+                _actualizacionHabilitada = true;
+                
                 await CargarCuentasPendientesAsync();
+                
+                // 🔄 FORZAR VERIFICACIÓN DE ESTADOS DESPUÉS DE CARGAR
+                VerificarEstadoEdicionCuentas(forzarActualizacion: true);
+                
                 _hayPendienteActualizacion = false;
+                _actualizacionHabilitada = estadoAnterior;
+                
+                System.Diagnostics.Debug.WriteLine("✅ Lista de cuentas actualizada y deseleccionada");
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"❌ Error al actualizar lista de cuentas: {ex.Message}");
+            }
+        }
+        
+        /// <summary>
+        /// 🔄 Actualiza la lista de cuentas preservando la selección especificada
+        /// </summary>
+        private async Task ActualizarListaCuentasConSeleccionAsync(int cuentaSeleccionadaId)
+        {
+            try
+            {
+                System.Diagnostics.Debug.WriteLine($"🔄 Actualizando lista preservando selección de cuenta {cuentaSeleccionadaId}...");
+                
+                // Guardar referencia al usuario actual
+                var usuarioActual = string.IsNullOrEmpty(ProyectoSauna.Models.SesionActual.NombreCompleto) 
+                    ? Environment.UserName ?? "Usuario" 
+                    : ProyectoSauna.Models.SesionActual.NombreCompleto;
+                
+                // Temporal: Forzar actualización
+                var estadoAnterior = _actualizacionHabilitada;
+                _actualizacionHabilitada = true;
+                
+                // Cargar nuevas cuentas
+                await CargarCuentasPendientesAsync();
+                
+                // Intentar restaurar la selección después de la actualización
+                var cuentaARestaurar = CuentasPendientes.FirstOrDefault(c => c.idCuenta == cuentaSeleccionadaId);
+                if (cuentaARestaurar != null)
+                {
+                    // Verificar que el bloqueo sigue activo y es nuestro
+                    var estadoBloqueo = _cuentaEnEdicionService.VerificarCuentaEnEdicion(cuentaSeleccionadaId);
+                    if (estadoBloqueo.enEdicion && estadoBloqueo.usuarioEditor == usuarioActual)
+                    {
+                        // Restaurar selección visual
+                        foreach (var c in CuentasPendientes)
+                        {
+                            c.SetIsSelectedFromCommand(c.idCuenta == cuentaSeleccionadaId);
+                        }
+                        
+                        // Restaurar selección en el ViewModel
+                        CuentaSeleccionada = cuentaARestaurar;
+                        System.Diagnostics.Debug.WriteLine($"✅ Selección restaurada para cuenta {cuentaSeleccionadaId}");
+                    }
+                    else
+                    {
+                        // El bloqueo se perdió, limpiar selección
+                        System.Diagnostics.Debug.WriteLine($"⚠️ Bloqueo perdido para cuenta {cuentaSeleccionadaId}, limpiando selección");
+                        await LimpiarCuentaActiva();
+                    }
+                }
+                else
+                {
+                    // La cuenta ya no existe, limpiar selección
+                    System.Diagnostics.Debug.WriteLine($"⚠️ Cuenta {cuentaSeleccionadaId} ya no existe, limpiando selección");
+                    await LimpiarCuentaActiva();
+                }
+                
+                // Verificar estados de edición
+                VerificarEstadoEdicionCuentas(forzarActualizacion: true);
+                
+                _hayPendienteActualizacion = false;
+                _actualizacionHabilitada = estadoAnterior;
+                
+                System.Diagnostics.Debug.WriteLine("✅ Lista actualizada con preservación de selección");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Error al actualizar lista con selección: {ex.Message}");
+                // En caso de error, limpiar selección por seguridad
+                await LimpiarCuentaActiva();
             }
         }
         
@@ -2145,6 +2700,180 @@ namespace ProyectoSauna.ViewModels
             }
         }
         
+        /// <summary>
+        /// 🔄 Deselecciona todas las cuentas seleccionadas (usado en recarga) con sincronización dinámica
+        /// </summary>
+        private void DeseleccionarTodasLasCuentas()
+        {
+            try
+            {
+                System.Diagnostics.Debug.WriteLine("🔄 Deseleccionando todas las cuentas...");
+                
+                var usuarioActual = string.IsNullOrEmpty(ProyectoSauna.Models.SesionActual.NombreCompleto) 
+                    ? Environment.UserName ?? "Usuario" 
+                    : ProyectoSauna.Models.SesionActual.NombreCompleto;
+                
+                // 🔓 LIBERAR CUENTA SELECCIONADA ACTUAL PRIMERO
+                if (CuentaSeleccionada != null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"🔓 Liberando cuenta seleccionada: {CuentaSeleccionada.idCuenta}");
+                    _cuentaEnEdicionService.LiberarBloqueCuenta(CuentaSeleccionada.idCuenta, usuarioActual);
+                    CuentaSeleccionada = null;
+                }
+                
+                // 🔄 LIBERAR TODOS LOS BLOQUEOS Y DESMARCAR RADIOBUTTONS
+                if (CuentasPendientes != null)
+                {
+                    foreach (var cuenta in CuentasPendientes.Where(c => c.IsSelected).ToList())
+                    {
+                        // Liberar bloqueo si está seleccionada
+                        _cuentaEnEdicionService.LiberarBloqueCuenta(cuenta.idCuenta, usuarioActual);
+                        System.Diagnostics.Debug.WriteLine($"🔓 Liberado bloqueo de cuenta {cuenta.idCuenta}");
+                        
+                        // Desmarcar RadioButton directamente ya que no hay interacción con comando
+                        cuenta.SetIsSelectedFromCommand(false);
+                    }
+                }
+                
+                // Limpiar selección del DataGrid DESPUÉS
+                SelectedDataGridItem = null;
+                
+                // 📡 FORZAR SINCRONIZACIÓN PARA OTRAS VENTANAS
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(100); // Pequeña pausa para asegurar que todas las liberaciones se escribieron
+                    Application.Current?.Dispatcher.InvokeAsync(() => 
+                    {
+                        VerificarEstadoEdicionCuentas(forzarActualizacion: true);
+                    });
+                });
+                
+                System.Diagnostics.Debug.WriteLine("✅ Todas las cuentas deseleccionadas y liberadas");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Error deseleccionando cuentas: {ex.Message}");
+            }
+        }
+        
+        /// <summary>
+        /// 🔓 Deselecciona una cuenta específica que fue liberada por otro usuario
+        /// </summary>
+        private void DeseleccionarCuentaLiberada(int cuentaId)
+        {
+            try
+            {
+                System.Diagnostics.Debug.WriteLine($"🔓 Deseleccionando cuenta liberada ID: {cuentaId}");
+                
+                var cuenta = CuentasPendientes.FirstOrDefault(c => c.idCuenta == cuentaId);
+                if (cuenta != null && cuenta.IsSelected)
+                {
+                    cuenta.SetIsSelectedFromCommand(false);
+                    
+                    // Si era la cuenta seleccionada en el DataGrid, limpiarla también
+                    if (SelectedDataGridItem?.idCuenta == cuentaId)
+                    {
+                        SelectedDataGridItem = null;
+                    }
+                    
+                    System.Diagnostics.Debug.WriteLine($"✅ Cuenta {cuentaId} deseleccionada automáticamente");
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Error deseleccionando cuenta {cuentaId}: {ex.Message}");
+            }
+        }
+        
+        /// <summary>
+        /// 🔓 Libera el bloqueo de la cuenta actualmente seleccionada
+        /// </summary>
+        private void LiberarBloqueoCuentaActual()
+        {
+            try
+            {
+                if (CuentaSeleccionada != null)
+                {
+                    var usuarioActual = _usuarioActual;
+                        
+                    System.Diagnostics.Debug.WriteLine($"🔓 Liberando bloqueo de cuenta {CuentaSeleccionada.idCuenta} por usuario {usuarioActual}");
+                    
+                    _cuentaEnEdicionService.LiberarBloqueCuenta(CuentaSeleccionada.idCuenta, usuarioActual);
+                    
+                    // 📡 FORZAR SINCRONIZACIÓN PARA OTRAS VENTANAS
+                    _ = Task.Run(async () =>
+                    {
+                        await Task.Delay(100); // Pequeña pausa para asegurar que la liberación se escribió
+                        Application.Current?.Dispatcher.InvokeAsync(() => 
+                        {
+                            VerificarEstadoEdicionCuentas(forzarActualizacion: true);
+                        });
+                    });
+                    
+                    System.Diagnostics.Debug.WriteLine($"✅ Bloqueo liberado para cuenta {CuentaSeleccionada.idCuenta}");
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Error liberando bloqueo de cuenta: {ex.Message}");
+            }
+        }
+        
+        /// <summary>
+        /// 🔓 Deselecciona una cuenta específica con liberación de bloqueo y sincronización completa
+        /// </summary>
+        public void DeseleccionarCuentaConLiberacion(int idCuenta)
+        {
+            try
+            {
+                var usuarioActual = string.IsNullOrEmpty(ProyectoSauna.Models.SesionActual.NombreCompleto) 
+                    ? Environment.UserName ?? "Usuario" 
+                    : ProyectoSauna.Models.SesionActual.NombreCompleto;
+                
+                System.Diagnostics.Debug.WriteLine($"🔓 Deseleccionando cuenta {idCuenta} con liberación de bloqueo");
+                
+                // 🔓 LIBERAR BLOQUEO
+                _cuentaEnEdicionService.LiberarBloqueCuenta(idCuenta, usuarioActual);
+                
+                // 🔄 ENCONTRAR Y DESMARCAR CUENTA EN LA LISTA
+                var cuenta = CuentasPendientes?.FirstOrDefault(c => c.idCuenta == idCuenta);
+                if (cuenta != null)
+                {
+                    cuenta.SetIsSelectedFromCommand(false);
+                    System.Diagnostics.Debug.WriteLine($"🔘 RadioButton desmarcado para cuenta {idCuenta}");
+                }
+                
+                // 🎯 LIMPIAR SELECCIÓN SI ES LA CUENTA ACTUAL
+                if (CuentaSeleccionada?.idCuenta == idCuenta)
+                {
+                    CuentaSeleccionada = null;
+                    _isUpdatingDataGridSelection = true;
+                    SelectedDataGridItem = null;
+                    _isUpdatingDataGridSelection = false;
+                    
+                    // ▶️ REANUDAR ACTUALIZACIONES
+                    _ = ReactivarActualizacionesAsync();
+                    System.Diagnostics.Debug.WriteLine($"🎯 CuentaSeleccionada limpiada: {idCuenta}");
+                }
+                
+                // 📡 FORZAR SINCRONIZACIÓN PARA OTRAS VENTANAS
+                _ = Task.Run(async () =>
+                {
+                    await Task.Delay(100); // Pequeña pausa para asegurar que la liberación se escribió
+                    Application.Current?.Dispatcher.InvokeAsync(() => 
+                    {
+                        VerificarEstadoEdicionCuentas(forzarActualizacion: true);
+                    });
+                });
+                
+                System.Diagnostics.Debug.WriteLine($"✅ Cuenta {idCuenta} deseleccionada y liberada completamente");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Error al deseleccionar cuenta {idCuenta}: {ex.Message}");
+            }
+        }
+        
         #endregion
 
         #endregion
@@ -2156,9 +2885,51 @@ namespace ProyectoSauna.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+
+        #region IDisposable
+        /// <summary>
+        /// 🔒 Libera todos los bloqueos de cuentas al cerrar la ventana
+        /// </summary>
+        public void Dispose()
+        {
+            try
+            {
+                // 🔓 Liberar cuenta actual si está seleccionada
+                if (CuentaSeleccionada != null)
+                {
+                    var usuarioActual = string.IsNullOrEmpty(ProyectoSauna.Models.SesionActual.NombreCompleto) 
+                        ? Environment.UserName ?? "Usuario" 
+                        : ProyectoSauna.Models.SesionActual.NombreCompleto;
+                    _cuentaEnEdicionService?.LiberarBloqueCuenta(CuentaSeleccionada.idCuenta, usuarioActual);
+                    System.Diagnostics.Debug.WriteLine($"🔓 Cuenta liberada en Dispose: {CuentaSeleccionada.idCuenta}");
+                }
+
+                // Liberar servicios
+                _cuentaEnEdicionService?.Dispose();
+                _sharedContext?.Dispose();
+                
+                // Detener timers
+                _timer?.Stop();
+                _searchTimerProductos?.Stop();
+                _searchTimerServicios?.Stop();
+                _actualizacionTimer?.Stop();
+                _verificacionBloqueoTimer?.Stop(); // 🔒 DETENER VERIFICACIÓN DE BLOQUEOS
+                
+                System.Diagnostics.Debug.WriteLine("🧹 CuentasViewModel disposed correctamente");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Error en Dispose CuentasViewModel: {ex.Message}");
+            }
+        }
+        #endregion
+        
+        #region 🎨 Métodos de Refresh Visual
+        
+        #endregion
     }
 
-    // ✅ MODIFICADO: Agregada propiedad IsSelected
+    // ✅ MODIFICADO: Agregada propiedad IsSelected y EstaSiendoEditada
     public class CuentaPendiente : INotifyPropertyChanged
     {
         public int idCuenta { get; set; }
@@ -2171,6 +2942,9 @@ namespace ProyectoSauna.ViewModels
         public decimal total { get; set; }
         public string EstadoCuenta { get; set; }
 
+        // 🔗 REFERENCIA AL VIEWMODEL PADRE PARA EJECUTAR COMANDOS
+        public CuentasViewModel ParentViewModel { get; set; }
+
         private string _tiempoTranscurrido;
         public string TiempoTranscurrido
         {
@@ -2178,12 +2952,73 @@ namespace ProyectoSauna.ViewModels
             set { _tiempoTranscurrido = value; OnPropertyChanged(); }
         }
 
-        // ✅ NUEVA PROPIEDAD PARA RADIO BUTTON
+        // ✅ NUEVA PROPIEDAD PARA CONTROLAR HABILITACIÓN DEL RADIOBUTTON
+        private bool _isRadioButtonEnabled = true;
+        public bool IsRadioButtonEnabled
+        {
+            get => _isRadioButtonEnabled;
+            set
+            {
+                _isRadioButtonEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+        
+        // ✅ PROPIEDAD PARA RADIOBUTTON CON CONTROL INTELIGENTE
         private bool _isSelected;
         public bool IsSelected
         {
             get => _isSelected;
-            set { _isSelected = value; OnPropertyChanged(); }
+            set
+            {
+                // Solo permitir cambios desde el comando o desde el código del ViewModel
+                if (_isSettingFromCode)
+                {
+                    _isSelected = value;
+                    OnPropertyChanged();
+                }
+                else
+                {
+                    // Si viene desde la UI (RadioButton), ignorar y ejecutar comando
+                    System.Diagnostics.Debug.WriteLine($"🚫 Click directo en RadioButton ignorado para cuenta {idCuenta}");
+                }
+            }
+        }
+        
+        private bool _isSettingFromCode = false;
+        
+        // 🔄 MÉTODO PARA CAMBIAR IsSelected DESDE EL CÓDIGO
+        public void SetIsSelectedFromCommand(bool value)
+        {
+            _isSettingFromCode = true;
+            try
+            {
+                if (_isSelected != value)
+                {
+                    _isSelected = value;
+                    OnPropertyChanged(nameof(IsSelected));
+                    System.Diagnostics.Debug.WriteLine($"🔄 SetIsSelectedFromCommand: Cuenta {idCuenta} marcada como {value}");
+                }
+            }
+            finally
+            {
+                _isSettingFromCode = false;
+            }
+        }
+
+        // 🔒 NUEVA PROPIEDAD PARA MOSTRAR SI ESTÁ SIENDO EDITADA
+        private bool _estaSiendoEditada;
+        public bool EstaSiendoEditada
+        {
+            get => _estaSiendoEditada;
+            set { _estaSiendoEditada = value; OnPropertyChanged(); }
+        }
+
+        private string _usuarioEditor;
+        public string UsuarioEditor
+        {
+            get => _usuarioEditor;
+            set { _usuarioEditor = value; OnPropertyChanged(); }
         }
 
         public void ActualizarTiempo()
