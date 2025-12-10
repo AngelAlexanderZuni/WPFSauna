@@ -108,13 +108,32 @@ namespace ProyectoSauna.Repositories
             _context.DetEgreso.Remove(existente);
             await _context.SaveChangesAsync();
 
-            // Recalcular total de cabecera
-            var cab = await _context.CabEgreso.FirstAsync(c => c.idCabEgreso == idCab);
-            cab.montoTotal = await _context.DetEgreso
-                .Where(x => x.idCabEgreso == idCab)
-                .SumAsync(x => (decimal?)x.monto) ?? 0m;
-            _context.CabEgreso.Update(cab);
-            await _context.SaveChangesAsync();
+            // Verificar si quedan detalles para esta cabecera
+            if (idCab.HasValue)
+            {
+                var count = await _context.DetEgreso.CountAsync(d => d.idCabEgreso == idCab.Value);
+                
+                if (count == 0)
+                {
+                    // Si no quedan detalles, eliminar la cabecera también
+                    var cabToDelete = await _context.CabEgreso.FindAsync(idCab.Value);
+                    if (cabToDelete != null)
+                    {
+                        _context.CabEgreso.Remove(cabToDelete);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+                else
+                {
+                    // Recalcular total de cabecera si aún existe
+                    var cab = await _context.CabEgreso.FirstAsync(c => c.idCabEgreso == idCab.Value);
+                    cab.montoTotal = await _context.DetEgreso
+                        .Where(x => x.idCabEgreso == idCab.Value)
+                        .SumAsync(x => (decimal?)x.monto) ?? 0m;
+                    _context.CabEgreso.Update(cab);
+                    await _context.SaveChangesAsync();
+                }
+            }
 
             return true;
         }

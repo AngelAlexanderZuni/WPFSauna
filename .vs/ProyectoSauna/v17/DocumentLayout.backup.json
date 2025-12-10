@@ -1,158 +1,186 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\pumaq\\Music\\WPFSauna\\",
+  "WorkspaceRootPath": "E:\\SaunaEgresosCuenta\\WPFSauna\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\usercontrolcuentas.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolcuentas.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\usercontrolegresos.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolegresos.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\repositories\\cuentarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\cuentarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\viewmodels\\pagosviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\viewmodels\\pagosviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\models\\dtos\\comprobantedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\dtos\\comprobantedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\usercontrolpago.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolpago.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\usercontrolegresos.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolegresos.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\data\\databaseconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\data\\databaseconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\data\\scripts.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\data\\scripts.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\usercontrolpromociones.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolpromociones.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\usercontrolpromociones.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolpromociones.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\viewmodels\\clientesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\viewmodels\\clientesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\services\\clienteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\services\\clienteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\models\\dtos\\clientedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\dtos\\clientedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\repositories\\clienterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\clienterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\repositories\\interfaces\\iclienterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\interfaces\\iclienterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\models\\saunadbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\models\\saunadbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\saunadbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\models\\entities\\cliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\entities\\cliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\models\\sesionactual.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\sesionactual.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\app.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\app.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\data\\databaseconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\data\\databaseconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\services\\descuentoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\services\\descuentoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\models\\extensions\\clienteextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\extensions\\clienteextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\usercontrolservicios.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\usercontrolservicios.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolservicios.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\repositories\\promocionesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\helpers\\navigationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\helpers\\navigationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\usercontrolcuentas.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolcuentas.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\data\\scripts.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\data\\scripts.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\models\\dtos\\comprobantedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\dtos\\comprobantedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\repositories\\cuentarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\cuentarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\usercontrolpromociones.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolpromociones.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\usercontrolpromociones.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolpromociones.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\viewmodels\\clientesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\viewmodels\\clientesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\services\\clienteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\services\\clienteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\models\\dtos\\clientedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\dtos\\clientedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\repositories\\clienterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\clienterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\repositories\\interfaces\\iclienterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\interfaces\\iclienterepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\models\\entities\\cliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\entities\\cliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\app.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\app.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\services\\descuentoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\services\\descuentoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\models\\extensions\\clienteextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\extensions\\clienteextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\repositories\\promocionesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\promocionesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\repositories\\tipodescuentorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\repositories\\tipodescuentorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\tipodescuentorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\repositories\\interfaces\\ipromocionesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\repositories\\interfaces\\ipromocionesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\interfaces\\ipromocionesrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\repositories\\interfaces\\itipodescuentorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\repositories\\interfaces\\itipodescuentorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\interfaces\\itipodescuentorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\models\\entities\\promociones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\models\\entities\\promociones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\entities\\promociones.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\models\\entities\\tipodescuento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\models\\entities\\tipodescuento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\entities\\tipodescuento.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\usercontrolcuentas.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\usercontrolcuentas.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolcuentas.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\viewmodels\\cuentasviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\viewmodels\\cuentasviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\viewmodels\\cuentasviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\repositories\\tipomovimientorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\repositories\\tipomovimientorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\tipomovimientorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\usercontrolinventario.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\usercontrolinventario.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolinventario.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\usercontrolinventario.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\usercontrolinventario.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolinventario.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\repositories\\movimientoinventariorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\repositories\\movimientoinventariorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\movimientoinventariorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\repositories\\interfaces\\imovimientoinventariorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\repositories\\interfaces\\imovimientoinventariorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\interfaces\\imovimientoinventariorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\repositories\\interfaces\\itipomovimientorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\repositories\\interfaces\\itipomovimientorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\interfaces\\itipomovimientorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\services\\helpers\\inventoryeventservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\services\\helpers\\inventoryeventservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\services\\helpers\\inventoryeventservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\models\\consumoitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\models\\consumoitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\consumoitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\converters\\nulltovisibilityconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\converters\\nulltovisibilityconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\converters\\nulltovisibilityconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\repositories\\usuariorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\repositories\\usuariorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\usuariorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|c:\\users\\pumaq\\music\\wpfsauna\\proyectosauna\\repositories\\base\\productorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\repositories\\base\\productorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\base\\productorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\data\\scripts.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\data\\scripts.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame"
     }
   ],
   "DocumentGroupContainers": [
@@ -162,31 +190,124 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{e8b06f53-6d01-11d2-aa7d-00c04f990343}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "DatabaseConfig.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Data\\DatabaseConfig.cs",
-              "RelativeDocumentMoniker": "ProyectoSauna\\Data\\DatabaseConfig.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Data\\DatabaseConfig.cs",
-              "RelativeToolTip": "ProyectoSauna\\Data\\DatabaseConfig.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAAAAYAAAAFAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "PagosViewModel.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\ViewModels\\PagosViewModel.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\ViewModels\\PagosViewModel.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\ViewModels\\PagosViewModel.cs",
+              "RelativeToolTip": "ProyectoSauna\\ViewModels\\PagosViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-26T02:35:22.767Z"
+              "WhenOpened": "2025-12-09T01:37:34.736Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UserControlEgresos.xaml.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlEgresos.xaml.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\UserControlEgresos.xaml.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlEgresos.xaml.cs",
+              "RelativeToolTip": "ProyectoSauna\\UserControlEgresos.xaml.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-09T01:22:47.068Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "UserControlEgresos.xaml",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlEgresos.xaml",
+              "RelativeDocumentMoniker": "ProyectoSauna\\UserControlEgresos.xaml",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlEgresos.xaml*",
+              "RelativeToolTip": "ProyectoSauna\\UserControlEgresos.xaml*",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-12-07T02:17:06.278Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SaunaDbContext.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\SaunaDbContext.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Models\\SaunaDbContext.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\SaunaDbContext.cs",
+              "RelativeToolTip": "ProyectoSauna\\Models\\SaunaDbContext.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAQwCQAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T20:13:51.552Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SesionActual.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\SesionActual.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Models\\SesionActual.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\SesionActual.cs",
+              "RelativeToolTip": "ProyectoSauna\\Models\\SesionActual.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAowAgAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-07T15:44:31.648Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UserControlPago.xaml",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlPago.xaml",
+              "RelativeDocumentMoniker": "ProyectoSauna\\UserControlPago.xaml",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlPago.xaml",
+              "RelativeToolTip": "ProyectoSauna\\UserControlPago.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-12-07T02:49:56.655Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "scripts.sql ",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Data\\scripts.sql",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Data\\scripts.sql",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Data\\scripts.sql",
+              "RelativeToolTip": "ProyectoSauna\\Data\\scripts.sql",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-26T03:46:32.914Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DatabaseConfig.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Data\\DatabaseConfig.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Data\\DatabaseConfig.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Data\\DatabaseConfig.cs",
+              "RelativeToolTip": "ProyectoSauna\\Data\\DatabaseConfig.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-07T03:00:52.576Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "UserControlCuentas.xaml",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\UserControlCuentas.xaml",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlCuentas.xaml",
               "RelativeDocumentMoniker": "ProyectoSauna\\UserControlCuentas.xaml",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\UserControlCuentas.xaml",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlCuentas.xaml",
               "RelativeToolTip": "ProyectoSauna\\UserControlCuentas.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-11-20T19:34:42.283Z",
@@ -194,46 +315,74 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ComprobanteDTO.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Models\\DTOs\\ComprobanteDTO.cs",
-              "RelativeDocumentMoniker": "ProyectoSauna\\Models\\DTOs\\ComprobanteDTO.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Models\\DTOs\\ComprobanteDTO.cs",
-              "RelativeToolTip": "ProyectoSauna\\Models\\DTOs\\ComprobanteDTO.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 8,
+              "Title": "NavigationService.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Helpers\\NavigationService.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Helpers\\NavigationService.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Helpers\\NavigationService.cs",
+              "RelativeToolTip": "ProyectoSauna\\Helpers\\NavigationService.cs",
+              "ViewState": "AgIAACAAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-28T02:30:24.596Z"
+              "WhenOpened": "2025-12-07T13:25:19.633Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
+              "Title": "UserControlServicios.xaml",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlServicios.xaml",
+              "RelativeDocumentMoniker": "ProyectoSauna\\UserControlServicios.xaml",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlServicios.xaml",
+              "RelativeToolTip": "ProyectoSauna\\UserControlServicios.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-24T20:07:00.489Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ComprobanteDTO.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\DTOs\\ComprobanteDTO.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Models\\DTOs\\ComprobanteDTO.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\DTOs\\ComprobanteDTO.cs",
+              "RelativeToolTip": "ProyectoSauna\\Models\\DTOs\\ComprobanteDTO.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-28T02:30:24.596Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "ProyectoSauna\\MainWindow.xaml",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\MainWindow.xaml",
+              "RelativeToolTip": "ProyectoSauna\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-11-28T02:09:04.572Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
               "Title": "CuentaRepository.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\CuentaRepository.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\CuentaRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\CuentaRepository.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\CuentaRepository.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\CuentaRepository.cs",
               "RelativeToolTip": "ProyectoSauna\\Repositories\\CuentaRepository.cs",
               "ViewState": "AgIAAAEAAAAAAAAAAAAAwBIAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T20:40:15.619Z"
+              "WhenOpened": "2025-11-24T20:40:15.619Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MainWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\MainWindow.xaml",
-              "RelativeDocumentMoniker": "ProyectoSauna\\MainWindow.xaml",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\MainWindow.xaml",
-              "RelativeToolTip": "ProyectoSauna\\MainWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-11-28T02:09:04.572Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 18,
               "Title": "ClienteDTO.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Models\\DTOs\\ClienteDTO.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\DTOs\\ClienteDTO.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Models\\DTOs\\ClienteDTO.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Models\\DTOs\\ClienteDTO.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\DTOs\\ClienteDTO.cs",
               "RelativeToolTip": "ProyectoSauna\\Models\\DTOs\\ClienteDTO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -241,11 +390,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 19,
               "Title": "ClienteRepository.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\ClienteRepository.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\ClienteRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\ClienteRepository.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\ClienteRepository.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\ClienteRepository.cs",
               "RelativeToolTip": "ProyectoSauna\\Repositories\\ClienteRepository.cs",
               "ViewState": "AgIAACgAAAAAAAAAAAAcwEwAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -253,22 +402,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "scripts.sql",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Data\\scripts.sql",
-              "RelativeDocumentMoniker": "ProyectoSauna\\Data\\scripts.sql",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Data\\scripts.sql",
-              "RelativeToolTip": "ProyectoSauna\\Data\\scripts.sql",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-26T03:46:32.914Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 20,
               "Title": "IClienteRepository.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\IClienteRepository.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\IClienteRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\Interfaces\\IClienteRepository.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\IClienteRepository.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\IClienteRepository.cs",
               "RelativeToolTip": "ProyectoSauna\\Repositories\\Interfaces\\IClienteRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -276,23 +414,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "SaunaDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Models\\SaunaDbContext.cs",
-              "RelativeDocumentMoniker": "ProyectoSauna\\Models\\SaunaDbContext.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Models\\SaunaDbContext.cs",
-              "RelativeToolTip": "ProyectoSauna\\Models\\SaunaDbContext.cs",
-              "ViewState": "AgIAABwBAAAAAAAAAAAUwD8BAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T20:13:51.552Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 14,
               "Title": "UserControlPromociones.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\UserControlPromociones.xaml.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlPromociones.xaml.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\UserControlPromociones.xaml.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\UserControlPromociones.xaml.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlPromociones.xaml.cs",
               "RelativeToolTip": "ProyectoSauna\\UserControlPromociones.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -300,11 +426,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 16,
               "Title": "ClientesViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\ViewModels\\ClientesViewModel.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\ViewModels\\ClientesViewModel.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\ViewModels\\ClientesViewModel.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\ViewModels\\ClientesViewModel.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\ViewModels\\ClientesViewModel.cs",
               "RelativeToolTip": "ProyectoSauna\\ViewModels\\ClientesViewModel.cs",
               "ViewState": "AgIAAG8BAAAAAAAAAAAcwJMBAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -312,22 +438,22 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 15,
               "Title": "UserControlPromociones.xaml",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\UserControlPromociones.xaml",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlPromociones.xaml",
               "RelativeDocumentMoniker": "ProyectoSauna\\UserControlPromociones.xaml",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\UserControlPromociones.xaml",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlPromociones.xaml",
               "RelativeToolTip": "ProyectoSauna\\UserControlPromociones.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-11-24T15:00:38.731Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 21,
               "Title": "Cliente.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Models\\Entities\\Cliente.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\Entities\\Cliente.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Models\\Entities\\Cliente.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Models\\Entities\\Cliente.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\Entities\\Cliente.cs",
               "RelativeToolTip": "ProyectoSauna\\Models\\Entities\\Cliente.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -335,11 +461,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 17,
               "Title": "ClienteService.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Services\\ClienteService.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Services\\ClienteService.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Services\\ClienteService.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Services\\ClienteService.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Services\\ClienteService.cs",
               "RelativeToolTip": "ProyectoSauna\\Services\\ClienteService.cs",
               "ViewState": "AgIAAOIAAAAAAAAAAAAcwAYBAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -347,11 +473,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 24,
               "Title": "ClienteExtensions.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Models\\Extensions\\ClienteExtensions.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\Extensions\\ClienteExtensions.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Models\\Extensions\\ClienteExtensions.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Models\\Extensions\\ClienteExtensions.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\Extensions\\ClienteExtensions.cs",
               "RelativeToolTip": "ProyectoSauna\\Models\\Extensions\\ClienteExtensions.cs",
               "ViewState": "AgIAAFcAAAAAAAAAAAAiwIUAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -359,11 +485,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 22,
               "Title": "App.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\App.xaml.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\App.xaml.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\App.xaml.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\App.xaml.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\App.xaml.cs",
               "RelativeToolTip": "ProyectoSauna\\App.xaml.cs",
               "ViewState": "AgIAACEAAAAAAAAAAAAowDUAAABSAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -371,11 +497,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 23,
               "Title": "DescuentoService.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Services\\DescuentoService.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Services\\DescuentoService.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Services\\DescuentoService.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Services\\DescuentoService.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Services\\DescuentoService.cs",
               "RelativeToolTip": "ProyectoSauna\\Services\\DescuentoService.cs",
               "ViewState": "AgIAABUBAAAAAAAAAAA2wEMBAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -383,22 +509,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "UserControlServicios.xaml",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\UserControlServicios.xaml",
-              "RelativeDocumentMoniker": "ProyectoSauna\\UserControlServicios.xaml",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\UserControlServicios.xaml",
-              "RelativeToolTip": "ProyectoSauna\\UserControlServicios.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-11-24T20:07:00.489Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 25,
               "Title": "PromocionesRepository.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\PromocionesRepository.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\PromocionesRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\PromocionesRepository.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\PromocionesRepository.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\PromocionesRepository.cs",
               "RelativeToolTip": "ProyectoSauna\\Repositories\\PromocionesRepository.cs",
               "ViewState": "AgIAABQAAAAAAAAAAAAiwEIAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -406,11 +521,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 26,
               "Title": "TipoDescuentoRepository.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\TipoDescuentoRepository.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\TipoDescuentoRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\TipoDescuentoRepository.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\TipoDescuentoRepository.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\TipoDescuentoRepository.cs",
               "RelativeToolTip": "ProyectoSauna\\Repositories\\TipoDescuentoRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -418,11 +533,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 27,
               "Title": "IPromocionesRepository.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\IPromocionesRepository.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\IPromocionesRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\Interfaces\\IPromocionesRepository.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\IPromocionesRepository.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\IPromocionesRepository.cs",
               "RelativeToolTip": "ProyectoSauna\\Repositories\\Interfaces\\IPromocionesRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -430,11 +545,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 28,
               "Title": "ITipoDescuentoRepository.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\ITipoDescuentoRepository.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\ITipoDescuentoRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\Interfaces\\ITipoDescuentoRepository.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\ITipoDescuentoRepository.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\ITipoDescuentoRepository.cs",
               "RelativeToolTip": "ProyectoSauna\\Repositories\\Interfaces\\ITipoDescuentoRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -442,11 +557,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 29,
               "Title": "Promociones.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Models\\Entities\\Promociones.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\Entities\\Promociones.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Models\\Entities\\Promociones.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Models\\Entities\\Promociones.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\Entities\\Promociones.cs",
               "RelativeToolTip": "ProyectoSauna\\Models\\Entities\\Promociones.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -454,11 +569,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 30,
               "Title": "TipoDescuento.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Models\\Entities\\TipoDescuento.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\Entities\\TipoDescuento.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Models\\Entities\\TipoDescuento.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Models\\Entities\\TipoDescuento.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\Entities\\TipoDescuento.cs",
               "RelativeToolTip": "ProyectoSauna\\Models\\Entities\\TipoDescuento.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -466,11 +581,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 33,
               "Title": "TipoMovimientoRepository.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\TipoMovimientoRepository.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\TipoMovimientoRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\TipoMovimientoRepository.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\TipoMovimientoRepository.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\TipoMovimientoRepository.cs",
               "RelativeToolTip": "ProyectoSauna\\Repositories\\TipoMovimientoRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACAAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -478,11 +593,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 32,
               "Title": "CuentasViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\ViewModels\\CuentasViewModel.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\ViewModels\\CuentasViewModel.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\ViewModels\\CuentasViewModel.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\ViewModels\\CuentasViewModel.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\ViewModels\\CuentasViewModel.cs",
               "RelativeToolTip": "ProyectoSauna\\ViewModels\\CuentasViewModel.cs",
               "ViewState": "AgIAAKYGAAAAAAAAAAAuwM8GAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -490,22 +605,22 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 35,
               "Title": "UserControlInventario.xaml",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\UserControlInventario.xaml",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlInventario.xaml",
               "RelativeDocumentMoniker": "ProyectoSauna\\UserControlInventario.xaml",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\UserControlInventario.xaml",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlInventario.xaml",
               "RelativeToolTip": "ProyectoSauna\\UserControlInventario.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2025-11-21T02:37:58.127Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 36,
               "Title": "MovimientoInventarioRepository.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\MovimientoInventarioRepository.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\MovimientoInventarioRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\MovimientoInventarioRepository.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\MovimientoInventarioRepository.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\MovimientoInventarioRepository.cs",
               "RelativeToolTip": "ProyectoSauna\\Repositories\\MovimientoInventarioRepository.cs",
               "ViewState": "AgIAACoAAAAAAAAAAAAkwFUAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -513,11 +628,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 40,
               "Title": "ConsumoItem.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Models\\ConsumoItem.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\ConsumoItem.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Models\\ConsumoItem.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Models\\ConsumoItem.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\ConsumoItem.cs",
               "RelativeToolTip": "ProyectoSauna\\Models\\ConsumoItem.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -525,11 +640,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 31,
               "Title": "UserControlCuentas.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\UserControlCuentas.xaml.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlCuentas.xaml.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\UserControlCuentas.xaml.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\UserControlCuentas.xaml.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlCuentas.xaml.cs",
               "RelativeToolTip": "ProyectoSauna\\UserControlCuentas.xaml.cs",
               "ViewState": "AgIAABgAAAAAAAAAAAAywEUAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -537,11 +652,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 34,
               "Title": "UserControlInventario.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\UserControlInventario.xaml.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlInventario.xaml.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\UserControlInventario.xaml.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\UserControlInventario.xaml.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlInventario.xaml.cs",
               "RelativeToolTip": "ProyectoSauna\\UserControlInventario.xaml.cs",
               "ViewState": "AgIAAIUCAAAAAAAAAAAkwLACAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -549,11 +664,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 37,
               "Title": "IMovimientoInventarioRepository.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\IMovimientoInventarioRepository.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\IMovimientoInventarioRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\Interfaces\\IMovimientoInventarioRepository.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\IMovimientoInventarioRepository.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\IMovimientoInventarioRepository.cs",
               "RelativeToolTip": "ProyectoSauna\\Repositories\\Interfaces\\IMovimientoInventarioRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -561,11 +676,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 38,
               "Title": "ITipoMovimientoRepository.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\ITipoMovimientoRepository.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\ITipoMovimientoRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\Interfaces\\ITipoMovimientoRepository.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\ITipoMovimientoRepository.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\Interfaces\\ITipoMovimientoRepository.cs",
               "RelativeToolTip": "ProyectoSauna\\Repositories\\Interfaces\\ITipoMovimientoRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -573,11 +688,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 39,
               "Title": "InventoryEventService.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Services\\Helpers\\InventoryEventService.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Services\\Helpers\\InventoryEventService.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Services\\Helpers\\InventoryEventService.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Services\\Helpers\\InventoryEventService.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Services\\Helpers\\InventoryEventService.cs",
               "RelativeToolTip": "ProyectoSauna\\Services\\Helpers\\InventoryEventService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -585,11 +700,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 41,
               "Title": "NullToVisibilityConverter.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Converters\\NullToVisibilityConverter.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Converters\\NullToVisibilityConverter.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Converters\\NullToVisibilityConverter.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Converters\\NullToVisibilityConverter.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Converters\\NullToVisibilityConverter.cs",
               "RelativeToolTip": "ProyectoSauna\\Converters\\NullToVisibilityConverter.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -597,11 +712,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 43,
               "Title": "ProductoRepository.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\Base\\ProductoRepository.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\Base\\ProductoRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\Base\\ProductoRepository.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\Base\\ProductoRepository.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\Base\\ProductoRepository.cs",
               "RelativeToolTip": "ProyectoSauna\\Repositories\\Base\\ProductoRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -609,11 +724,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 42,
               "Title": "UsuarioRepository.cs",
-              "DocumentMoniker": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\UsuarioRepository.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\UsuarioRepository.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Repositories\\UsuarioRepository.cs",
-              "ToolTip": "C:\\Users\\pumaq\\Music\\WPFSauna\\ProyectoSauna\\Repositories\\UsuarioRepository.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Repositories\\UsuarioRepository.cs",
               "RelativeToolTip": "ProyectoSauna\\Repositories\\UsuarioRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProyectoSauna.Models.DTOs
 {
@@ -16,9 +12,9 @@ namespace ProyectoSauna.Models.DTOs
         public string? comprobanteRuta { get; set; }
         public int idTipoEgreso { get; set; }
 
-        // Auxiliares para UI
-        public int NumeroLinea { get; set; }
-        public TipoEgresoDTO? TipoEgreso { get; set; }
+        // Extra properties for display
+        public string? TipoEgresoNombre { get; set; }
+        public DateTime? Fecha { get; set; } 
         public string? UsuarioNombre { get; set; }
     }
 }
