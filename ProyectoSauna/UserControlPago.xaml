@@ -75,21 +75,84 @@
 
                             <!-- ID Cuenta -->
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="ID Cuenta:" FontWeight="SemiBold" Foreground="#9CA3AF" Margin="0,5"/>
-                            <TextBlock Grid.Row="0" Grid.Column="1" x:Name="TxtIdCuenta" Text="-" Foreground="White" FontWeight="Medium" Margin="0,5"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding CuentaActual.idCuenta, TargetNullValue='-'}" Foreground="White" FontWeight="Medium" Margin="0,5"/>
 
                             <!-- Cliente -->
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Cliente:" FontWeight="SemiBold" Foreground="#9CA3AF" Margin="0,5"/>
-                            <TextBlock Grid.Row="1" Grid.Column="1" x:Name="TxtNombreCliente" Text="-" Foreground="White" FontWeight="Medium" Margin="0,5"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding CuentaActual.ClienteNombre, TargetNullValue='-'}" Foreground="White" FontWeight="Medium" Margin="0,5"/>
 
                             <!-- Documento -->
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Documento:" FontWeight="SemiBold" Foreground="#9CA3AF" Margin="0,5"/>
-                            <TextBlock Grid.Row="2" Grid.Column="1" x:Name="TxtDocumentoCliente" Text="-" Foreground="White" FontWeight="Medium" Margin="0,5"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CuentaActual.ClienteDocumento, TargetNullValue='-'}" Foreground="White" FontWeight="Medium" Margin="0,5"/>
 
                             <!-- Descuento -->
                             <TextBlock Grid.Row="3" Grid.Column="0" Text="Descuento:" FontWeight="SemiBold" Foreground="#9CA3AF" Margin="0,5"/>
-                            <TextBlock Grid.Row="3" Grid.Column="1" x:Name="TxtDescuentoAplicado" Text="-" Foreground="#FF6B35" FontWeight="Bold" Margin="0,5"/>
+                            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding CuentaActual.descuento, StringFormat='S/ {0:N2}', TargetNullValue='-'}" Foreground="#FF6B35" FontWeight="Bold" Margin="0,5"/>
                         </Grid>
                     </Border>
+
+                    <!-- Detalles de Consumo (Nuevo) -->
+                    <Grid Grid.Row="2" Margin="0,0,0,20">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock Grid.Row="0" Text="Detalle de Consumos" FontSize="14" FontWeight="SemiBold" Foreground="#9CA3AF" Margin="0,0,0,10"/>
+                        
+                        <DataGrid Grid.Row="1" ItemsSource="{Binding DetallesCuenta}" 
+                                  AutoGenerateColumns="False" 
+                                  CanUserAddRows="False" 
+                                  HeadersVisibility="Column"
+                                  Background="Transparent"
+                                  BorderThickness="0"
+                                  GridLinesVisibility="Horizontal"
+                                  HorizontalGridLinesBrush="#333842">
+                            <DataGrid.Resources>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Foreground" Value="#9CA3AF"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="Padding" Value="10,5"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                </Style>
+                                <Style TargetType="DataGridCell">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Padding" Value="10,8"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="DataGridCell">
+                                                <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                                    <ContentPresenter VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="#2A303C"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                                <Style TargetType="DataGridRow">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                    <Setter Property="BorderBrush" Value="#333842"/>
+                                </Style>
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="DESCRIPCIÓN" Binding="{Binding Descripcion}" Width="*"/>
+                                <DataGridTextColumn Header="TIPO" Binding="{Binding Tipo}" Width="Auto"/>
+                                <DataGridTextColumn Header="CANT." Binding="{Binding Cantidad}" Width="Auto"/>
+                                <DataGridTextColumn Header="P.UNIT" Binding="{Binding PrecioUnitario, StringFormat='S/ {0:N2}'}" Width="Auto"/>
+                                <DataGridTextColumn Header="TOTAL" Binding="{Binding Subtotal, StringFormat='S/ {0:N2}'}" Width="Auto" FontWeight="Bold"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
 
                     <!-- Total a Pagar -->
                     <Border Grid.Row="3" Background="#22C55E18" BorderBrush="#22C55E" BorderThickness="2" CornerRadius="8" Padding="20">
@@ -102,7 +165,7 @@
                             <materialDesign:PackIcon Grid.Column="0" Kind="CashMultiple" Width="32" Height="32" Foreground="#22C55E" VerticalAlignment="Center"/>
                             <StackPanel Grid.Column="1" Margin="15,0,0,0" VerticalAlignment="Center">
                                 <TextBlock Text="Total a Pagar" FontSize="14" Foreground="#9CA3AF" FontWeight="Medium"/>
-                                <TextBlock x:Name="TxtTotalCuenta" Text="-" FontSize="24" FontWeight="Bold" Foreground="#22C55E"/>
+                                <TextBlock Text="{Binding TotalPagarDisplay, TargetNullValue='-'}" FontSize="24" FontWeight="Bold" Foreground="#22C55E"/>
                             </StackPanel>
                         </Grid>
                     </Border>
@@ -124,57 +187,63 @@
                         <TextBlock Text="Métodos de Pago" FontSize="18" FontWeight="SemiBold" Foreground="White" Margin="12,0,0,0" VerticalAlignment="Center"/>
                     </StackPanel>
 
-                    <!-- Métodos de Pago (Maqueta) -->
-                    <StackPanel Grid.Row="1" Margin="0,0,0,20">
-                        <!-- Efectivo -->
-                        <Border Background="#22272E" CornerRadius="6" Padding="15" Margin="0,0,0,10">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
+                    <!-- Métodos de Pago (ListBox) -->
+                    <ListBox Grid.Row="1" ItemsSource="{Binding MetodosPago}" 
+                             SelectedItem="{Binding MetodoPagoSeleccionado}"
+                             Margin="0,0,0,20" Background="Transparent" BorderThickness="0">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Border x:Name="Bd" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="0" CornerRadius="6" Margin="0,0,0,10">
+                                                <ContentPresenter/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <!-- Visual effect controlled by inner Border in ItemTemplate logic or here -->
+                                                    <!-- But simpler to just let the item template handle the visual state via binding mechanism or just simple color change here -->
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Bd" Property="Background" Value="#2A303C"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="#22272E" CornerRadius="6" Padding="15">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
 
-                                <materialDesign:PackIcon Grid.Column="0" Kind="Cash" Width="20" Height="20" Foreground="#22C55E" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="1" Text="Efectivo" FontSize="14" Foreground="White" FontWeight="Medium" Margin="12,0,0,0" VerticalAlignment="Center"/>
-                                <RadioButton Grid.Column="2" Style="{StaticResource MaterialDesignRadioButton}" BorderBrush="#4CC9F0" IsChecked="True"/>
-                            </Grid>
-                        </Border>
-
-                        <!-- Tarjeta -->
-                        <Border Background="#22272E" CornerRadius="6" Padding="15" Margin="0,0,0,10">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <materialDesign:PackIcon Grid.Column="0" Kind="CreditCard" Width="20" Height="20" Foreground="#4CC9F0" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="1" Text="Tarjeta de Crédito/Débito" FontSize="14" Foreground="White" FontWeight="Medium" Margin="12,0,0,0" VerticalAlignment="Center"/>
-                                <RadioButton Grid.Column="2" Style="{StaticResource MaterialDesignRadioButton}" BorderBrush="#4CC9F0"/>
-                            </Grid>
-                        </Border>
-
-                        <!-- Transferencia -->
-                        <Border Background="#22272E" CornerRadius="6" Padding="15" Margin="0,0,0,10">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <materialDesign:PackIcon Grid.Column="0" Kind="Bank" Width="20" Height="20" Foreground="#7C3AED" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="1" Text="Transferencia Bancaria" FontSize="14" Foreground="White" FontWeight="Medium" Margin="12,0,0,0" VerticalAlignment="Center"/>
-                                <RadioButton Grid.Column="2" Style="{StaticResource MaterialDesignRadioButton}" BorderBrush="#4CC9F0"/>
-                            </Grid>
-                        </Border>
-                    </StackPanel>
+                                        <materialDesign:PackIcon Grid.Column="0" Kind="CreditCard" Width="20" Height="20" Foreground="#4CC9F0" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding nombre}" FontSize="14" Foreground="White" FontWeight="Medium" Margin="12,0,0,0" VerticalAlignment="Center"/>
+                                        
+                                        <!-- Selection Indicator using Binding to RelativeSource Ancestor's IsSelected is tricky in DataTemplate without FindAncestor -->
+                                        <!-- Simpler: Just rely on ListBox selection highlight logic if possible, or omit the RadioButton for a simple border highlight -->
+                                        <!-- Or use RelativeSource to check IsSelected of ListBoxItemContainer -->
+                                        <RadioButton Grid.Column="2" IsHitTestVisible="False" 
+                                                     IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
+                                                     Style="{StaticResource MaterialDesignRadioButton}" BorderBrush="#4CC9F0"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
 
                     <!-- Botones de Acción -->
                     <StackPanel Grid.Row="2">
                         <Button Style="{StaticResource MaterialDesignRaisedButton}" 
+                               Command="{Binding ProcesarPagoCommand}"
                                Background="#22C55E" Foreground="White" 
                                Height="45" FontWeight="Bold" FontSize="14"
                                Margin="0,0,0,10">
@@ -185,6 +254,7 @@
                         </Button>
 
                         <Button Style="{StaticResource MaterialDesignOutlinedButton}" 
+                               Command="{Binding VolverCommand}"
                                BorderBrush="#6B7280" Foreground="#6B7280" 
                                Height="40" FontWeight="Medium">
                             <StackPanel Orientation="Horizontal">

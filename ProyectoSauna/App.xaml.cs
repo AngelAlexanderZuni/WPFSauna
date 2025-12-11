@@ -56,12 +56,23 @@ namespace ProyectoSauna
                         services.AddScoped<IDetalleConsumoRepository, DetalleConsumoRepository>();
                         services.AddScoped<ITipoDescuentoRepository, TipoDescuentoRepository>();
                         services.AddScoped<IPromocionesRepository, PromocionesRepository>();
+                        services.AddScoped<IPagoRepository, PagoRepository>();
+                        services.AddScoped<IMetodoPagoRepository, MetodoPagoRepository>();
+                        services.AddScoped<IComprobanteRepository, ComprobanteRepository>();
+                        services.AddScoped<ITipoComprobanteRepository, TipoComprobanteRepository>();
 
                         // Egresos Registrations
                         services.AddScoped<IEgresoRepository, EgresoRepository>();
                         services.AddScoped<ITipoEgresoRepository, TipoEgresoRepository>();
                         services.AddScoped<IEgresoService, EgresoService>();
                         services.AddTransient<ProyectoSauna.ViewModels.EgresosViewModel>();
+                        
+                        // Pagos Registrations
+                        services.AddScoped<IPagoService, PagoService>();
+                        services.AddScoped<IMetodoPagoService, MetodoPagoService>();
+                        services.AddTransient<ProyectoSauna.ViewModels.PagosViewModel>();
+                        services.AddScoped<PagoService>();
+                        services.AddScoped<MetodoPagoService>();
 
                         // Servicios
                         services.AddTransient<DescuentoService>();

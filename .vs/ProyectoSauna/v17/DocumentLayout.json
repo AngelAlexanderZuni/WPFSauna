@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "E:\\SaunaEgresosCuenta\\WPFSauna\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\usercontrolpago.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolpago.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\usercontrolcuentas.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolcuentas.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\usercontrolegresos.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolegresos.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\viewmodels\\pagosviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\viewmodels\\pagosviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\usercontrolpago.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolpago.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\usercontrolegresos.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -37,10 +41,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\helpers\\navigationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\helpers\\navigationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\usercontrolcuentas.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolcuentas.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\data\\scripts.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
@@ -177,10 +177,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\repositories\\base\\productorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\repositories\\base\\productorepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\saunaegresoscuenta\\wpfsauna\\proyectosauna\\data\\scripts.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\data\\scripts.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame"
     }
   ],
   "DocumentGroupContainers": [
@@ -190,7 +186,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -202,7 +198,43 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SaunaDbContext.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\SaunaDbContext.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Models\\SaunaDbContext.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\SaunaDbContext.cs",
+              "RelativeToolTip": "ProyectoSauna\\Models\\SaunaDbContext.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAQwCQAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-24T20:13:51.552Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "SesionActual.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\SesionActual.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Models\\SesionActual.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\SesionActual.cs",
+              "RelativeToolTip": "ProyectoSauna\\Models\\SesionActual.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAowAgAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-07T15:44:31.648Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "UserControlPago.xaml",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlPago.xaml",
+              "RelativeDocumentMoniker": "ProyectoSauna\\UserControlPago.xaml",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlPago.xaml",
+              "RelativeToolTip": "ProyectoSauna\\UserControlPago.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-12-07T02:49:56.655Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "UserControlEgresos.xaml",
               "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlEgresos.xaml",
               "RelativeDocumentMoniker": "ProyectoSauna\\UserControlEgresos.xaml",
@@ -215,95 +247,6 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "PagosViewModel.cs",
-              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\ViewModels\\PagosViewModel.cs",
-              "RelativeDocumentMoniker": "ProyectoSauna\\ViewModels\\PagosViewModel.cs",
-              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\ViewModels\\PagosViewModel.cs",
-              "RelativeToolTip": "ProyectoSauna\\ViewModels\\PagosViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T01:37:34.736Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "UserControlEgresos.xaml.cs",
-              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlEgresos.xaml.cs",
-              "RelativeDocumentMoniker": "ProyectoSauna\\UserControlEgresos.xaml.cs",
-              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlEgresos.xaml.cs",
-              "RelativeToolTip": "ProyectoSauna\\UserControlEgresos.xaml.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T01:22:47.068Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "SaunaDbContext.cs",
-              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\SaunaDbContext.cs",
-              "RelativeDocumentMoniker": "ProyectoSauna\\Models\\SaunaDbContext.cs",
-              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\SaunaDbContext.cs",
-              "RelativeToolTip": "ProyectoSauna\\Models\\SaunaDbContext.cs",
-              "ViewState": "AgIAACIAAAAAAAAAAAAQwCQAAABLAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T20:13:51.552Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "SesionActual.cs",
-              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\SesionActual.cs",
-              "RelativeDocumentMoniker": "ProyectoSauna\\Models\\SesionActual.cs",
-              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Models\\SesionActual.cs",
-              "RelativeToolTip": "ProyectoSauna\\Models\\SesionActual.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAowAgAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-07T15:44:31.648Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UserControlPago.xaml",
-              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlPago.xaml",
-              "RelativeDocumentMoniker": "ProyectoSauna\\UserControlPago.xaml",
-              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlPago.xaml",
-              "RelativeToolTip": "ProyectoSauna\\UserControlPago.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-12-07T02:49:56.655Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "scripts.sql ",
-              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Data\\scripts.sql",
-              "RelativeDocumentMoniker": "ProyectoSauna\\Data\\scripts.sql",
-              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Data\\scripts.sql",
-              "RelativeToolTip": "ProyectoSauna\\Data\\scripts.sql",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2025-11-26T03:46:32.914Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "DatabaseConfig.cs",
-              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Data\\DatabaseConfig.cs",
-              "RelativeDocumentMoniker": "ProyectoSauna\\Data\\DatabaseConfig.cs",
-              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Data\\DatabaseConfig.cs",
-              "RelativeToolTip": "ProyectoSauna\\Data\\DatabaseConfig.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-07T03:00:52.576Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
               "Title": "UserControlCuentas.xaml",
               "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlCuentas.xaml",
               "RelativeDocumentMoniker": "ProyectoSauna\\UserControlCuentas.xaml",
@@ -315,7 +258,54 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 4,
+              "Title": "UserControlEgresos.xaml.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlEgresos.xaml.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\UserControlEgresos.xaml.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlEgresos.xaml.cs",
+              "RelativeToolTip": "ProyectoSauna\\UserControlEgresos.xaml.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-09T01:22:47.068Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "PagosViewModel.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\ViewModels\\PagosViewModel.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\ViewModels\\PagosViewModel.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\ViewModels\\PagosViewModel.cs",
+              "RelativeToolTip": "ProyectoSauna\\ViewModels\\PagosViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-09T01:37:34.736Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "scripts.sql",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Data\\scripts.sql",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Data\\scripts.sql",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Data\\scripts.sql",
+              "RelativeToolTip": "ProyectoSauna\\Data\\scripts.sql",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-11-26T03:46:32.914Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DatabaseConfig.cs",
+              "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Data\\DatabaseConfig.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Data\\DatabaseConfig.cs",
+              "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Data\\DatabaseConfig.cs",
+              "RelativeToolTip": "ProyectoSauna\\Data\\DatabaseConfig.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-07T03:00:52.576Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "NavigationService.cs",
               "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\Helpers\\NavigationService.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Helpers\\NavigationService.cs",
@@ -323,20 +313,18 @@
               "RelativeToolTip": "ProyectoSauna\\Helpers\\NavigationService.cs",
               "ViewState": "AgIAACAAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-07T13:25:19.633Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-07T13:25:19.633Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "UserControlServicios.xaml",
               "DocumentMoniker": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlServicios.xaml",
               "RelativeDocumentMoniker": "ProyectoSauna\\UserControlServicios.xaml",
               "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\UserControlServicios.xaml",
               "RelativeToolTip": "ProyectoSauna\\UserControlServicios.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-11-24T20:07:00.489Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-24T20:07:00.489Z"
             },
             {
               "$type": "Document",
@@ -348,8 +336,7 @@
               "RelativeToolTip": "ProyectoSauna\\Models\\DTOs\\ComprobanteDTO.cs",
               "ViewState": "AgIAABAAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-28T02:30:24.596Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-28T02:30:24.596Z"
             },
             {
               "$type": "Document",
@@ -360,8 +347,7 @@
               "ToolTip": "E:\\SaunaEgresosCuenta\\WPFSauna\\ProyectoSauna\\MainWindow.xaml",
               "RelativeToolTip": "ProyectoSauna\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-11-28T02:09:04.572Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-28T02:09:04.572Z"
             },
             {
               "$type": "Document",
@@ -373,8 +359,7 @@
               "RelativeToolTip": "ProyectoSauna\\Repositories\\CuentaRepository.cs",
               "ViewState": "AgIAAAEAAAAAAAAAAAAAwBIAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-24T20:40:15.619Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-24T20:40:15.619Z"
             },
             {
               "$type": "Document",
