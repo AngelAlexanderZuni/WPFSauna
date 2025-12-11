@@ -20,5 +20,6 @@ namespace ProyectoSauna.Models.DTOs
         public int NumeroLinea { get; set; }
         public TipoEgresoDTO? TipoEgreso { get; set; }
         public string? UsuarioNombre { get; set; }
+        public string? TipoEgresoNombre { get; set; }
     }
 }

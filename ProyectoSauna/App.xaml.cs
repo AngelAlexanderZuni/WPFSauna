@@ -7,7 +7,8 @@ using ProyectoSauna.Models;
 using ProyectoSauna.Repositories.Base;
 using ProyectoSauna.Repositories.Interfaces;
 using ProyectoSauna.Repositories;
-using ProyectoSauna.Services; 
+using ProyectoSauna.Services;
+using ProyectoSauna.Services.Interfaces; 
 using System.Windows;
 
 namespace ProyectoSauna
@@ -53,14 +54,27 @@ namespace ProyectoSauna
                         services.AddScoped<IDetalleServicioRepository, DetalleServicioRepository>();
                         services.AddScoped<ICuentaRepository, CuentaRepository>();                   
                         services.AddScoped<IDetalleConsumoRepository, DetalleConsumoRepository>();
-                        services.AddScoped<IDetalleServicioRepository, DetalleServicioRepository>();
-                        services.AddScoped<IProductoRepository, ProductoRepository>();
-                        services.AddScoped<IServicioRepository, ServicioRepository>();
                         services.AddScoped<ITipoDescuentoRepository, TipoDescuentoRepository>();
                         services.AddScoped<IPromocionesRepository, PromocionesRepository>();
-                        services.AddScoped<DescuentoService>();
+                        services.AddScoped<IPagoRepository, PagoRepository>();
+                        services.AddScoped<IMetodoPagoRepository, MetodoPagoRepository>();
+                        services.AddScoped<IComprobanteRepository, ComprobanteRepository>();
+                        services.AddScoped<ITipoComprobanteRepository, TipoComprobanteRepository>();
 
-                        // Servicio de descuentos
+                        // Egresos Registrations
+                        services.AddScoped<IEgresoRepository, EgresoRepository>();
+                        services.AddScoped<ITipoEgresoRepository, TipoEgresoRepository>();
+                        services.AddScoped<IEgresoService, EgresoService>();
+                        services.AddTransient<ProyectoSauna.ViewModels.EgresosViewModel>();
+                        
+                        // Pagos Registrations
+                        services.AddScoped<IPagoService, PagoService>();
+                        services.AddScoped<IMetodoPagoService, MetodoPagoService>();
+                        services.AddTransient<ProyectoSauna.ViewModels.PagosViewModel>();
+                        services.AddScoped<PagoService>();
+                        services.AddScoped<MetodoPagoService>();
+
+                        // Servicios
                         services.AddTransient<DescuentoService>();
                     })
                     .Build();

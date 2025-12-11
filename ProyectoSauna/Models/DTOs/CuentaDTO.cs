@@ -38,5 +38,9 @@ namespace ProyectoSauna.Models.DTOs
         }
 
         public bool TieneDescuento => descuento > 0;
+
+        // Alias properties for UI bindings (XAML expects these names)
+        public string ClienteNombre => NombreCliente;
+        public string ClienteDocumento => DocumentoCliente;
     }
 }

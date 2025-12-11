@@ -23,6 +23,9 @@
             <converters:StringToBoolConverter x:Key="StringToBoolConverter"/>
             <converters:BoolToColorConverter x:Key="BoolToColorConverter"/>
             <converters:BoolToTextConverter x:Key="BoolToTextConverter"/>
+            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+            <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
