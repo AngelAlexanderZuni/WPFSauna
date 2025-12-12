@@ -71,8 +71,10 @@ namespace ProyectoSauna
                         services.AddScoped<IPagoService, PagoService>();
                         services.AddScoped<IMetodoPagoService, MetodoPagoService>();
                         services.AddTransient<ProyectoSauna.ViewModels.PagosViewModel>();
+                        services.AddTransient<ProyectoSauna.ViewModels.ComprobantesViewModel>(); // Added
                         services.AddScoped<PagoService>();
                         services.AddScoped<MetodoPagoService>();
+                        services.AddScoped<IComprobanteService, ComprobanteService>(); // Added
 
                         // Servicios
                         services.AddTransient<DescuentoService>();

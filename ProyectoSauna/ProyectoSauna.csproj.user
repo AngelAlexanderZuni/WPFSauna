@@ -16,6 +16,9 @@
     <Compile Update="UserControlClientes.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="UserControlComprobantes.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UserControlEgresos.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

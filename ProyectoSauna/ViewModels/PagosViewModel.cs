@@ -54,6 +54,7 @@ namespace ProyectoSauna.ViewModels
         public ICommand ProcesarPagoCommand { get; }
         public ICommand VolverCommand { get; }
         public ICommand CargarDatosCommand { get; }
+        public ICommand VerComprobantesCommand { get; } // Added
 
         public PagosViewModel(
             PagoService pagoService, 
@@ -76,6 +77,7 @@ namespace ProyectoSauna.ViewModels
             // Using explicit lambdas to avoid method group conversion issues
             ProcesarPagoCommand = new ProyectoSauna.Commands.AsyncRelayCommand(async (o) => await ProcesarPagoAsync(o), CanProcesarPago);
             VolverCommand = new ProyectoSauna.Commands.RelayCommand(Volver);
+            VerComprobantesCommand = new ProyectoSauna.Commands.RelayCommand(_ => VerComprobantes()); // Added
             
             // Wrapper for CargarDatosCommand which expects an int parameter
             CargarDatosCommand = new ProyectoSauna.Commands.AsyncRelayCommand(async (object? param) => 
@@ -355,6 +357,21 @@ namespace ProyectoSauna.ViewModels
                     if (window is MainWindow mainWin)
                     {
                         mainWin.CambiarAModulo("Cuentas y Consumos");
+                        return;
+                    }
+                }
+            });
+        }
+
+        private void VerComprobantes()
+        {
+             Application.Current.Dispatcher.Invoke(() =>
+            {
+                foreach (Window window in Application.Current.Windows)
+                {
+                    if (window is MainWindow mainWin)
+                    {
+                        mainWin.CambiarAModulo("Comprobantes");
                         return;
                     }
                 }

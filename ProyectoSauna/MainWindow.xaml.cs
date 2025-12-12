@@ -160,6 +160,9 @@ namespace ProyectoSauna
                     case "Pagos y Comprobantes":
                         ContenidoPrincipal.Content = new UserControlPago();
                         break;
+                    case "Comprobantes": // Added
+                        ContenidoPrincipal.Content = new UserControlComprobantes();
+                        break;
                     case "Clientes":
                         ContenidoPrincipal.Content = new UserControlClientes();
                         break;
