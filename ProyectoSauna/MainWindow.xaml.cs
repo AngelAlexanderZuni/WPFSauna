@@ -1,4 +1,5 @@
 ﻿using ProyectoSauna.Models.Entities;
+using ProyectoSauna.ViewModels;
 using System;
 using System.Text;
 using System.Windows;
@@ -20,6 +21,47 @@ namespace ProyectoSauna
     {
         private string _rol;
         private string _usuario;
+        private UserControl _currentUserControl; // Para rastrear y limpiar el UserControl actual
+        
+        private void LimpiarModuloAnterior()
+        {
+            if (_currentUserControl != null)
+            {
+                try
+                {
+                    // Si el control actual implementa IDisposable, llamamos Dispose
+                    if (_currentUserControl is IDisposable disposable)
+                    {
+                        disposable.Dispose();
+                    }
+                    
+                    // Para módulos específicos con métodos de limpieza de formulario
+                    if (_currentUserControl is UserControlClientes clientesControl)
+                    {
+                        var viewModel = clientesControl.DataContext as ClientesViewModel;
+                        viewModel?.LimpiarFormulario();
+                    }
+                    else if (_currentUserControl is UserControlPago pagosControl)
+                    {
+                        var viewModel = pagosControl.DataContext as PagosViewModel;
+                        viewModel?.LimpiarFormulario();
+                    }
+                    else if (_currentUserControl is UserControlEgresos egresosControl)
+                    {
+                        var viewModel = egresosControl.DataContext as EgresosViewModel;
+                        // EgresosViewModel tiene LimpiarFormulario() privado, pero Dispose debería manejarlo
+                    }
+                    
+                    // Para otros módulos que implementen IDisposable, el Dispose() ya se llamó arriba
+                    
+                }
+                catch (Exception ex)
+                {
+                    // Log del error pero no interrumpir el flujo
+                    System.Diagnostics.Debug.WriteLine($"Error limpiando módulo anterior: {ex.Message}");
+                }
+            }
+        }
 
         public MainWindow(string rol, string usuario)
         {
@@ -96,43 +138,57 @@ namespace ProyectoSauna
                 TituloModulo.Text = $"Panel de Control - {texto}";
                 PantallaBienvenida.Visibility = Visibility.Collapsed;
 
+                // 🧹 LIMPIAR MÓDULO ANTERIOR ANTES DE CAMBIAR
+                LimpiarModuloAnterior();
+
                 // Carga del módulo correspondiente
                 switch (texto)
                 {
                     case "Cuentas y Consumos":
-                        ContenidoPrincipal.Content = new UserControlCuentas();
+                        _currentUserControl = new UserControlCuentas();
+                        ContenidoPrincipal.Content = _currentUserControl;
                         break;
                     case "Consumo":
                         MessageBox.Show("Módulo de Consumos en desarrollo.\nSe implementará junto con Cuentas.", "En Desarrollo", MessageBoxButton.OK, MessageBoxImage.Information);
                         break;
                     case "Pagos y Comprobantes":
-                        ContenidoPrincipal.Content = new UserControlPago();
+                        _currentUserControl = new UserControlPago();
+                        ContenidoPrincipal.Content = _currentUserControl;
                         break;
                     case "Clientes":
-                        ContenidoPrincipal.Content = new UserControlClientes();
+                        _currentUserControl = new UserControlClientes();
+                        ContenidoPrincipal.Content = _currentUserControl;
                         break;
                     case "Reportes y Estadísticas":
-                        ContenidoPrincipal.Content = new UserControlReporte();
+                        _currentUserControl = new UserControlReporte();
+                        ContenidoPrincipal.Content = _currentUserControl;
                         break;
                     case "Caja y Flujo de Caja":
-                        ContenidoPrincipal.Content = new UserControlCaja();
+                        _currentUserControl = new UserControlCaja();
+                        ContenidoPrincipal.Content = _currentUserControl;
                         break;
                     case "Inventario":
-                        ContenidoPrincipal.Content = new UserControlInventario();
+                        _currentUserControl = new UserControlInventario();
+                        ContenidoPrincipal.Content = _currentUserControl;
                         break;
                     case "Servicios":
-                        ContenidoPrincipal.Content = new UserControlServicios();
+                        _currentUserControl = new UserControlServicios();
+                        ContenidoPrincipal.Content = _currentUserControl;
                         break;
                     case "Egresos":
-                        ContenidoPrincipal.Content = new UserControlEgresos();
+                        _currentUserControl = new UserControlEgresos();
+                        ContenidoPrincipal.Content = _currentUserControl;
                         break;
                     case "Promociones":
-                        ContenidoPrincipal.Content = new UserControlPromociones();
+                        _currentUserControl = new UserControlPromociones();
+                        ContenidoPrincipal.Content = _currentUserControl;
                         break;
                     case "Usuarios":
-                        ContenidoPrincipal.Content = new UserControlUsuarios();
+                        _currentUserControl = new UserControlUsuarios();
+                        ContenidoPrincipal.Content = _currentUserControl;
                         break;
                     default:
+                        _currentUserControl = null;
                         ContenidoPrincipal.Content = null;
                         PantallaBienvenida.Visibility = Visibility.Visible;
                         break;
@@ -148,23 +204,30 @@ namespace ProyectoSauna
                 TituloModulo.Text = $"Panel de Control - {nombreModulo}";
                 PantallaBienvenida.Visibility = Visibility.Collapsed;
 
+                // 🧹 LIMPIAR MÓDULO ANTERIOR ANTES DE CAMBIAR
+                LimpiarModuloAnterior();
+
                 // Carga del módulo correspondiente
                 switch (nombreModulo)
                 {
                     case "Cuentas y Consumos":
-                        ContenidoPrincipal.Content = new UserControlCuentas();
+                        _currentUserControl = new UserControlCuentas();
+                        ContenidoPrincipal.Content = _currentUserControl;
                         break;
                     case "Consumo":
                         MessageBox.Show("Módulo de Consumos en desarrollo.\nSe implementará junto con Cuentas.", "En Desarrollo", MessageBoxButton.OK, MessageBoxImage.Information);
                         break;
                     case "Pagos y Comprobantes":
-                        ContenidoPrincipal.Content = new UserControlPago();
+                        _currentUserControl = new UserControlPago();
+                        ContenidoPrincipal.Content = _currentUserControl;
                         break;
                     case "Comprobantes": // Added
-                        ContenidoPrincipal.Content = new UserControlComprobantes();
+                        _currentUserControl = new UserControlComprobantes();
+                        ContenidoPrincipal.Content = _currentUserControl;
                         break;
                     case "Clientes":
-                        ContenidoPrincipal.Content = new UserControlClientes();
+                        _currentUserControl = new UserControlClientes();
+                        ContenidoPrincipal.Content = _currentUserControl;
                         break;
                     case "Reportes y Estadísticas":
                         ContenidoPrincipal.Content = new UserControlReporte();
