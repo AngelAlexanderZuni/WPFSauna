@@ -16,5 +16,7 @@ namespace ProyectoSauna.Models.DTOs
 
         // Propiedades de navegación simplificadas o nombres para mostrar
         public string? TipoComprobanteNombre { get; set; }
+        public string? NombreCliente { get; set; }
+        public string? DocumentoCliente { get; set; }
     }
 }

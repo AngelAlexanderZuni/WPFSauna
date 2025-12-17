@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "E:\\Sauna10122025\\WPFSauna\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\sauna10122025\\wpfsauna\\proyectosauna\\usercontrolcomprobantes.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolcomprobantes.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\sauna10122025\\wpfsauna\\proyectosauna\\data\\databaseconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\data\\databaseconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\sauna10122025\\wpfsauna\\proyectosauna\\models\\saunadbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\models\\saunadbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\sauna10122025\\wpfsauna\\proyectosauna\\data\\databaseconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\data\\databaseconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\sauna10122025\\wpfsauna\\proyectosauna\\usercontrolcomprobantes.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|solutionrelative:proyectosauna\\usercontrolcomprobantes.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4DE4B920-9139-42F2-8192-C9C3EB7C232D}|ProyectoSauna\\ProyectoSauna.csproj|e:\\sauna10122025\\wpfsauna\\proyectosauna\\usercontrolcuentas.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
@@ -166,7 +166,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -178,25 +178,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "UserControlComprobantes.xaml",
-              "DocumentMoniker": "E:\\Sauna10122025\\WPFSauna\\ProyectoSauna\\UserControlComprobantes.xaml",
-              "RelativeDocumentMoniker": "ProyectoSauna\\UserControlComprobantes.xaml",
-              "ToolTip": "E:\\Sauna10122025\\WPFSauna\\ProyectoSauna\\UserControlComprobantes.xaml",
-              "RelativeToolTip": "ProyectoSauna\\UserControlComprobantes.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-12-12T02:45:31.721Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
               "Title": "SaunaDbContext.cs",
               "DocumentMoniker": "E:\\Sauna10122025\\WPFSauna\\ProyectoSauna\\Models\\SaunaDbContext.cs",
               "RelativeDocumentMoniker": "ProyectoSauna\\Models\\SaunaDbContext.cs",
               "ToolTip": "E:\\Sauna10122025\\WPFSauna\\ProyectoSauna\\Models\\SaunaDbContext.cs",
               "RelativeToolTip": "ProyectoSauna\\Models\\SaunaDbContext.cs",
-              "ViewState": "AgIAACIAAAAAAAAAAAAQwCsAAABfAAAAAAAAAA==",
+              "ViewState": "AgIAABcAAAAAAAAAAAA8wCcAAABDAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-24T20:13:51.552Z",
               "EditorCaption": ""
@@ -215,6 +203,31 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DatabaseConfig.cs",
+              "DocumentMoniker": "E:\\Sauna10122025\\WPFSauna\\ProyectoSauna\\Data\\DatabaseConfig.cs",
+              "RelativeDocumentMoniker": "ProyectoSauna\\Data\\DatabaseConfig.cs",
+              "ToolTip": "E:\\Sauna10122025\\WPFSauna\\ProyectoSauna\\Data\\DatabaseConfig.cs",
+              "RelativeToolTip": "ProyectoSauna\\Data\\DatabaseConfig.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAAAAwAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-26T02:35:22.767Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UserControlComprobantes.xaml",
+              "DocumentMoniker": "E:\\Sauna10122025\\WPFSauna\\ProyectoSauna\\UserControlComprobantes.xaml",
+              "RelativeDocumentMoniker": "ProyectoSauna\\UserControlComprobantes.xaml",
+              "ToolTip": "E:\\Sauna10122025\\WPFSauna\\ProyectoSauna\\UserControlComprobantes.xaml",
+              "RelativeToolTip": "ProyectoSauna\\UserControlComprobantes.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-12-12T02:45:31.721Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 4,
               "Title": "CuentaRepository.cs",
               "DocumentMoniker": "E:\\Sauna10122025\\WPFSauna\\ProyectoSauna\\Repositories\\CuentaRepository.cs",
@@ -224,19 +237,6 @@
               "ViewState": "AgIAAAEAAAAAAAAAAAAAwBIAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-24T20:40:15.619Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "DatabaseConfig.cs",
-              "DocumentMoniker": "E:\\Sauna10122025\\WPFSauna\\ProyectoSauna\\Data\\DatabaseConfig.cs",
-              "RelativeDocumentMoniker": "ProyectoSauna\\Data\\DatabaseConfig.cs",
-              "ToolTip": "E:\\Sauna10122025\\WPFSauna\\ProyectoSauna\\Data\\DatabaseConfig.cs",
-              "RelativeToolTip": "ProyectoSauna\\Data\\DatabaseConfig.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAAAAwAAABLAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-26T02:35:22.767Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Document",

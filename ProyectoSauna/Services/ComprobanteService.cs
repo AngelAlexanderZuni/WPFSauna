@@ -101,7 +101,9 @@ namespace ProyectoSauna.Services
                 total = entity.total,
                 idTipoComprobante = entity.idTipoComprobante,
                 idCuenta = entity.idCuenta,
-                TipoComprobanteNombre = entity.idTipoComprobanteNavigation?.nombre
+                TipoComprobanteNombre = entity.idTipoComprobanteNavigation?.nombre,
+                NombreCliente = (entity.idCuentaNavigation?.idClienteNavigation?.nombre ?? "") + " " + (entity.idCuentaNavigation?.idClienteNavigation?.apellidos ?? ""),
+                DocumentoCliente = entity.idCuentaNavigation?.idClienteNavigation?.numero_documento
             };
         }
     }

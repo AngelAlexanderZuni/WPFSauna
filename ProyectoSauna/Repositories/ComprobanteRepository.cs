@@ -20,6 +20,7 @@ namespace ProyectoSauna.Repositories
             return await _context.Comprobante
                 .Include(c => c.idTipoComprobanteNavigation)
                 .Include(c => c.idCuentaNavigation)
+                    .ThenInclude(cu => cu.idClienteNavigation)
                 .OrderByDescending(c => c.fechaEmision)
                 .ToListAsync();
         }
@@ -29,6 +30,7 @@ namespace ProyectoSauna.Repositories
             return await _context.Comprobante
                 .Include(c => c.idTipoComprobanteNavigation)
                 .Include(c => c.idCuentaNavigation)
+                    .ThenInclude(cu => cu.idClienteNavigation)
                 .FirstOrDefaultAsync(c => c.idComprobante == id);
         }
 

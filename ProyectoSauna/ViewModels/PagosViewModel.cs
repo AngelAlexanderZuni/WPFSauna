@@ -318,7 +318,7 @@ namespace ProyectoSauna.ViewModels
                     }
                     
                     // Navigation logic to return
-                    Volver(true); // Signal success
+                    // Volver(true); // Signal success - COMENTADO PARA NO NAVEGAR A OTRA PESTAÑA
                 }
                 else
                 {

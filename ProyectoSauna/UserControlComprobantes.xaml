@@ -141,15 +141,44 @@
                     </Grid.RowDefinitions>
 
                     <!-- Overlay Header -->
-                    <Grid Grid.Row="0" Margin="0,0,0,20">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="ReceiptText" Width="24" Height="24" Foreground="#FF6B35" VerticalAlignment="Center"/>
-                            <TextBlock Text="Detalle del Comprobante" FontSize="18" FontWeight="SemiBold" Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                        </StackPanel>
-                        <Button HorizontalAlignment="Right" Style="{StaticResource MaterialDesignIconButton}" Command="{Binding CerrarDetalleCommand}" Foreground="White">
-                            <materialDesign:PackIcon Kind="Close"/>
-                        </Button>
-                    </Grid>
+                    <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                        <Grid Margin="0,0,0,15">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="ReceiptText" Width="24" Height="24" Foreground="#FF6B35" VerticalAlignment="Center"/>
+                                <TextBlock Text="Detalle del Comprobante" FontSize="18" FontWeight="SemiBold" Foreground="White" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <Button HorizontalAlignment="Right" Style="{StaticResource MaterialDesignIconButton}" Command="{Binding CerrarDetalleCommand}" Foreground="White">
+                                <materialDesign:PackIcon Kind="Close"/>
+                            </Button>
+                        </Grid>
+
+                        <Border Background="#2A303C" CornerRadius="4" Padding="15">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="{Binding SelectedComprobante.TipoComprobanteNombre, TargetNullValue='Tipo Desconocido'}" FontWeight="Bold" Foreground="#4CC9F0" FontSize="16"/>
+                                    <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                        <TextBlock Text="{Binding SelectedComprobante.serie}" Foreground="White" FontSize="14" FontWeight="SemiBold"/>
+                                        <TextBlock Text=" - " Foreground="White" FontSize="14"/>
+                                        <TextBlock Text="{Binding SelectedComprobante.numero}" Foreground="White" FontSize="14" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding SelectedComprobante.fechaEmision, StringFormat='Fecha: {0:dd/MM/yyyy HH:mm}'}" Foreground="#9CA3AF" FontSize="13" Margin="0,4,0,0"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                                    <TextBlock Text="{Binding SelectedComprobante.NombreCliente, TargetNullValue='Cliente Desconocido'}" FontWeight="SemiBold" Foreground="White" FontSize="14" TextAlignment="Right"/>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,4,0,0">
+                                        <materialDesign:PackIcon Kind="CardAccountDetails" Width="14" Height="14" Foreground="#9CA3AF" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                        <TextBlock Text="{Binding SelectedComprobante.DocumentoCliente, TargetNullValue='N/A'}" Foreground="White" FontSize="13"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
 
                     <!-- Details List -->
                     <DataGrid Grid.Row="1" ItemsSource="{Binding DetallesConsumo}" 
