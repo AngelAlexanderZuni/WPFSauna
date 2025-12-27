@@ -1,9 +1,35 @@
 # Visual Studio
 .vs/
 
+# Archivos de configuración local (VS/MSBuild)
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.csproj.user
+*.csproj.user.*
+
 # Directorios de compilación
 [Bb]in/
 [Oo]bj/
+
+# Resultados de pruebas / cobertura
+[Tt]est[Rr]esults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Cachés y logs
+*.cache
+*.log
+
+# JetBrains Rider / IntelliJ
+.idea/
+*.DotSettings.user
+
+# Sistema operativo
+Thumbs.db
+.DS_Store
 
 # Carpetas de desarrollo temporal
 WPFSauna-dev_Norma/
