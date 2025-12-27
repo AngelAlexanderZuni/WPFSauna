@@ -41,7 +41,14 @@ public partial class SaunaDbContext : DbContext
     public virtual DbSet<Promociones> Promociones { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Server=LAPTOP-2BE5D2EQ\\SQL2019;Database=ProyectoSauna1;Trusted_Connection=true;TrustServerCertificate=true;");
+    {
+        // No configurar aquí - se configura por inyección de dependencias en App.xaml.cs
+        if (!optionsBuilder.IsConfigured)
+        {
+            // Solo para migraciones o casos excepcionales
+            optionsBuilder.UseSqlServer(ProyectoSauna.Data.DatabaseConfig.GetConnectionString());
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

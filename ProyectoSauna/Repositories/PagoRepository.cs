@@ -62,5 +62,15 @@ namespace ProyectoSauna.Repositories
                 .Take(count)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Pago>> GetPorFechaAsync(System.DateTime fecha)
+        {
+            var d = fecha.Date;
+            return await _context.Pago
+                .Include(p => p.idMetodoPagoNavigation)
+                .Where(p => p.fechaHora.Date == d)
+                .OrderByDescending(p => p.fechaHora)
+                .ToListAsync();
+        }
     }
 }

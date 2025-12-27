@@ -5,6 +5,7 @@ using ProyectoSauna.Services.Interfaces;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -358,8 +359,15 @@ namespace ProyectoSauna.ViewModels
                 IsLoading = true;
                 MensajeEstado = "Validando datos...";
 
+                var nombre = (Nombre ?? string.Empty).Trim();
+                var apellidos = (Apellidos ?? string.Empty).Trim();
+                var dni = (NumeroDocumento ?? string.Empty).Trim();
+                var telefono = (Telefono ?? string.Empty).Trim();
+                var correo = (Correo ?? string.Empty).Trim();
+                var direccion = (Direccion ?? string.Empty).Trim();
+
                 // 🔍 VALIDACIONES BÁSICAS
-                if (string.IsNullOrWhiteSpace(Nombre))
+                if (string.IsNullOrWhiteSpace(nombre))
                 {
                     MessageBox.Show("El nombre es obligatorio.", "❌ Datos Inválidos",
                         MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -367,7 +375,15 @@ namespace ProyectoSauna.ViewModels
                     return;
                 }
 
-                if (string.IsNullOrWhiteSpace(Apellidos))
+                if (nombre.Length < 3)
+                {
+                    MessageBox.Show("El nombre debe tener al menos 3 caracteres.", "❌ Datos Inválidos",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MensajeEstado = "❌ Datos inválidos";
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(apellidos))
                 {
                     MessageBox.Show("Los apellidos son obligatorios.", "❌ Datos Inválidos",
                         MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -375,13 +391,77 @@ namespace ProyectoSauna.ViewModels
                     return;
                 }
 
-                if (string.IsNullOrWhiteSpace(NumeroDocumento))
+                if (apellidos.Length < 3)
+                {
+                    MessageBox.Show("Los apellidos deben tener al menos 3 caracteres.", "❌ Datos Inválidos",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MensajeEstado = "❌ Datos inválidos";
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(dni))
                 {
                     MessageBox.Show("El número de documento es obligatorio.", "❌ Datos Inválidos",
                         MessageBoxButton.OK, MessageBoxImage.Warning);
                     MensajeEstado = "❌ Datos inválidos";
                     return;
                 }
+
+                if (!Regex.IsMatch(dni, @"^\d{8}$"))
+                {
+                    MessageBox.Show("El DNI debe tener exactamente 8 dígitos (solo números).", "❌ Datos Inválidos",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MensajeEstado = "❌ Datos inválidos";
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(telefono))
+                {
+                    MessageBox.Show("El teléfono es obligatorio.", "❌ Datos Inválidos",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MensajeEstado = "❌ Datos inválidos";
+                    return;
+                }
+
+                if (!Regex.IsMatch(telefono, @"^\d{9}$"))
+                {
+                    MessageBox.Show("El teléfono debe tener exactamente 9 dígitos (solo números).", "❌ Datos Inválidos",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MensajeEstado = "❌ Datos inválidos";
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(correo))
+                {
+                    MessageBox.Show("El correo electrónico es obligatorio.", "❌ Datos Inválidos",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MensajeEstado = "❌ Datos inválidos";
+                    return;
+                }
+
+                if (!IsValidEmailSimple(correo))
+                {
+                    MessageBox.Show("El correo debe contener un '@' y caracteres antes y después.", "❌ Datos Inválidos",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MensajeEstado = "❌ Datos inválidos";
+                    return;
+                }
+
+                if (!string.IsNullOrWhiteSpace(direccion) && direccion.Length < 3)
+                {
+                    MessageBox.Show("La dirección debe tener al menos 3 caracteres.", "❌ Datos Inválidos",
+                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MensajeEstado = "❌ Datos inválidos";
+                    return;
+                }
+
+                // Normalizar valores para guardar (evitar espacios)
+                Nombre = nombre;
+                Apellidos = apellidos;
+                NumeroDocumento = dni;
+                Telefono = telefono;
+                Correo = correo;
+                Direccion = direccion;
 
                 if (ModoEdicion)
                 {
@@ -403,6 +483,23 @@ namespace ProyectoSauna.ViewModels
             {
                 IsLoading = false;
             }
+        }
+
+        private static bool IsValidEmailSimple(string email)
+        {
+            // Requisito: debe tener un '@' y caracteres antes y después.
+            // (Validación simple y consistente con Usuarios)
+            if (string.IsNullOrWhiteSpace(email)) return false;
+
+            var trimmed = email.Trim();
+            if (trimmed.Contains(' ')) return false;
+
+            var at = trimmed.IndexOf('@');
+            if (at <= 0) return false;
+            if (at >= trimmed.Length - 1) return false;
+            if (trimmed.LastIndexOf('@') != at) return false;
+
+            return true;
         }
 
         // 🆕 CREACIÓN SEGURA DE CLIENTE

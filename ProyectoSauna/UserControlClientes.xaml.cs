@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Linq;
 
 namespace ProyectoSauna
 {
@@ -30,6 +31,26 @@ namespace ProyectoSauna
             {
                 // Solo permitir letras y espacios
                 e.Handled = !e.Text.All(c => char.IsLetter(c) || char.IsWhiteSpace(c));
+            }
+        }
+
+        private void SoloNumeros_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !e.Text.All(char.IsDigit);
+        }
+
+        private void SoloNumeros_Pasting(object sender, DataObjectPastingEventArgs e)
+        {
+            if (!e.DataObject.GetDataPresent(DataFormats.UnicodeText))
+            {
+                e.CancelCommand();
+                return;
+            }
+
+            var texto = e.DataObject.GetData(DataFormats.UnicodeText) as string ?? string.Empty;
+            if (texto.Any(c => !char.IsDigit(c)))
+            {
+                e.CancelCommand();
             }
         }
 

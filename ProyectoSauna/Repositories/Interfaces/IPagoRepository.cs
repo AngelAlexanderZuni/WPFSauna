@@ -8,6 +8,7 @@ namespace ProyectoSauna.Repositories.Interfaces
     {
         Task<Pago> CrearPagoAsync(Pago pago);
         Task<IEnumerable<Pago>> GetPorCuentaAsync(int idCuenta);
+        Task<IEnumerable<Pago>> GetPorFechaAsync(System.DateTime fecha);
         Task<IEnumerable<Pago>> GetRecientesAsync(int count = 20);
     }
 }

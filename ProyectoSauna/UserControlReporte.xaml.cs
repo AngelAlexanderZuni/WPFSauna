@@ -13,6 +13,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using ProyectoSauna.Models;
+using ProyectoSauna.Services;
+using ProyectoSauna.ViewModels;
+
 
 namespace ProyectoSauna
 {
@@ -21,9 +25,26 @@ namespace ProyectoSauna
     /// </summary>
     public partial class UserControlReporte : UserControl
     {
+        private readonly SaunaDbContext _context;
+
         public UserControlReporte()
         {
             InitializeComponent();
+
+            _context = new SaunaDbContext();
+            var reporteService = new ReporteService(_context);
+            DataContext = new ReporteViewModel(reporteService);
+
+            Loaded += (_, __) =>
+            {
+                if (DataContext is ReporteViewModel vm)
+                {
+                    if (vm.CargarTodosCommand.CanExecute(null))
+                        vm.CargarTodosCommand.Execute(null);
+                }
+            };
+
+            Unloaded += (_, __) => _context.Dispose();
         }
     }
 }

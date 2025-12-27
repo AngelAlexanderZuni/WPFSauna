@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ProyectoSauna.Data;
+using ProyectoSauna.Helpers;
 using System;
 using System.Data;
 using Microsoft.Data.SqlClient;
@@ -52,7 +53,13 @@ namespace ProyectoSauna
                     cmd.Parameters.AddWithValue("@identificador", usuario);
                     cmd.Parameters.AddWithValue("@contraseniaHash", claveHasheada); // Ahora usa hash
 
+                    // 🔍 Logging para debug
+                    System.Diagnostics.Debug.WriteLine($"🔐 Intentando conectar con usuario: {usuario}");
+                    System.Diagnostics.Debug.WriteLine($"🔗 Connection String: {DatabaseConfig.GetConnectionString()}");
+                    
                     conn.Open();
+                    System.Diagnostics.Debug.WriteLine("✅ Conexión exitosa a la base de datos");
+                    
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     if (reader.Read())
@@ -79,10 +86,66 @@ namespace ProyectoSauna
                     }
                 }
             }
+            catch (SqlException sqlEx)
+            {
+                // 🚨 ERRORES ESPECÍFICOS DE SQL SERVER
+                string errorDetallado = sqlEx.Number switch
+                {
+                    -1 => "❌ Error de conexión:\n\nNo se puede conectar al servidor SQL Server.\n\n" +
+                          "Verifica:\n" +
+                          "1. El nombre del servidor es correcto: DESKTOP-HG4U4IK\\Luis\n" +
+                          "2. SQL Server está ejecutándose\n" +
+                          "3. Windows Authentication está habilitada\n" +
+                          "4. Tu usuario de Windows tiene permisos en la BD\n\n" +
+                          $"Error técnico: {sqlEx.Message}",
+                    
+                    18456 => "❌ Error de autenticación:\n\n" +
+                             "Tu usuario de Windows no tiene permisos para acceder a la base de datos.\n\n" +
+                             "Solución:\n" +
+                             "1. Abre SQL Server Management Studio\n" +
+                             "2. Conéctate como administrador\n" +
+                             "3. Ve a Security > Logins\n" +
+                             "4. Agrega tu usuario de Windows\n" +
+                             "5. Dale permisos en la base de datos ProyectoSauna\n\n" +
+                             $"Error técnico: {sqlEx.Message}",
+                    
+                    4060 => "❌ Base de datos no encontrada:\n\n" +
+                            "La base de datos 'ProyectoSauna' no existe en el servidor.\n\n" +
+                            "Verifica:\n" +
+                            "1. El nombre de la base de datos es correcto\n" +
+                            "2. La base de datos existe en tu servidor\n" +
+                            "3. Tienes permisos para acceder a ella\n\n" +
+                            $"Error técnico: {sqlEx.Message}",
+                    
+                    2812 => "❌ Stored Procedure no encontrado:\n\n" +
+                            "El procedimiento almacenado 'sp_ValidarLogin' no existe.\n\n" +
+                            "Solución:\n" +
+                            "1. Ejecuta el script de creación de la base de datos\n" +
+                            "2. Verifica que todos los procedimientos almacenados estén creados\n\n" +
+                            $"Error técnico: {sqlEx.Message}",
+                    
+                    _ => $"❌ Error de SQL Server:\n\n{sqlEx.Message}\n\n" +
+                         $"Código de error: {sqlEx.Number}\n" +
+                         $"Servidor: {sqlEx.Server}\n" +
+                         $"Procedimiento: {sqlEx.Procedure}"
+                };
+                
+                MessageBox.Show(errorDetallado, "Error de Base de Datos",
+                                MessageBoxButton.OK, MessageBoxImage.Error);
+                
+                System.Diagnostics.Debug.WriteLine($"❌ SQL Error {sqlEx.Number}: {sqlEx.Message}");
+                System.Diagnostics.Debug.WriteLine($"Stack Trace: {sqlEx.StackTrace}");
+            }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error en el login: {ex.Message}", "Error",
+                MessageBox.Show($"Error inesperado en el login:\n\n{ex.Message}\n\n" +
+                                $"Tipo: {ex.GetType().Name}\n\n" +
+                                "Contacta al administrador del sistema.", 
+                                "Error",
                                 MessageBoxButton.OK, MessageBoxImage.Error);
+                
+                System.Diagnostics.Debug.WriteLine($"❌ Error General: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"Stack Trace: {ex.StackTrace}");
             }
         }
 

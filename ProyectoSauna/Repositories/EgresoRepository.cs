@@ -63,6 +63,16 @@ namespace ProyectoSauna.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<CabEgreso>> GetPorFechaAsync(System.DateTime fecha)
+        {
+            var d = fecha.Date;
+            return await _context.CabEgreso
+                .Include(c => c.idUsuarioNavigation)
+                .Where(c => c.fecha.Date == d)
+                .OrderByDescending(c => c.fecha)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<DetEgreso>> GetDetallesPorCabeceraAsync(int idCabEgreso)
         {
             return await _context.DetEgreso

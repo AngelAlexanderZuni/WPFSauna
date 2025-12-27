@@ -149,12 +149,14 @@
                                          materialDesign:TextFieldAssist.TextBoxViewMargin="1 0 1 0"
                                          Padding="12,10"
                                          MaxLength="8"
+                                         PreviewTextInput="SoloNumeros_PreviewTextInput"
+                                         DataObject.Pasting="SoloNumeros_Pasting"
                                          FontSize="16"
                                          Height="42"/>
                             </StackPanel>
                             
                             <StackPanel Grid.Column="2">
-                                <TextBlock Text="Telofono" Foreground="#9CA3AF" FontSize="11" Margin="0,0,0,4" FontWeight="Medium"/>
+                                <TextBlock Text="Teléfono *" Foreground="#9CA3AF" FontSize="11" Margin="0,0,0,4" FontWeight="Medium"/>
                                 <TextBox Text="{Binding Telefono, UpdateSourceTrigger=PropertyChanged}"
                                          materialDesign:HintAssist.Hint="9 digitos"
                                          materialDesign:HintAssist.Foreground="#6B7280"
@@ -162,6 +164,8 @@
                                          materialDesign:TextFieldAssist.TextBoxViewMargin="1 0 1 0"
                                          Padding="12,10"
                                          MaxLength="9"
+                                         PreviewTextInput="SoloNumeros_PreviewTextInput"
+                                         DataObject.Pasting="SoloNumeros_Pasting"
                                          FontSize="16"
                                          Height="42"/>
                             </StackPanel>
@@ -169,7 +173,7 @@
 
                         <!-- Correo -->
                         <StackPanel Margin="0,0,0,12">
-                            <TextBlock Text="Correo Electronico" Foreground="#9CA3AF" FontSize="11" Margin="0,0,0,4" FontWeight="Medium"/>
+                            <TextBlock Text="Correo Electronico *" Foreground="#9CA3AF" FontSize="11" Margin="0,0,0,4" FontWeight="Medium"/>
                             <TextBox Text="{Binding Correo, UpdateSourceTrigger=PropertyChanged}"
                                      materialDesign:HintAssist.Hint="ejemplo@correo.com"
                                      materialDesign:HintAssist.Foreground="#6B7280"

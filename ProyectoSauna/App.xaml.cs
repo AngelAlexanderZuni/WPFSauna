@@ -88,7 +88,7 @@ namespace ProyectoSauna
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    $"Error crítico al inicializar la aplicación:\n\n{ex.Message}",
+                    $"Error crítico al inicializar la aplicación:\n\n{ex}",
                     "Error de Inicialización",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error
@@ -103,12 +103,11 @@ namespace ProyectoSauna
             {
                 using var scope = AppHost!.Services.CreateScope();
                 var context = scope.ServiceProvider.GetRequiredService<SaunaDbContext>();
-                
-                var canConnect = await context.Database.CanConnectAsync();
-                if (!canConnect)
-                {
-                    throw new InvalidOperationException("No se puede conectar a la base de datos");
-                }
+
+                // Importante: CanConnectAsync puede devolver false sin dar el error real.
+                // Abrir conexión fuerza la excepción específica (p.ej. SqlException con Number).
+                await context.Database.OpenConnectionAsync();
+                await context.Database.CloseConnectionAsync();
                 
                 #if DEBUG
                 var totalClientes = await context.Cliente.CountAsync();

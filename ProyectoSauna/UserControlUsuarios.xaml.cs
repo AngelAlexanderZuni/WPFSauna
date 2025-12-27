@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Text.RegularExpressions;
 
 namespace ProyectoSauna
 {
@@ -122,7 +123,7 @@ namespace ProyectoSauna
                     {
                         nombreUsuario = txtNombreUsuario.Text.Trim(),
                         contraseniaHash = HashPassword(txtPassword.Password),
-                        correo = string.IsNullOrWhiteSpace(txtCorreo.Text) ? null : txtCorreo.Text.Trim(),
+                        correo = txtCorreo.Text.Trim(),
                         fechaCreacion = DateTime.Now,
                         activo = chkActivo.IsChecked ?? true,
                         idRol = (int)cmbRol.SelectedValue
@@ -135,7 +136,7 @@ namespace ProyectoSauna
                 else
                 {
                     _usuarioSeleccionado.nombreUsuario = txtNombreUsuario.Text.Trim();
-                    _usuarioSeleccionado.correo = string.IsNullOrWhiteSpace(txtCorreo.Text) ? null : txtCorreo.Text.Trim();
+                    _usuarioSeleccionado.correo = txtCorreo.Text.Trim();
                     _usuarioSeleccionado.activo = chkActivo.IsChecked ?? true;
                     _usuarioSeleccionado.idRol = (int)cmbRol.SelectedValue;
 
@@ -217,7 +218,11 @@ namespace ProyectoSauna
 
         private async Task<bool> ValidarFormulario()
         {
-            if (string.IsNullOrWhiteSpace(txtNombreUsuario.Text))
+            var nombreUsuario = txtNombreUsuario.Text?.Trim() ?? string.Empty;
+            var correo = txtCorreo.Text?.Trim() ?? string.Empty;
+            var password = txtPassword.Password ?? string.Empty;
+
+            if (string.IsNullOrWhiteSpace(nombreUsuario))
             {
                 MessageBox.Show("El nombre de usuario es obligatorio", "Error de validación", 
                     MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -225,10 +230,47 @@ namespace ProyectoSauna
                 return false;
             }
 
-            if (_usuarioSeleccionado == null && string.IsNullOrEmpty(txtPassword.Password))
+            if (nombreUsuario.Length < 3)
+            {
+                MessageBox.Show("El nombre de usuario debe tener al menos 3 caracteres", "Error de validación",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtNombreUsuario.Focus();
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(correo))
+            {
+                MessageBox.Show("El correo electrónico es obligatorio", "Error de validación",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtCorreo.Focus();
+                return false;
+            }
+
+            if (!IsValidEmail(correo))
+            {
+                MessageBox.Show("El correo debe contener un '@' y caracteres antes y después", "Error de validación",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtCorreo.Focus();
+                return false;
+            }
+
+            if (_usuarioSeleccionado == null && string.IsNullOrWhiteSpace(password))
             {
                 MessageBox.Show("La contraseña es obligatoria para usuarios nuevos", "Error de validación", 
                     MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtPassword.Focus();
+                return false;
+            }
+
+            // Si es un usuario nuevo, la contraseña es obligatoria.
+            // Si es edición, la contraseña es opcional, pero si se ingresa debe cumplir la política.
+            if (!string.IsNullOrWhiteSpace(password) && !IsValidPassword(password))
+            {
+                MessageBox.Show(
+                    "La contraseña debe tener mínimo 8 caracteres e incluir: 1 mayúscula, 1 número y 1 signo (símbolo)",
+                    "Error de validación",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
                 txtPassword.Focus();
                 return false;
             }
@@ -241,21 +283,13 @@ namespace ProyectoSauna
                 return false;
             }
 
-            if (!string.IsNullOrWhiteSpace(txtCorreo.Text) && !IsValidEmail(txtCorreo.Text))
-            {
-                MessageBox.Show("El formato del correo electrónico no es válido", "Error de validación", 
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-                txtCorreo.Focus();
-                return false;
-            }
-
             try
             {
                 using var scope = App.AppHost!.Services.CreateScope();
                 var usuarioRepository = scope.ServiceProvider.GetRequiredService<IUsuarioRepository>();
                 
                 var existeUsuario = await usuarioRepository.ExisteNombreUsuarioAsync(
-                    txtNombreUsuario.Text.Trim(), 
+                    nombreUsuario, 
                     _usuarioSeleccionado?.idUsuario);
 
                 if (existeUsuario)
@@ -308,15 +342,31 @@ namespace ProyectoSauna
 
         private static bool IsValidEmail(string email)
         {
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
-            }
-            catch
-            {
-                return false;
-            }
+            // Requisito: debe tener un '@' y caracteres antes y después.
+            // (Validación simple y estricta para el formulario)
+            if (string.IsNullOrWhiteSpace(email)) return false;
+
+            var trimmed = email.Trim();
+            if (trimmed.Contains(' ')) return false;
+
+            var at = trimmed.IndexOf('@');
+            if (at <= 0) return false; // requiere algo antes
+            if (at >= trimmed.Length - 1) return false; // requiere algo después
+            if (trimmed.LastIndexOf('@') != at) return false; // solo un '@'
+
+            return true;
+        }
+
+        private static bool IsValidPassword(string password)
+        {
+            // Requisito: >= 8 caracteres, al menos 1 mayúscula, 1 número y 1 símbolo.
+            if (string.IsNullOrEmpty(password) || password.Length < 8) return false;
+
+            var hasUpper = Regex.IsMatch(password, "[A-Z]");
+            var hasDigit = Regex.IsMatch(password, "\\d");
+            var hasSymbol = Regex.IsMatch(password, "[^a-zA-Z0-9]");
+
+            return hasUpper && hasDigit && hasSymbol;
         }
 
         // NUEVO: Método para manejar el cambio de filtro
